@@ -1,0 +1,67 @@
+<?php
+
+/*
+ * The MIT License
+ *
+ * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+namespace app\error;
+
+use system\error\HttpError;
+
+/**
+ * Description of HttpError
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Http extends \system\mvc\Controller {
+    public function __construct(\system\Base $base) {
+        parent::__construct($base);
+        $this->output->setLayoutTemplate('layout/error.php');
+    }
+    
+    public function httpError(HttpError $error){
+        return $this->baseHttpError($error, null, 'http');
+    }
+    
+    private function baseHttpError(HttpError $error, $title, $template){
+        $this->output->getHeader()->setHttpCode($error->getCode());
+        
+        $title = 'Erreur ' . $error->getCode() . (empty($title) ? '' : ' : ' .  $title);
+        
+        $this->output->setTitle($title);
+        
+        return $this->output->render('error/' . $template . '.php', array(
+            'code' => $error->getCode(),
+            'message' => $error->getMessage()
+        ));
+    }
+    
+    public function error404(\system\error\Http404Error $error){
+        return $this->baseHttpError($error, 'Page introuvable', '404');
+    }
+    
+    public function noContent(\system\error\Http204NoContent $e){
+        $this->output->getHeader()->setHttpCode(204);
+        return;
+    }
+}
