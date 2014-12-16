@@ -53,7 +53,7 @@ class Base{
     public function run(){
         $this->output->start();
         
-        $this->loader->load('\system\Router')->loadPage($this->config->router);
+        $this->loader->load('\system\Router')->loadPage();
         
         $this->output->flush();
     }

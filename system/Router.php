@@ -50,25 +50,31 @@ class Router{
      */
     private $loader;
 
+    /**
+     *
+     * @var \system\Config
+     */
+    private $config;
 
-    public function __construct(\system\output\Output $output, \system\input\Input $input, \system\Loader $loader) {
+    public function __construct(\system\output\Output $output, \system\input\Input $input, \system\Loader $loader, \system\Config $config) {
         $this->output = $output;
         $this->input = $input;
         $this->loader = $loader;
+        $this->config = $config;
     }
     
-    public function loadPage(Config $config){
+    public function loadPage(){
         $path = $this->input->getPath();
         
         $page = array_shift($path);
         
         if(empty($page))
-            $page = $config->default_page;
+            $page = $this->config->default_page;
         
         $action = array_shift($path);
         
         if(empty($action))
-            $action = $config->default_action;
+            $action = $this->config->default_action;
         
         $controller = '\app\controller\\' . ucfirst(strtolower($page));
         $method = strtolower($action) . 'Action';

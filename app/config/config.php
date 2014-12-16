@@ -33,7 +33,6 @@ return array(
     'mail' => 'loick111@gmail.com',
     'autoload' => require 'autoload.php',
     'default_layout' => 'layout/big-logo.php',
-    'router' => require 'router.php',
     
     'system' => array(
         'error' => array(
@@ -46,6 +45,7 @@ return array(
         ),
         
         'Database' => require 'database.php',
+        'Router' => require 'router.php',
     ),
     
     'app' => array(
