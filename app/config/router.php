@@ -25,7 +25,7 @@
  */
 
 return array(
-    'default_page' => 'search',
+    'default_page' => 'home',
     'default_action' => 'index',
 );
 

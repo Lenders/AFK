@@ -28,8 +28,8 @@ return array(
     'driver' => 'mysql',
     'vars' => array(
         'host' => '127.0.0.1',
-        'dbname' => 'webco'
+        'dbname' => 'afk'
     ),
-    'user' => 'v4vx',
-    'pass' => '8P4TFXxf6uNRWseJ'
+    'user' => 'afk',
+    'pass' => ''
 );
