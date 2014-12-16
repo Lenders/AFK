@@ -7,6 +7,14 @@
         <?php echo $this->helpers->css('style')?>
     </head>
     <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="<?php echo $this->helpers->url('register.php')?>">Inscription</a></li>
+                    <li><a href="<?php echo $this->helpers->url('account/login.php')?>">Connexion</a></li>
+                </ul>
+            </nav>
+        </header>
         <?php echo $this->contents?>
     </body>
 </html>
