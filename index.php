@@ -5,8 +5,11 @@ define('EXT', '.php');
 define('CONFIG_FILE', ROOT . 'app' . DS . 'config' . DS . 'config' . EXT);
 define('DEBUG', true);
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
+if(DEBUG){
+    error_reporting(E_ALL);
+    ini_set('display_errors', true);
+    ini_set('html_errors', true);
+}
 
 require ROOT . 'system' . DS . 'Loader.php';
 
