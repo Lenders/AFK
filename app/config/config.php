@@ -28,11 +28,10 @@
  * Main configuration file
  */
 return array(
-    'name' => 'WebVoiturage',
-    'version' => '0.19.1',
-    'mail' => 'loick111@gmail.com',
+    'name' => 'AFK',
+    'mail' => '...',
     'autoload' => require 'autoload.php',
-    'default_layout' => 'layout/big-logo.php',
+    'default_layout' => 'layout/layout.php',
     
     'system' => array(
         'error' => array(
@@ -46,12 +45,6 @@ return array(
         
         'Database' => require 'database.php',
         'Router' => require 'router.php',
-    ),
-    
-    'app' => array(
-        'model' => array(
-            'GoogleMapAPI' => require 'googlemapapi.php'
-        )
     )
 );
 
