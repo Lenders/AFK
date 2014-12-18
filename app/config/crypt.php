@@ -1,3 +1,5 @@
+<?php
+
 /* 
  * The MIT License
  *
@@ -22,19 +24,20 @@
  * THE SOFTWARE.
  */
 
-
-$(document).ready(function(){
-    /*
-    $('#login_form').submit(function(){
-        $.post(Config.getBaseUrl() + 'account/performlogin/ajax', {}, function(data){
-            if(data != 'ok'){
-                $('#login_error').css('display', 'block');
-            }
-        });
-        
-        return false;
-    });*/
-    var form = new FormValidator('#login_form', null, Config.getBaseUrl() + 'account/performlogin/ajax.json').errorHandler(function(data){
-        $('#login_error').css('display', 'block');
-    });
-});
+return array(
+    //Size of the salt used to hash pass
+    'salt_size' => 32,
+    
+    //Salt used to hash all password, before random
+    //Don't change this salt after !
+    'static_salt' => 'pofyYF76ggv344kj',
+    
+    //Char used to generate salt
+    'salt_charset' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYX012456789',
+    
+    //Algo to use to hash password
+    'hash_algo' => 'sha512',
+    
+    //The final size of the hash
+    'hash_size' => 128,
+);

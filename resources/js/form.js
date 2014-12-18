@@ -23,26 +23,26 @@
  */
 
 var FormValidator = function(form, validateInputUrl, submitFormUrl){
+    /// Attributes
     var _rules = {};
+    var _errorHandler = function(data){};
 
+    /// Contructor
     console.log('FormValidator.constructor (' + typeof(form) + ', ' + validateInputUrl + ', ' + submitFormUrl + ')');
     
     if(!(form instanceof jQuery))
         form = $(form);
 
     form.submit(function(){
+        $.post(submitFormUrl, _getData(), function(data){
+            if(data.status !== 'SUCCESS'){
+                _errorHandler(data);
+            }else{
+                window.location = data.redirect;
+            }
+        });
         return false;
     });
-    
-    function _getData(){
-        var data = {};
-        
-        form.find('[name]').each(function(){
-            data[$(this).attr('name')] = $(this).val();
-        });
-        
-        return data;
-    }
 
     form.find('[name]').blur(function(){
         var rules = [];
@@ -76,14 +76,25 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
         }
 
         //if there is no problems, check distant
-        if(ok){
+        if(ok && validateInputUrl){
             $.post(FormValidator.getUrl(validateInputUrl, name), _getData(), function(data){
-                console.log('FormValidator : distant check');
-                console.log(data);
                 FormValidator.displayMessages(data)
             });
         }
     });
+    
+    /// Private methods
+    function _getData(){
+        var data = {};
+        
+        form.find('[name]').each(function(){
+            data[$(this).attr('name')] = $(this).val();
+        });
+        
+        return data;
+    }
+    
+    /// Public methods
 
     /**
      * @param {jQuery} input
@@ -103,6 +114,10 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
             _rules[input.attr('name')] = [];
 
         _rules[input.attr('name')].push(rule);
+    };
+    
+    this.errorHandler = function(handler){
+        _errorHandler = handler;
     };
 };
 

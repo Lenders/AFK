@@ -5,6 +5,13 @@
         <title><?php echo $this->helpers->conf('name')?> - <?php echo $this->title?></title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <?php echo $this->helpers->css('style')?>
+        <script type="text/javascript">
+            var Config = {
+                getBaseUrl: function(){
+                    return '<?php echo $this->helpers->baseUrl()?>';
+                }
+            };
+        </script>
     </head>
     <body>
         <header>

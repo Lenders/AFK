@@ -32,7 +32,56 @@ namespace app\controller;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Account extends \system\mvc\Controller {
-    public function loginAction(){
-        return $this->output->render('account/login.html');
+    /**
+     *
+     * @var \app\model\Account
+     */
+    private $model;
+    
+    /**
+     *
+     * @var \system\helper\Crypt
+     */
+    private $crypt;
+    
+    public function __construct(\system\Base $base, \app\model\Account $model, \system\helper\Crypt $crypt) {
+        parent::__construct($base);
+        $this->model = $model;
+        $this->crypt = $crypt;
+    }
+    
+    public function loginAction($error = ''){
+        return $this->output->render('account/login.php', array('error' => $error === 'error'));
+    }
+    
+    public function performloginAction($method = 'html'){
+        $account = $this->model->getAccountByPseudo($this->input->post->pseudo);
+        
+        $valid = $account ? true : false;
+        
+        if($valid){
+            $pass = $account['PASS'];
+            $pass2 = $this->crypt->hashPass(
+                $this->input->post->pass, 
+                $account['SALT']
+            );
+            
+            $valid = $pass === $pass2;
+        }
+        
+        if($valid){
+            //TODO
+        }
+        
+        if($method === 'ajax'){
+            $this->output->setLayoutTemplate(null);
+            $this->output->getHeader()->setMimeType('text/json');
+            
+            if(!$valid)
+                return $this->output->render('account/login_error.json');
+        }else{
+            if(!$valid)
+                $this->output->getHeader()->setLocation($this->helpers->url('account/login/error'));
+        }
     }
 }
