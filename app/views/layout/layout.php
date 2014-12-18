@@ -8,13 +8,16 @@
     </head>
     <body>
         <header>
-            <nav>
+            <div id="logo"><a href="<?php echo $this->helpers->baseUrl()?>" title="Retourner à la page d'acceuil">AFK</a></div>
+            <nav id="header_nav">
                 <ul>
                     <li><a href="<?php echo $this->helpers->url('register.php')?>">Inscription</a></li>
                     <li><a href="<?php echo $this->helpers->url('account/login.php')?>">Connexion</a></li>
                 </ul>
             </nav>
         </header>
-        <?php echo $this->contents?>
+        <section id="contents">
+            <?php echo $this->contents?>
+        </section>
     </body>
 </html>

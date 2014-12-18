@@ -24,44 +24,15 @@
  * THE SOFTWARE.
  */
 
-namespace app\error;
-
-use system\error\HttpError;
+namespace app\controller;
 
 /**
- * Description of HttpError
+ * Description of Account
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Http extends \system\mvc\Controller {
-    public function __construct(\system\Base $base) {
-        parent::__construct($base);
-        $this->output->setLayoutTemplate('layout/layout.php');
-    }
-    
-    public function httpError(HttpError $error){
-        return $this->baseHttpError($error, null, 'http');
-    }
-    
-    private function baseHttpError(HttpError $error, $title, $template){
-        $this->output->getHeader()->setHttpCode($error->getCode());
-        
-        $title = 'Erreur ' . $error->getCode() . (empty($title) ? '' : ' : ' .  $title);
-        
-        $this->output->setTitle($title);
-        
-        return $this->output->render('error/' . $template . '.php', array(
-            'code' => $error->getCode(),
-            'message' => $error->getMessage()
-        ));
-    }
-    
-    public function error404(\system\error\Http404Error $error){
-        return $this->baseHttpError($error, 'Page introuvable', '404');
-    }
-    
-    public function noContent(\system\error\Http204NoContent $e){
-        $this->output->getHeader()->setHttpCode(204);
-        return;
+class Account extends \system\mvc\Controller {
+    public function loginAction(){
+        return $this->output->render('account/login.html');
     }
 }
