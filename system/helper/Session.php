@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,33 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'compressor', 'session'
-);
+namespace system\helper;
 
+/**
+ * Description of Session
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Session implements Helper {
+    /**
+     *
+     * @var \system\Session
+     */
+    private $session;
+    
+    function __construct(\system\Session $session) {
+        $this->session = $session;
+    }
+    
+    public function export() {
+        return array('getSession', 'isLogged');
+    }
+    
+    public function getSession($var){
+        return $this->session->$var;
+    }
+    
+    public function isLogged(){
+        return $this->session->isLogged();
+    }
+}

@@ -1,5 +1,3 @@
-<?php
-
 /* 
  * The MIT License
  *
@@ -24,7 +22,13 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'compressor', 'session'
-);
 
+
+(function(){
+    $(document).ready(function(){
+        var speedSearch = new AutoCompletion('#speed_search input[name="search"]');
+        speedSearch.addHandler(new AutoCompletion.Handler('user_autocomplete', function(value){
+            return Config.getBaseUrl() + 'autocomplete/user/' + encodeURIComponent(value) + '.json';
+        }));
+    });
+})();

@@ -12,16 +12,12 @@
                 }
             };
         </script>
+        <?php echo $this->helpers->js('global')?>
     </head>
     <body>
         <header>
             <div id="logo"><a href="<?php echo $this->helpers->baseUrl()?>" title="Retourner à la page d'acceuil">AFK</a></div>
-            <nav id="header_nav">
-                <ul>
-                    <li><a href="<?php echo $this->helpers->url('register.php')?>">Inscription</a></li>
-                    <li><a href="<?php echo $this->helpers->url('login.php')?>">Connexion</a></li>
-                </ul>
-            </nav>
+            <?php include 'header_nav.php'?>
         </header>
         <?php echo $this->contents?>
     </body>

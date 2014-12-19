@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,21 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'compressor', 'session'
-);
+namespace app\controller;
 
+/**
+ * Handle autocomplete queries
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Autocomplete extends \system\mvc\Controller {
+    public function __construct(\system\Base $base) {
+        parent::__construct($base);
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+    }
+    
+    public function userAction($term = ''){
+        return json_encode(array('test', 'test','test', 'test','test', 'test','test', 'test'));
+    }
+}

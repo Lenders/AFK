@@ -60,6 +60,7 @@ header{
     float: left;
     border-left: 1px solid #666;
     height: 40px;
+    line-height: 40px;
 }
 
 #header_nav a{
@@ -135,6 +136,8 @@ input, select{
     box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
+    height: 25px;
+    vertical-align: middle;
 }
 
 input:not([type="submit"]):not([type="button"]), select{
@@ -162,4 +165,33 @@ input.valid, select.valid{
 #form_error{
     text-align: center;
     color: darkred;
+}
+
+#speed_search{
+    margin: 0 5px;
+}
+
+#speed_search input{
+    display: inline-block;
+}
+
+
+/*
+    auto completion / active list
+*/
+
+#autocomplete_list{
+    border: 1px solid #666;
+    background: #444;
+    list-style-type: none;
+    border-top: none;
+}
+
+#autocomplete_list li{
+    padding: 2px;
+}
+
+#autocomplete_list li.focus{
+    background: rgba(70,  128, 255, .2);;
+    color: #FFF;
 }

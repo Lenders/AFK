@@ -67,36 +67,11 @@ var Cache = {};
     };
 })();
 
-var Messages = {};
-
-(function(){
-    Messages.generate = function(message, cssClass){
-        var message = $('<div>')
-                .addClass(cssClass)
-                .html(message);
-        
-        var close = $('<a>').attr('href', '#')
-                            .addClass('close')
-                            .html('close');
-             
-        close.click(function(){
-            message.fadeOut(400);
-            return false;
-        });
-        
-        message.append(close);
-        
-        return message;
-    };
-    
-    Messages.display = function(message){
-        $('#messages').append(message);
-        message.delay(2000).fadeOut(400);
-    };
-})();
-
 var AutoCompletion = function(input){
     var _handlers = [];
+    
+    if(!(input instanceof jQuery))
+        input = $(input);
     
     input.attr('autocomplete', 'off');
     
