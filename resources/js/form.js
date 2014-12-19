@@ -40,7 +40,7 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                     handler(data);
                 });
             }else{
-                window.location = data.redirect;
+                window.location.replace(data.redirect);
             }
         }).fail(function(xhr){
             var win = window.open();

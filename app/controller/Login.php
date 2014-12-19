@@ -108,15 +108,17 @@ class Login extends \system\mvc\Controller {
         }
         
         if($valid){
-            //TODO
+            
         }
         
         if($method === 'ajax'){
             if(!$valid)
                 return $this->output->render('login/login_error.json');
+            return $this->output->render('login/login_success.json.php');
         }else{
             if(!$valid)
                 return $this->output->render('login/index.php', array('error' => false, 'form' => $this->form));
+            $this->output->getHeader()->setLocation($this->helpers->baseUrl());
         }
     }
 }
