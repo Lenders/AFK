@@ -42,6 +42,9 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
             }else{
                 window.location = data.redirect;
             }
+        }).fail(function(xhr){
+            var win = window.open();
+            win.document.write(xhr.responseText);
         });
         return false;
     });

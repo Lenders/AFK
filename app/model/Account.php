@@ -43,4 +43,19 @@ class Account extends \system\mvc\Model {
     public function getAccountByPseudo($pseudo){
         return $this->db->selectFirst('SELECT * FROM ACCOUNT WHERE PSEUDO = ?', $pseudo);
     }
+    
+    public function pseudoExists($pseudo){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM ACCOUNT WHERE PSEUDO = ?', $pseudo)['COUNT(*)'] > 0;
+    }
+    
+    public function mailExists($mail){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM ACCOUNT WHERE MAIL = ?', $mail)['COUNT(*)'] > 0;
+    }
+    
+    public function create($pseudo, $pass, $salt, $firstName, $lastName, $gender, $mail){
+        $this->db->executeUpdate(
+                'INSERT INTO ACCOUNT(PSEUDO, PASS, SALT, FIRST_NAME, LAST_NAME, GENDER, MAIL) VALUES(?,?,?,?,?,?,?)',
+                $pseudo, $pass, $salt, $firstName, $lastName, $gender, $mail
+        );
+    }
 }

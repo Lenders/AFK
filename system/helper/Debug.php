@@ -46,7 +46,7 @@ class Debug implements Helper {
     }
     
     public function getFileUrl($file, $line){
-        return 'https://github.com/loick111/webcovoiturage/blob/master/' . $this->pathToRelative($file) . '#L' . $line;
+        return 'https://github.com/vincent4vx/AFK/blob/master/' . $this->pathToRelative($file) . '#L' . $line;
     }
     
     public function exportArgsArray(array $args){

@@ -35,9 +35,9 @@ class Callback implements Rule {
     private $error;
     private $callback;
     
-    public function __construct(callable $callback) {
+    public function __construct(callable $callback, $error = 'Champ invalide') {
         $this->callback = $callback;
-        $this->error = 'Champ invalide';
+        $this->error = $error;
     }
     
     public function getError() {

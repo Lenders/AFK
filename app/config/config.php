@@ -41,6 +41,7 @@ return array(
         'helper' => array(
             'HelpersLoader' => require 'helpers.php',
             'Compressor' => require 'compressor.php',
+            'Crypt' => require 'crypt.php',
         ),
         
         'Database' => require 'database.php',

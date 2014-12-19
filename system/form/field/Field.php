@@ -109,4 +109,8 @@ abstract class Field {
     public function addRule(\system\form\rule\Rule $rule){
         $this->rules[] = $rule;
     }
+    
+    public function __toString() {
+        return $this->getHTML();
+    }
 }

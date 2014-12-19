@@ -24,55 +24,15 @@
  * THE SOFTWARE.
  */
 
-namespace system\helper;
+namespace app\controller;
 
 /**
- * Description of Crypt
- *
+ * Controller for statics pages
+ * 
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Crypt implements Helper {
-    private $config;
-    
-    public function __construct(\system\Config $config) {
-        $this->config = $config;
-    }
-    
-    public function export() {
-        return array(); //do not export for views
-    }
-
-    /**
-     * Hash a pass
-     * @param string $pass password to hash
-     * @param string $salt salt for hash
-     */
-    public function hashPass($pass, $salt){
-        $hash = hash(
-                $this->config->hash_algo, 
-                $this->config->static_salt . $pass . $salt
-        );
-        
-        return substr($hash, 0, $this->config->hash_size);
-    }
-    
-    /**
-     * Generate a random salt (for hash)
-     * @param int $size size of the salt, or 0 to use default salt size
-     */
-    public function generateSalt($size = 0){
-        if($size < 1){
-            $size = $this->config->salt_size;
-        }
-        
-        $charset = $this->config->salt_charset;
-        $len = strlen($charset) - 1;
-        $salt = '';
-        
-        for(;$size > 0; --$size){
-            $salt .= $charset{rand(0, $len)};
-        }
-        
-        return $salt;
+class Page extends \system\mvc\Controller {
+    public function registersuccessAction(){
+        return $this->output->render('page/register_success.php');
     }
 }
