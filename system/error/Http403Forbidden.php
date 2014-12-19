@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,30 +24,15 @@
  * THE SOFTWARE.
  */
 
-/**
- * Main configuration file
- */
-return array(
-    'name' => 'AFK',
-    'mail' => '...',
-    'autoload' => require 'autoload.php',
-    'default_layout' => 'layout/layout.php',
-    
-    'system' => array(
-        'error' => array(
-            'ErrorsHandler' => require 'errors.php',
-        ),
-        
-        'helper' => array(
-            'HelpersLoader' => require 'helpers.php',
-            'Compressor' => require 'compressor.php',
-            'Crypt' => require 'crypt.php',
-        ),
-        
-        'Database' => require 'database.php',
-        'Router' => require 'router.php',
-        'Storage' => require 'storage.php',
-        'Session' => require 'session.php',
-    )
-);
+namespace system\error;
 
+/**
+ * Description of Http403Forbidden
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Http403Forbidden extends HttpError {
+    public function __construct() {
+        parent::__construct('Accès interdit', 403);
+    }
+}

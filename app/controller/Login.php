@@ -54,6 +54,11 @@ class Login extends \system\mvc\Controller {
         $this->model = $model;
         $this->crypt = $crypt;
         $this->form = $form;
+        
+        if($this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
+        
+        var_dump($this->session);
     }
     
     public function indexAction(){
@@ -108,7 +113,13 @@ class Login extends \system\mvc\Controller {
         }
         
         if($valid){
-            
+            $this->session->id = $account['USER_ID'];
+            $this->session->pseudo = $account['PSEUDO'];
+            $this->session->mail = $account['MAIL'];
+            $this->session->firstName = $account['FIRST_NAME'];
+            $this->session->lastName = $account['LAST_NAME'];
+            $this->session->gender = $account['GENDER'];
+            $this->session->avatar = $account['AVATAR'];
         }
         
         if($method === 'ajax'){

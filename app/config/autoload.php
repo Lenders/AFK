@@ -42,5 +42,6 @@ return array(
     //safe loading (with error handler)
     'input' => '\system\input\Input',
     '\system\helper\HelpersLoader',
+    'session' => '\system\Session',
 );
 

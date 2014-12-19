@@ -10,6 +10,7 @@ namespace system;
  * @property \system\output\Output $output Output manager
  * @property \system\input\Input $input Input manager
  * @property \system\helper\HelpersManager $helpers The helpers manager
+ * @property \system\Session $session Session handler
  */
 abstract class Registry {
     private $base;

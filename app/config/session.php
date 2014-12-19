@@ -24,30 +24,13 @@
  * THE SOFTWARE.
  */
 
-/**
- * Main configuration file
- */
 return array(
-    'name' => 'AFK',
-    'mail' => '...',
-    'autoload' => require 'autoload.php',
-    'default_layout' => 'layout/layout.php',
+    //TTL of the session in seconds
+    'expire' => 7200,
     
-    'system' => array(
-        'error' => array(
-            'ErrorsHandler' => require 'errors.php',
-        ),
-        
-        'helper' => array(
-            'HelpersLoader' => require 'helpers.php',
-            'Compressor' => require 'compressor.php',
-            'Crypt' => require 'crypt.php',
-        ),
-        
-        'Database' => require 'database.php',
-        'Router' => require 'router.php',
-        'Storage' => require 'storage.php',
-        'Session' => require 'session.php',
-    )
+    //Prefix for sessions keys in Redis
+    'session_prefix' => 'afk_session_',
+    
+    //Name for the sessid cookie
+    'cookie_name' => 'AFK_SESSID',
 );
-

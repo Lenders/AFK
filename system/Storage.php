@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,30 +24,19 @@
  * THE SOFTWARE.
  */
 
-/**
- * Main configuration file
- */
-return array(
-    'name' => 'AFK',
-    'mail' => '...',
-    'autoload' => require 'autoload.php',
-    'default_layout' => 'layout/layout.php',
-    
-    'system' => array(
-        'error' => array(
-            'ErrorsHandler' => require 'errors.php',
-        ),
-        
-        'helper' => array(
-            'HelpersLoader' => require 'helpers.php',
-            'Compressor' => require 'compressor.php',
-            'Crypt' => require 'crypt.php',
-        ),
-        
-        'Database' => require 'database.php',
-        'Router' => require 'router.php',
-        'Storage' => require 'storage.php',
-        'Session' => require 'session.php',
-    )
-);
+namespace system;
 
+/**
+ * Description of Storage
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Storage extends \Redis {
+    private $config;
+    
+    public function __construct(Config $config) {
+        parent::__construct();
+        $this->config = $config;
+        $this->connect($config->host, $config->port);
+    }
+}
