@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -22,19 +24,51 @@
  * THE SOFTWARE.
  */
 
+namespace app\form;
 
-$(document).ready(function(){
-    /*
-    $('#login_form').submit(function(){
-        $.post(Config.getBaseUrl() + 'account/performlogin/ajax', {}, function(data){
-            if(data != 'ok'){
-                $('#login_error').css('display', 'block');
-            }
-        });
+/**
+ * Login form
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Login extends \system\form\Form {
+    /**
+     *
+     * @var \system\form\field\Input
+     */
+    private $pseudo;
+    
+    /**
+     *
+     * @var \system\form\field\Input
+     */
+    private $pass;
+    
+    public function __construct(\system\input\Input $input, \system\helper\Url $url) {
+        parent::__construct($input, $url);
+        $this->pseudo = new \system\form\field\Input($this, 'pseudo');
+        $this->pass = new \system\form\field\Input($this, 'pass');
+        $this->makeFields();
+    }
+    
+    private function makeFields(){
+        $this->pass->setAttribute('type', 'password');
+        $required = new \system\form\rule\Required();
+        $this->pass->addRule($required);
+        $this->pseudo->addRule($required);
         
-        return false;
-    });*/
-    var form = new FormValidator('#login_form', null, Config.getBaseUrl() + 'account/performlogin/ajax.json').errorHandler(function(data){
-        $('#login_error').css('display', 'block');
-    });
-});
+        $this->addField($this->pass);
+        $this->addField($this->pseudo);
+    }
+
+    public function getID() {
+        return 'login_form';
+    }
+
+    public function getSubmitURL() {
+        return 'login/submit/ajax.json';
+    }
+
+    public function getValidationURL() {
+        return 'login/validate';
+    }
+}

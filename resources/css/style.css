@@ -104,12 +104,14 @@ article{
     max-width: 800px;
     margin: auto;
     margin-bottom: 15px;
+    border: 1px solid #444;
 }
 
 article .title{
     background: #444;
     padding: 3px;
     text-shadow: 1px 1px 1px #000;
+    margin-bottom: 3px;
 }
 
 article p{
@@ -119,4 +121,45 @@ article p{
 #left_menu{
     float: left;
     height: 100%;
+}
+
+input{
+    padding: 3px;
+    border-radius: 2px;
+    display: block;
+    margin: 5px;
+    color: #DDD;
+    border: 1px solid #666;
+    background: #444;
+}
+
+input:not([type="submit"]):not([type="button"]){
+    border: 1px solid #666;
+    background: #444;
+}
+
+input:not([type="submit"]):not([type="button"]):focus{
+    box-shadow: 0 0 2px #2C75FF inset;
+    background: rgba(70,  128, 255, .2);
+    transform-style: background, box-shadow;
+    transition-duration: .2s;
+}
+
+input.error{
+    border: 1px solid darkred !important;
+    color: darkred;
+}
+
+input.valid{
+    border: 1px solid darkgreen !important;
+}
+
+#login_form input{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#form_error{
+    text-align: center;
+    color: darkred;
 }

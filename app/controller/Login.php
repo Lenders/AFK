@@ -27,11 +27,10 @@
 namespace app\controller;
 
 /**
- * Description of Account
- *
+ * Login controller
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Account extends \system\mvc\Controller {
+class Login extends \system\mvc\Controller {
     /**
      *
      * @var \app\model\Account
@@ -44,17 +43,56 @@ class Account extends \system\mvc\Controller {
      */
     private $crypt;
     
-    public function __construct(\system\Base $base, \app\model\Account $model, \system\helper\Crypt $crypt) {
+    /**
+     *
+     * @var \app\form\Login
+     */
+    private $form;
+    
+    public function __construct(\system\Base $base, \app\model\Account $model, \system\helper\Crypt $crypt, \app\form\Login $form) {
         parent::__construct($base);
         $this->model = $model;
         $this->crypt = $crypt;
+        $this->form = $form;
     }
     
-    public function loginAction($error = ''){
-        return $this->output->render('account/login.php', array('error' => $error === 'error'));
+    public function indexAction(){
+        return $this->output->render('login/index.php', array(
+            'error' => false,
+            'form' => $this->form
+        ));
     }
     
-    public function performloginAction($method = 'html'){
+    public function validateAction($input = ''){
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+        $error = array();
+        $this->form->validate($input, $error);
+        return json_encode($error);
+    }
+    
+    public function scriptAction(){
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/javascript');
+        return $this->form->getJS();
+    }
+
+    public function submitAction($method = 'html'){
+        if($method === 'ajax'){
+            $this->output->setLayoutTemplate(null);
+            $this->output->getHeader()->setMimeType('text/json');
+        }
+        
+        $errors = array();
+        
+        if(!$this->form->validate(null, $errors)){
+            if($method === 'ajax'){
+                return json_encode($errors);
+            }else{
+                return $this->output->render('login/index.php', array('error' => false, 'form' => $this->form));
+            }
+        }
+        
         $account = $this->model->getAccountByPseudo($this->input->post->pseudo);
         
         $valid = $account ? true : false;
@@ -74,14 +112,11 @@ class Account extends \system\mvc\Controller {
         }
         
         if($method === 'ajax'){
-            $this->output->setLayoutTemplate(null);
-            $this->output->getHeader()->setMimeType('text/json');
-            
             if(!$valid)
-                return $this->output->render('account/login_error.json');
+                return $this->output->render('login/login_error.json');
         }else{
             if(!$valid)
-                $this->output->getHeader()->setLocation($this->helpers->url('account/login/error'));
+                return $this->output->render('login/index.php', array('error' => false, 'form' => $this->form));
         }
     }
 }

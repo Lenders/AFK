@@ -38,37 +38,53 @@ abstract class Form {
      */
     private $input;
     
+    /**
+     *
+     * @var \system\helper\Url
+     */
+    private $url;
+
+
     private $fields = array();
     
-    public function __construct(\system\input\Input $input) {
+    public function __construct(\system\input\Input $input, \system\helper\Url $url) {
         $this->input = $input;
+        $this->url = $url;
     }
     
     abstract public function getID();
     abstract public function getSubmitURL();
     abstract public function getValidationURL();
     
-    public function validate($field = null){
-        $errors = array();
-        $error = false;
+    public function validate($field = null, array &$errors = array()){
+        $errors['fields'] = array();
+        $valid = true;
         
         if($field === null){
             foreach($this->fields as $field){
                 if(!$field->isValid()){
-                    $errors[$field->getName()] = $field->getError();
-                    $error = true;
+                    $errors['fields'][$field->getName()] = $field->getError();
+                    $valid = false;
+                }else{
+                    $errors['fields'][$field->getName()] = 'SUCCESS';
                 }
             }
         }else{
             if(!isset($this->fields[$field]))
-                return array($field => 'Champ inexistant');
+                return false;
             
             $field = $this->fields[$field];
-            $error = !$field->isValid();
-            $errors[$field->getName()] = $field->getError();
+            $valid = $field->isValid();
+            
+            if($valid)
+                $errors['fields'][$field->getName()] = 'SUCCESS';
+            else
+                $errors['fields'][$field->getName()] = $field->getError();
         }
         
-        return $error ? $errors : true;
+        $errors['status'] = $valid ? 'SUCCESS' : 'ERROR';
+        
+        return $valid;
     }
     
     protected function addField(field\Field $field){
@@ -92,7 +108,7 @@ abstract class Form {
         
         return <<<JS
 (function(){
-    var validator = new FormValidator('#{$this->getID()}', '{$this->getValidationURL()}', '{$this->getSubmitURL()}');
+    var validator = new FormValidator('#{$this->getID()}', '{$this->url->url($this->getValidationURL())}', '{$this->url->url($this->getSubmitURL())}');
     
     $rules
 })();

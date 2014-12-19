@@ -25,7 +25,7 @@
 var FormValidator = function(form, validateInputUrl, submitFormUrl){
     /// Attributes
     var _rules = {};
-    var _errorHandler = function(data){};
+    var _errorHandler = [];
 
     /// Contructor
     console.log('FormValidator.constructor (' + typeof(form) + ', ' + validateInputUrl + ', ' + submitFormUrl + ')');
@@ -36,7 +36,9 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
     form.submit(function(){
         $.post(submitFormUrl, _getData(), function(data){
             if(data.status !== 'SUCCESS'){
-                _errorHandler(data);
+                _errorHandler.forEach(function(handler){
+                    handler(data);
+                });
             }else{
                 window.location = data.redirect;
             }
@@ -53,8 +55,8 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
         
         console.log('blur() ' + name);
 
-        $label.removeClass('invalid');
-        $label.removeClass('valid');
+        $this.removeClass('error');
+        $this.removeClass('valid');
 
         if(_rules[name] != undefined)
             rules = _rules[name];
@@ -67,9 +69,11 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
             var b = rule.validate(value);
 
             if(!b){
-                var msg = {};
-                msg[name] = rule.error;
-                FormValidator.displayMessages(msg);
+                var msg = {fields: {}};
+                msg.fields[name] = rule.error;
+                _errorHandler.forEach(function(handler){
+                    handler(msg);
+                });
                 ok = false;
                 break;
             }
@@ -78,7 +82,31 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
         //if there is no problems, check distant
         if(ok && validateInputUrl){
             $.post(FormValidator.getUrl(validateInputUrl, name), _getData(), function(data){
-                FormValidator.displayMessages(data)
+                _errorHandler.forEach(function(handler){
+                    handler(data);
+                });
+            });
+        }
+    });
+    
+    _errorHandler.push(function(data){
+        if(data.status !== 'SUCCESS' && data.message){
+            $('#form_error').show();
+            $('#form_error').html(data.message);
+        }
+        
+        if(data.fields){
+            $.each(data.fields, function(field, msg){
+                var $field = $('[name="' + field + '"]');
+                
+                if(msg === 'SUCCESS'){
+                    $field.removeClass('error');
+                    $field.addClass('valid');
+                }else{
+                    $field.removeClass('valid');
+                    $field.addClass('error');
+                    $field.attr('title', msg);
+                }
             });
         }
     });
@@ -117,29 +145,14 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
     };
     
     this.errorHandler = function(handler){
-        _errorHandler = handler;
+        _errorHandler.push(handler);
+        console.log(_errorHandler);
     };
 };
 
-(function(){
-    FormValidator.displayMessages = function(data){
-        $.each(data, function(input, error){
-            var $input = $('#' + input);
-            var $label = FormValidator.getLabel($input);
-            
-            if(error !== ''){
-                Messages.display(Messages.generate($label.html() + ' : ' + error, 'error'));
-                $label.addClass('invalid');
-                $label.attr('title', error);
-            }else{
-                $label.addClass('valid');
-                $label.attr('title', 'Valide');
-            }
-        });
-    };
-    
+(function(){    
     FormValidator.getUrl = function(base, input){
-        return base + input;
+        return base + '/' + input;
     };
     
     /**

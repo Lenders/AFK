@@ -19,12 +19,10 @@
             <nav id="header_nav">
                 <ul>
                     <li><a href="<?php echo $this->helpers->url('register.php')?>">Inscription</a></li>
-                    <li><a href="<?php echo $this->helpers->url('account/login.php')?>">Connexion</a></li>
+                    <li><a href="<?php echo $this->helpers->url('login.php')?>">Connexion</a></li>
                 </ul>
             </nav>
         </header>
-        <section id="contents">
-            <?php echo $this->contents?>
-        </section>
+        <?php echo $this->contents?>
     </body>
 </html>
