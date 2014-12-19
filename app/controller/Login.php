@@ -57,8 +57,6 @@ class Login extends \system\mvc\Controller {
         
         if($this->session->isLogged())
             throw new \system\error\Http403Forbidden();
-        
-        var_dump($this->session);
     }
     
     public function indexAction(){
