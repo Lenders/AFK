@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,20 +24,10 @@
  * THE SOFTWARE.
  */
 
-namespace system;
-
-/**
- * Description of Storage
- *
- * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
- */
-class Storage extends \Redis {
-    private $config;
+return array(
+    //prefix for autocomplete redis keys
+    'prefix' => 'afk_autocomplete_',
     
-    public function __construct(Config $config) {
-        parent::__construct();
-        $this->config = $config;
-        $this->connect($config->host, $config->port);
-        $this->setOption(\Redis::OPT_PREFIX, $config->prefix);
-    }
-}
+    //TTL for autocomplete sets
+    'cache_expire' => 10,
+);

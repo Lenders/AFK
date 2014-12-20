@@ -103,6 +103,9 @@ var AutoCompletion = function(input){
                     if(waiting == 0){
                         AutoCompletion.displayData($input, results);
                     }
+                }).fail(function(xhr){
+                    var win = window.open();
+                    win.document.write(xhr.responseText);
                 });
             }else{
                 for(var j in data){

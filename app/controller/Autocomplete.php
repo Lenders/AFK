@@ -32,13 +32,21 @@ namespace app\controller;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Autocomplete extends \system\mvc\Controller {
-    public function __construct(\system\Base $base) {
+    /**
+     *
+     * @var \app\model\Autocomplete
+     */
+    private $model;
+    
+    public function __construct(\system\Base $base, \app\model\Autocomplete $model) {
         parent::__construct($base);
         $this->output->setLayoutTemplate(null);
         $this->output->getHeader()->setMimeType('text/json');
+        $this->model = $model;
     }
     
     public function userAction($term = ''){
-        return json_encode(array('test', 'test','test', 'test','test', 'test','test', 'test'));
+        //return json_encode(array('test', 'test','test', 'test','test', 'test','test', 'test'));
+        return json_encode($this->model->queryUsers($term));
     }
 }

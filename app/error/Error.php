@@ -39,6 +39,7 @@ class Error extends \system\mvc\Controller {
         $this->helpers->loadHelper('debug');
         $this->helpers->loadHelper('config');
         $this->helpers->loadHelper('assets');
+        $this->output->getHeader()->setHttpCode(500);
     }
     
     public function defaultError(\Exception $ex){

@@ -48,6 +48,12 @@ return array(
         'Router' => require 'router.php',
         'Storage' => require 'storage.php',
         'Session' => require 'session.php',
+    ),
+    
+    'app' => array(
+        'model' => array(
+            'Autocomplete' => require 'autocomplete.php',
+        )
     )
 );
 
