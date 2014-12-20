@@ -41,8 +41,12 @@ abstract class HTTPInput {
         $this->var = $var;
     }
     
+    public function get($name) {
+        return isset($this->var[$name]) ? $this->sanitize($this->var[$name]) : null;
+    }
+    
     public function __get($name) {
-        return isset($this->var[$name]) ? $this->sanitize($this->var[$name]) : '';
+        return $this->get($name);
     }
     
     public function __isset($name) {

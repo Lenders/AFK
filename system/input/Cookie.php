@@ -41,14 +41,14 @@ class Cookie extends HTTPInput {
     }
     
     public function setCookie($key, $value, $time){
-        setcookie($key, $value, $time);
+        setcookie($key, $value, $time, '/');
     }
 
     public function __unset($name) {
-        setcookie($name, null, time());
+        setcookie($name, null, time(), '/');
     }
     
     public function __set($name, $value) {
-        $this->setCookie($key, $value, 0);
+        $this->setCookie($name, $value, 0);
     }
 }

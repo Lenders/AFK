@@ -53,11 +53,18 @@ class Session {
     
     private $config;
     
+    /**
+     *
+     * @var \system\input\Input
+     */
+    private $input;
+    
     private $SESSID = null;
     
-    public function __construct(\system\Storage $storage, \system\Config $config) {
+    public function __construct(\system\Storage $storage, \system\Config $config, \system\input\Input $input) {
         $this->storage = $storage;
         $this->config = $config;
+        $this->input = $input;
         $this->_loadData();
     }
     
@@ -74,11 +81,11 @@ class Session {
     
     private function _getSESSID(){
         if($this->SESSID === null){
-            if(!isset($_COOKIE[$this->config->cookie_name])){
+            if($this->input->cookie->get($this->config->cookie_name) === null){
                 $this->SESSID = $this->_generateSESSID();
-                setcookie($this->config->cookie_name, $this->SESSID);
+                $this->input->cookie->setCookie($this->config->cookie_name, $this->SESSID, time() + 30 * 3600 * 24);
             }else
-                $this->SESSID = $_COOKIE[$this->config->cookie_name];
+                $this->SESSID = $this->input->cookie->get($this->config->cookie_name);
         }
         
         return $this->SESSID;
