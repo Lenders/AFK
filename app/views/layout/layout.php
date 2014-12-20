@@ -20,7 +20,9 @@
             <div id="logo"><a href="<?php echo $this->helpers->baseUrl()?>" title="Retourner à la page d'acceuil">AFK</a></div>
             <?php include 'header_nav.php'?>
         </header>
-        <?php echo $this->contents?>
+        <div id="body">
+            <?php echo $this->contents?>
+        </div>
         <footer>
             Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms
         </footer>

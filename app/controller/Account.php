@@ -59,28 +59,8 @@ class Account extends \system\mvc\Controller {
         
         $this->output->setTitle('Profile ' . $account['PSEUDO']);
         
-        if($this->model->isFriends($this->session->id, $id)){
-            return $this->output->render('account/profile_friend.php', array(
-                'account' => $account,
-            ));
-        }
-        
-        $waiting = $this->model->friendRequestExists($this->session->id, $id);
-        
-        return $this->output->render('account/profile_guest.php', array(
-            'account' => $account,
-            'waiting' => $waiting
-        ));
-    }
-    
-    public function firendsAction($id = null){
-        if($id === null)
-            $id = $this->session->id;
-        
-        return $this->output->render('account/friends.php', array(
-            'friends' => $this->model->getFriendsByUserId($id),
-            'requests' => $this->model->getFriendRequests($id)
-        ));
+        $this->helpers->loadHelper('FriendButton');
+        return $this->output->render('account/profile.php', array('user' => $this->model->getAccountById($id)));
     }
     
     public function logoutAction(){

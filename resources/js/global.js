@@ -342,7 +342,7 @@ var ActiveList = {};
     };
 })();
 
-$(document).ready(function(){
+/*$(document).ready(function(){
     $('[data-friend-button]').click(function(){
         $this = $(this);
 
@@ -354,4 +354,4 @@ $(document).ready(function(){
 
         return false;
     });
-})();
+})();*/
