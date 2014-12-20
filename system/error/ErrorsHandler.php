@@ -41,6 +41,16 @@ class ErrorsHandler{
             if($errno & error_reporting())
                 throw new \ErrorException($errstr, 20001, $errno, $errfile, $errline);
         });
+        
+        //fatal errors
+        register_shutdown_function(function(){
+            $error = error_get_last();
+            
+            if(!$error)
+                return;
+            
+            $this->exceptionHandler(new \ErrorException($error['message'], 20002, $error['type'], $error['file'], $error['line']));
+        });
     }
     
     public function exceptionHandler(\Exception $ex){
