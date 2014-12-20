@@ -125,7 +125,7 @@ article p{
     height: 100%;
 }
 
-input, select{
+input, select, .button{
     padding: 3px;
     border-radius: 2px;
     display: block;
@@ -138,6 +138,7 @@ input, select{
     margin-right: auto;
     height: 25px;
     vertical-align: middle;
+    text-decoration: none;
 }
 
 input:not([type="submit"]):not([type="button"]), select{
@@ -151,6 +152,11 @@ input:not([type="submit"]):not([type="button"]):focus, select:focus{
     background: rgba(70,  128, 255, .2);
     transform-style: background, box-shadow;
     transition-duration: .2s;
+}
+
+
+input[type="submit"]:hover, input[type="button"]:hover, .button:hover{
+    box-shadow: 0 0 2px #2C75FF;
 }
 
 input.error, select.error{
@@ -194,4 +200,67 @@ input.valid, select.valid{
 #autocomplete_list li.focus{
     background: rgba(70,  128, 255, .2);;
     color: #FFF;
+}
+
+.notif{
+    background: darkred;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 3px;
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid #666;
+}
+
+.notif:empty{
+    display: none;
+}
+
+section > h1{
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+a{
+    color: #DDD;
+    text-decoration: underline;
+}
+
+.user_list{
+    list-style-type: none;
+    padding: 5px;
+}
+
+.user_list li{
+    width: 100%;
+    border-bottom: 1px solid #666;
+    overflow: auto;
+}
+
+.user_list li:last-of-type{
+    border-bottom: none;
+}
+
+.user_list a.userlink{
+    text-decoration: none;
+    margin-left: 5px;
+    display: inline-block;
+    float: left;
+    line-height: 35px;
+}
+
+.user_list .buttons{
+    float: right;
+    margin-right: 5px;
+}
+
+.button{
+    display: inline-block;
+}
+
+.button.red{
+    background: darkred;
+    border: 1px solid #C33;
 }

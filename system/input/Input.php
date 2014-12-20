@@ -96,4 +96,8 @@ class Input {
     public function getUserIP(){
         return $_SERVER['REMOTE_ADDR'];
     }
+    
+    public function getReferer(){
+        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $this->getBaseUrl();
+    }
 }

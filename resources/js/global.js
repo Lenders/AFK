@@ -341,3 +341,17 @@ var ActiveList = {};
         };
     };
 })();
+
+$(document).ready(function(){
+    $('[data-friend-button]').click(function(){
+        $this = $(this);
+
+        $.get(Config.getBaseUrl() + 'friends/' + $this.data('action') + '/' + $this.data('user-id') + '/noredirect', function(data){
+        }).fail(function(xhr){
+            var win = window.open();
+            win.document.write(xhr.responseText);
+        });
+
+        return false;
+    });
+})();

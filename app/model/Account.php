@@ -36,10 +36,6 @@ class Account extends \system\mvc\Model {
         return $this->db->selectFirst('SELECT * FROM ACCOUNT WHERE USER_ID = ?', $id);
     }
     
-    public function getFriendsByUserId($id){
-        return $this->db->selectAll('SELECT A.* FROM ACCOUNT A JOIN FRIEND F ON A.USER_ID = F.FRIEND_ID WHERE USER_ID = ?', $id);
-    }
-    
     public function getAccountByPseudo($pseudo){
         return $this->db->selectFirst('SELECT * FROM ACCOUNT WHERE PSEUDO = ?', $pseudo);
     }
@@ -57,5 +53,20 @@ class Account extends \system\mvc\Model {
                 'INSERT INTO ACCOUNT(PSEUDO, PASS, SALT, FIRST_NAME, LAST_NAME, GENDER, MAIL) VALUES(?,?,?,?,?,?,?)',
                 $pseudo, $pass, $salt, $firstName, $lastName, $gender, $mail
         );
+    }
+    
+    public function accountExists($id){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM ACCOUNT WHERE USER_ID = ?', $id)['COUNT(*)'] > 0;
+    }
+    
+    public function searchAccount($query){
+        $query = str_replace('*', '%', $query);
+        $query = '%' . $query . '%';
+        
+        return $this->db->selectAll('SELECT * FROM ACCOUNT WHERE PSEUDO LIKE ? OR CONCAT(FIRST_NAME, " ", LAST_NAME) LIKE ?', $query, $query);
+    }
+    
+    public function getFriendRequestCount($user){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM FRIEND_REQUEST WHERE TARGET = ?', $user)['COUNT(*)'];
     }
 }

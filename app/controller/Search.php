@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,31 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench'
-);
+namespace app\controller;
 
+/**
+ * Description of Search
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Search extends \system\mvc\Controller {
+    /**
+     *
+     * @var \app\model\Account
+     */
+    private $account;
+    
+    public function __construct(\system\Base $base, \app\model\Account $account) {
+        parent::__construct($base);
+        $this->account = $account;
+    }
+    
+    public function indexAction(){
+        $this->output->setTitle('Rechercher');
+        $this->helpers->loadHelper('FriendButton');
+        
+        return $this->output->render('search/results.php', array(
+            'users' => $this->account->searchAccount($this->input->get->search)
+        ));
+    }
+}

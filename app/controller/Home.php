@@ -15,7 +15,6 @@ namespace app\controller;
  */
 class Home extends \system\mvc\Controller {
     public function indexAction(){
-        var_dump($this->session);
         return 'Hello World !';
     }
 }

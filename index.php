@@ -1,4 +1,5 @@
 <?php
+define('START_TIME', microtime(true));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__ . DS);
 define('EXT', '.php');

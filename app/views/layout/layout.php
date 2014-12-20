@@ -13,6 +13,7 @@
             };
         </script>
         <?php echo $this->helpers->js('global')?>
+        <?php if($this->helpers->isLogged()) echo $this->helpers->js('notif')?>
     </head>
     <body>
         <header>
@@ -20,5 +21,8 @@
             <?php include 'header_nav.php'?>
         </header>
         <?php echo $this->contents?>
+        <footer>
+            Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms
+        </footer>
     </body>
 </html>

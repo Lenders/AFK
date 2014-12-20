@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,19 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench'
-);
+namespace system\helper;
 
+/**
+ * Description of Bench
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Bench implements Helper {
+    public function export() {
+        return array('bench');
+    }
+
+    public function bench(){
+        return (microtime(true) - START_TIME) * 1000;
+    }
+}

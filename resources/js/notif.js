@@ -1,5 +1,3 @@
-<?php
-
 /* 
  * The MIT License
  *
@@ -24,7 +22,23 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench'
-);
 
+(function(){
+    function loadNotif(){
+        $.get(Config.getBaseUrl() + 'account/notifcount', function(data){
+            if(data.friends > 0){
+                $('#friends_notif').html(data.friends);
+                $('#friends_notif').show();
+            }else{
+                $('#friends_notif').hide();
+            }
+            
+            setTimeout(loadNotif, 3000);
+        }).fail(function(xhr){
+            window.document.write(xhr.responseText);
+        });
+    }
+    $(document).ready(function(){
+        loadNotif();
+    });
+})();
