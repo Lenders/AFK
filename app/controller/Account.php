@@ -57,7 +57,7 @@ class Account extends \system\mvc\Controller {
         if(!$account)
             throw new \system\error\Http404Error('L\'utilisateur n\'existe pas.');
         
-        $this->output->setTitle('Profile ' . $account['PSEUDO']);
+        $this->output->setTitle('Profil ' . $account['PSEUDO']);
         
         $this->helpers->loadHelper('FriendButton');
         return $this->output->render('account/profile.php', array('user' => $this->model->getAccountById($id)));

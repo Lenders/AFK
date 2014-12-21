@@ -151,7 +151,7 @@ input:not([type="submit"]):not([type="button"]), select{
     width: 220px;
 }
 
-input:not([type="submit"]):not([type="button"]):focus, select:focus{
+input:not([type="submit"]):not([type="button"]):focus{
     box-shadow: 0 0 2px #2C75FF inset;
     background: rgba(70,  128, 255, .2);
     transform-style: background, box-shadow;

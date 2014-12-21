@@ -93,12 +93,12 @@ class Image extends \system\mvc\Controller {
         $this->output->getHeader()->setLocation($this->helpers->url('image.php'));
     }
     
-    public function infoAction($image){
+    public function infoAction($image = ''){
         if(!$this->session->isLogged())
             throw new \system\error\Http403Forbidden();
         
         if(!$this->model->imageExists($this->session->id, $image))
-            throw new \system\error\Http404Error();
+            throw new \system\error\Http404Error('Image inexistante');
         
         return $this->output->render('image/info.php', array(
             'owner' => $this->session->id,
@@ -106,7 +106,7 @@ class Image extends \system\mvc\Controller {
         ));
     }
     
-    public function deleteAction($image){
+    public function deleteAction($image = ''){
         if(!$this->session->isLogged())
             throw new \system\error\Http403Forbidden();
         
@@ -118,7 +118,7 @@ class Image extends \system\mvc\Controller {
         $this->output->getHeader()->setLocation($this->helpers->url('image.php'));
     }
     
-    public function useAction($image){
+    public function useAction($image = ''){
         if(!$this->session->isLogged() || !$this->model->imageExists($this->session->id, $image))
             throw new \system\error\Http403Forbidden();
         

@@ -1,5 +1,5 @@
 <section id="left_menu">
-    <h2>Profile</h2>
+    <h2>Profil</h2>
     <ul>
         <li>
             <?php if($this->getSession('id') == $user['USER_ID']):?>
