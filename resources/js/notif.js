@@ -26,6 +26,7 @@
 (function(){
     function loadNotif(){
         $.get(Config.getBaseUrl() + 'account/notifcount', function(data){
+            
             if(data.friends > 0){
                 $('#friends_notif').html(data.friends);
                 $('#friends_notif').show();
@@ -35,7 +36,7 @@
             
             setTimeout(loadNotif, 3000);
         }).fail(function(xhr){
-            window.document.write(xhr.responseText);
+            setTimeout(loadNotif, 10000);
         });
     }
     $(document).ready(function(){
