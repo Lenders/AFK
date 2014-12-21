@@ -106,6 +106,7 @@ header{
     padding: 25px;
     max-width: 850px;
     margin: auto;
+    display: table-cell;
 }
 
 article{
@@ -269,13 +270,9 @@ a{
 }
 
 #left_menu{
-    position: relative;
-    float: left;
     width: 200px;
-    margin-top: 50px;
-    border: 1px solid #444;
+    border-right: 1px solid #444;
     border-left: none;
-    min-height: 100%;
     display: table-cell;
 }
 
@@ -303,6 +300,8 @@ footer{
 
 #body{
     padding-bottom: 75px;
+    display: table;
+    width: 100%;
 }
 
 .avatar{
