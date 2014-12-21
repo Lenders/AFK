@@ -70,7 +70,7 @@ class Autocomplete extends \system\mvc\Model {
         $set = $this->_getSetName($set);
 
         foreach ($values as $value) {
-            $this->storage->sAdd($set, $value);
+            $this->storage->sAdd($set, strtolower($value));
         }
         $this->storage->expire($set, $this->config->cache_expire);
         $this->storage->exec();
@@ -94,7 +94,7 @@ class Autocomplete extends \system\mvc\Model {
             $this->_store('USER', $values);
         }
         
-        return $this->_get('USER', $query);
+        return $this->_get('USER', strtolower($query));
     }
 
 }
