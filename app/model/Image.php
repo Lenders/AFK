@@ -54,7 +54,7 @@ class Image {
         $this->mongo->insert(array(
             'owner' => $owner,
             'file' => md5(uniqid()),
-            'data' => new \MongoBinData($data, \MongoBinData::GENERIC),
+            'data' => new \MongoBinData($data, \MongoBinData::BYTE_ARRAY),
             'mime' => $mime
         ));
     }
