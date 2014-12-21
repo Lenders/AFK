@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,38 +24,42 @@
  * THE SOFTWARE.
  */
 
-/**
- * Main configuration file
- */
-return array(
-    'name' => 'AFK',
-    'mail' => '...',
-    'autoload' => require 'autoload.php',
-    'default_layout' => 'layout/layout.php',
-    'image' => require 'image.php',
-    
-    'system' => array(
-        'error' => array(
-            'ErrorsHandler' => require 'errors.php',
-        ),
-        
-        'helper' => array(
-            'HelpersLoader' => require 'helpers.php',
-            'Compressor' => require 'compressor.php',
-            'Crypt' => require 'crypt.php',
-        ),
-        
-        'Database' => require 'database.php',
-        'Router' => require 'router.php',
-        'Storage' => require 'storage.php',
-        'Session' => require 'session.php',
-        'Mongo' => require 'mongo.php',
-    ),
-    
-    'app' => array(
-        'model' => array(
-            'Autocomplete' => require 'autocomplete.php',
-        )
-    )
-);
+namespace app\model;
 
+/**
+ * Description of Avatar
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Image {
+    /**
+     *
+     * @var \MongoCollection
+     */
+    private $mongo;
+    
+    public function __construct(\system\Mongo $mongo) {
+        $this->mongo = $mongo->image;
+    }
+    
+    public function getImage($owner, $file){
+        return $this->mongo->findOne(array('file' => $file, 'owner' => $owner));
+    }
+    
+    public function getUserImages($user){
+        return $this->mongo->find(array('owner' => $user), array('owner', 'file'));
+    }
+    
+    public function storeImage($owner, $data, $mime){
+        $this->mongo->insert(array(
+            'owner' => $owner,
+            'file' => md5(uniqid()),
+            'data' => new \MongoBinData($data),
+            'mime' => $mime
+        ));
+    }
+    
+    public function imageExists($owner, $file){
+        return $this->mongo->findOne(array('file' => $file, 'owner' => $owner), array('owner')) != null;
+    }
+}

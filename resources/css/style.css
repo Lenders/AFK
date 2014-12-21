@@ -304,3 +304,26 @@ footer{
 #body{
     padding-bottom: 75px;
 }
+
+.avatar{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+a:hover .avatar{
+    opacity: .8;
+}
+
+#image_grid a{
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px;
+}
+
+#image_grid{
+    max-width: 650px;
+    margin: auto;
+}

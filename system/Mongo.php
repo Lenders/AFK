@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,38 +24,15 @@
  * THE SOFTWARE.
  */
 
-/**
- * Main configuration file
- */
-return array(
-    'name' => 'AFK',
-    'mail' => '...',
-    'autoload' => require 'autoload.php',
-    'default_layout' => 'layout/layout.php',
-    'image' => require 'image.php',
-    
-    'system' => array(
-        'error' => array(
-            'ErrorsHandler' => require 'errors.php',
-        ),
-        
-        'helper' => array(
-            'HelpersLoader' => require 'helpers.php',
-            'Compressor' => require 'compressor.php',
-            'Crypt' => require 'crypt.php',
-        ),
-        
-        'Database' => require 'database.php',
-        'Router' => require 'router.php',
-        'Storage' => require 'storage.php',
-        'Session' => require 'session.php',
-        'Mongo' => require 'mongo.php',
-    ),
-    
-    'app' => array(
-        'model' => array(
-            'Autocomplete' => require 'autocomplete.php',
-        )
-    )
-);
+namespace system;
 
+/**
+ * Mongo database
+ * 
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Mongo extends \MongoDB {
+    public function __construct(\system\Config $config) {
+        parent::__construct(new \MongoClient(), $config->dbname);
+    }
+}
