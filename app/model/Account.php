@@ -73,4 +73,8 @@ class Account extends \system\mvc\Model {
     public function setAvatar($user, $avatar){
         $this->db->executeUpdate('UPDATE ACCOUNT SET AVATAR = ? WHERE USER_ID = ?', $avatar, $user);
     }
+    
+    public function getAvatar($user){
+        return $this->db->selectFirst('SELECT AVATAR FROM ACCOUNT WHERE USER_ID = ?', $user)['AVATAR'];
+    }
 }

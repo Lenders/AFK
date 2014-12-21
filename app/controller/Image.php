@@ -38,9 +38,16 @@ class Image extends \system\mvc\Controller {
      */
     private $model;
     
-    public function __construct(\system\Base $base, \app\model\Image $model) {
+    /**
+     *
+     * @var \app\model\Account
+     */
+    private $account;
+    
+    public function __construct(\system\Base $base, \app\model\Image $model, \app\model\Account $account) {
         parent::__construct($base);
         $this->model = $model;
+        $this->account = $account;
     }
     
     public function indexAction(){
@@ -104,6 +111,18 @@ class Image extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         $this->model->delete($this->session->id, $image);
+        
+        if($this->account->getAvatar($this->session->id) == $image)
+            $this->account->setAvatar ($this->session->id, '');
+        
         $this->output->getHeader()->setLocation($this->helpers->url('image.php'));
+    }
+    
+    public function useAction($image){
+        if(!$this->session->isLogged() || !$this->model->imageExists($this->session->id, $image))
+            throw new \system\error\Http403Forbidden();
+        
+        $this->account->setAvatar($this->session->id, $image);
+        $this->output->getHeader()->setLocation($this->helpers->url('account.php'));
     }
 }
