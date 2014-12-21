@@ -74,7 +74,7 @@ class Image extends \system\mvc\Controller {
         if(!$this->session->isLogged())
             throw new \system\error\Http403Forbidden();
         
-        if(!empty($_FILES['file'])){
+        if(!empty($_FILES['file']) && !empty($_FILES['file']['tmp_name'])){
             $file = $_FILES['file'];
             
             if($file['size'] <= $this->config->image->max_size){
