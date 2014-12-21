@@ -39,6 +39,6 @@
         });
     }
     $(document).ready(function(){
-        loadNotif();
+        setTimeout(loadNotif, 3000);
     });
 })();
