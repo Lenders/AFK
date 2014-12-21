@@ -69,4 +69,8 @@ class Account extends \system\mvc\Model {
     public function getFriendRequestCount($user){
         return $this->db->selectFirst('SELECT COUNT(*) FROM FRIEND_REQUEST WHERE TARGET = ?', $user)['COUNT(*)'];
     }
+    
+    public function setAvatar($user, $avatar){
+        $this->db->executeUpdate('UPDATE ACCOUNT SET AVATAR = ? WHERE USER_ID = ?', $avatar, $user);
+    }
 }

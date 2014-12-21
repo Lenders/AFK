@@ -326,3 +326,11 @@ a:hover .avatar{
     max-width: 650px;
     margin: auto;
 }
+
+#image_info{
+    text-align: center;
+}
+
+#image_info img{
+    max-width: 100%;
+}

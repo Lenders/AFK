@@ -79,4 +79,12 @@ class Account extends \system\mvc\Controller {
             'friends' => $this->model->getFriendRequestCount($this->session->id)
         ));
     }
+    
+    public function setavatarAction($image){
+        if(!$this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
+        
+        $this->model->setAvatar($this->session->id, $image);
+        $this->output->getHeader()->setLocation($this->helpers->url('account.php'));
+    }
 }

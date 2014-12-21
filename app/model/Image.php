@@ -62,4 +62,8 @@ class Image {
     public function imageExists($owner, $file){
         return $this->mongo->findOne(array('file' => $file, 'owner' => $owner), array('owner')) != null;
     }
+    
+    public function delete($owner, $file){
+        $this->mongo->remove(array('file' => $file, 'owner' => $owner));
+    }
 }

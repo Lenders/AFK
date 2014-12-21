@@ -98,4 +98,12 @@ class Image extends \system\mvc\Controller {
             'image' => $image
         ));
     }
+    
+    public function deleteAction($image){
+        if(!$this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
+        
+        $this->model->delete($this->session->id, $image);
+        $this->output->getHeader()->setLocation($this->helpers->url('image.php'));
+    }
 }
