@@ -32,8 +32,15 @@ namespace app\controller;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Json extends \system\mvc\Controller {
-    public function __construct(\system\Base $base) {
+    /**
+     *
+     * @var \app\model\Friend
+     */
+    private $friend;
+    
+    public function __construct(\system\Base $base, \app\model\Friend $friend) {
         parent::__construct($base);
+        $this->friend = $friend;
         
         if(!$this->session->isLogged())
             throw new \system\error\Http403Forbidden();
@@ -58,5 +65,11 @@ class Json extends \system\mvc\Controller {
         }
         
         return json_encode($response);
+    }
+    
+    public function notifAction(){
+        return json_encode(array(
+            'friends' => $this->friend->getFriendRequestCount($this->session->id)
+        ));
     }
 }

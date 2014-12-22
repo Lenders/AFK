@@ -75,4 +75,8 @@ class Friend extends \system\mvc\Model {
     public function removeFriend($user1, $user2){
         $this->db->executeUpdate('DELETE FROM FRIEND WHERE (USER1 = ? AND USER2 = ?) OR (USER2 = ? AND USER1 = ?)', $user1, $user2, $user1, $user2);
     }
+    
+    public function getFriendRequestCount($user){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM FRIEND_REQUEST WHERE TARGET = ?', $user)['COUNT(*)'];
+    }
 }

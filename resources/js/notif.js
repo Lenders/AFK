@@ -25,7 +25,7 @@
 
 (function(){
     function loadNotif(){
-        $.get(Config.getBaseUrl() + 'account/notifcount', function(data){
+        $.get(Config.getBaseUrl() + 'json/notif', function(data){
             
             if(data.friends > 0){
                 $('#friends_notif').html(data.friends);

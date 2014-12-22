@@ -67,16 +67,4 @@ class Account extends \system\mvc\Controller {
         $this->session->clear();
         $this->output->getHeader()->setLocation($this->helpers->baseUrl());
     }
-    
-    public function notifcountAction(){
-        if(!$this->session->isLogged())
-            throw new \system\error\Http403Forbidden();
-        
-            $this->output->setLayoutTemplate(null);
-        $this->output->getHeader()->setMimeType('text/json');
-        
-        return json_encode(array(
-            'friends' => $this->model->getFriendRequestCount($this->session->id)
-        ));
-    }
 }
