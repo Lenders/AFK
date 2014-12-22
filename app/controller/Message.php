@@ -95,37 +95,41 @@ class Message extends \system\mvc\Controller {
                 && !empty($this->input->post->target) 
                 && !empty($this->input->post->message)){
             
-            $targets = explode(',', $this->input->post->target);
-            $ids = array();
-            $ok = true;
-            
-            foreach($targets as $target){
-                $target = trim($target);
-                
-                if(empty($target))
-                    continue;
-                
-                $id = $this->model->getUserIdByPseudo($target);
-                
-                if($id === null){ //invalid target
-                    $ok = false;
-                    $error = 'Le destinataire ' . htmlentities($target) . ' n\'existe pas';
-                    break;
+            if(strlen($this->input->post->name) >= 4 && strlen($this->input->post->name) <= 20){
+                $targets = explode(',', $this->input->post->target);
+                $ids = array();
+                $ok = true;
+
+                foreach($targets as $target){
+                    $target = trim($target);
+
+                    if(empty($target))
+                        continue;
+
+                    $id = $this->model->getUserIdByPseudo($target);
+
+                    if($id === null){ //invalid target
+                        $ok = false;
+                        $error = 'Le destinataire ' . htmlentities($target) . ' n\'existe pas';
+                        break;
+                    }
+
+                    $ids[] = $id;
                 }
-                
-                $ids[] = $id;
-            }
-            
-            if($ok){
-                $id = $this->model->createDiscussion(
-                        $this->input->post->name, 
-                        $this->input->post->message, 
-                        $this->session->id, 
-                        $ids
-                );
-                
-                $this->output->getHeader()->setLocation($this->helpers->secureUrl('message', 'discussion', $id));
-                return;
+
+                if($ok){
+                    $id = $this->model->createDiscussion(
+                            $this->input->post->name, 
+                            $this->input->post->message, 
+                            $this->session->id, 
+                            $ids
+                    );
+
+                    $this->output->getHeader()->setLocation($this->helpers->secureUrl('message', 'discussion', $id));
+                    return;
+                }
+            }else{
+                $error = 'Le nom doit faire plus de 4 caractères, et moins de 20';
             }
         }else{
             $error = 'Tout les champs sont requis';
