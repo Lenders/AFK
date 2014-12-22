@@ -55,7 +55,7 @@ class Message {
         foreach($users as &$user)
             $user = (int)$user;
         
-        $this->mongo->insert(array(
+        $contents = array(
             'name' => $name,
             'users' => $users,
             'last_message_date' => new \MongoDate(),
@@ -67,7 +67,10 @@ class Message {
                     'date' => new \MongoDate()
                 )
             )
-        ));
+        );
+        
+        $this->mongo->insert($contents);
+        return $contents['_id']->{'$id'};
     }
     
     public function getDiscussions($user_id){
@@ -121,5 +124,9 @@ class Message {
             return null;
         
         return $data['users'];
+    }
+    
+    public function getUserIdByPseudo($pseudo){
+        return $this->account->getUserIdByPseudo($pseudo);
     }
 }

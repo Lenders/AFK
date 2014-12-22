@@ -49,4 +49,30 @@ class Autocomplete extends \system\mvc\Controller {
         //return json_encode(array('test', 'test','test', 'test','test', 'test','test', 'test'));
         return json_encode($this->model->queryUsers($term));
     }
+    
+    public function pseudolistAction($list = ''){
+        $clear_list = array();
+        
+        foreach(explode(',', $list) as $item){
+            $item = trim($item);
+            
+            if(empty($item) || !preg_match('/^[a-z0-9-]{0,32}$/i', $item))
+                continue;
+            
+            $clear_list[] = $item;
+        }
+        
+        $pseudo = array_pop($clear_list);
+        $list = implode(', ', $clear_list);
+        
+        $ret = $this->model->queryPseudo($pseudo);
+        
+        if(!empty($list)){
+            foreach ($ret as &$r){
+                $r = $list . ', ' . $r;
+            }
+        }
+        
+        return json_encode($ret);
+    }
 }

@@ -418,3 +418,11 @@ ul#discussions_list li.unread{
     text-align: center;
     margin: 5px;
 }
+
+#new_msg_form{
+    padding: 15px;
+}
+
+#new_msg_form input:not([type="submit"]){
+    width: 100%;
+}

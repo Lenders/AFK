@@ -73,4 +73,13 @@ class Account extends \system\mvc\Model {
     public function getAvatar($user){
         return $this->db->selectFirst('SELECT AVATAR FROM ACCOUNT WHERE USER_ID = ?', $user)['AVATAR'];
     }
+    
+    public function getUserIdByPseudo($pseudo){
+        $data = $this->db->selectFirst('SELECT USER_ID FROM ACCOUNT WHERE PSEUDO = ?', $pseudo);
+        
+        if($data == null)
+            return null;
+        
+        return $data['USER_ID'];
+    }
 }

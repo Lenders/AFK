@@ -52,10 +52,14 @@ class Message extends \system\mvc\Controller {
         if(!empty($discussions))
             $discussion = $this->model->getDiscussion($discussions->getNext()['_id'], $this->session->id);
         
-        return $this->output->render('message/discussion.php', array(
-            'discussions' => $this->model->getDiscussions($this->session->id),
-            'current_discussion' => $discussion
-        ));
+        if($discussion != null){
+            return $this->output->render('message/discussion.php', array(
+                'discussions' => $this->model->getDiscussions($this->session->id),
+                'current_discussion' => $discussion
+            ));
+        }
+        
+        return $this->createAction();
     }
     
     public function discussionAction($id = ''){
@@ -87,6 +91,51 @@ class Message extends \system\mvc\Controller {
     }
     
     public function createAction(){
-        $this->model->createDiscussion('abcd', 'efgh', $this->session->id, [2,3,4,5]);
+        if(!empty($this->input->post->name) 
+                && !empty($this->input->post->target) 
+                && !empty($this->input->post->message)){
+            
+            $targets = explode(',', $this->input->post->target);
+            $ids = array();
+            $ok = true;
+            
+            foreach($targets as $target){
+                $target = trim($target);
+                
+                if(empty($target))
+                    continue;
+                
+                $id = $this->model->getUserIdByPseudo($target);
+                
+                if($id === null){ //invalid target
+                    $ok = false;
+                    $error = 'Le destinataire ' . htmlentities($target) . ' n\'existe pas';
+                    break;
+                }
+                
+                $ids[] = $id;
+            }
+            
+            if($ok){
+                $id = $this->model->createDiscussion(
+                        $this->input->post->name, 
+                        $this->input->post->message, 
+                        $this->session->id, 
+                        $ids
+                );
+                
+                $this->output->getHeader()->setLocation($this->helpers->secureUrl('message', 'discussion', $id));
+                return;
+            }
+        }else{
+            $error = 'Tout les champs sont requis';
+        }
+        
+        return $this->output->render('message/create.php', array(
+            'name' => $this->input->post->name,
+            'target' => $this->input->post->target,
+            'message' => $this->input->post->message,
+            'error' => $error
+        ));
     }
 }

@@ -96,5 +96,17 @@ class Autocomplete extends \system\mvc\Model {
         
         return $this->_get('USER', strtolower($query));
     }
-
+    
+    public function queryPseudo($pseudo){
+        if (!$this->_exists('PSEUDO')) {
+            $values = array();
+            $stmt = $this->db->query('SELECT PSEUDO FROM ACCOUNT');
+            while($a = $stmt->fetch()){
+                array_push($values, $a['PSEUDO']);
+            }
+            $this->_store('PSEUDO', $values);
+        }
+        
+        return $this->_get('PSEUDO', strtolower($pseudo));
+    }
 }

@@ -22,7 +22,7 @@
         </li>
         <?php endforeach?>
     </ul>
-    <div class="button_container"><a class="button" href="">Nouvelle discussion</a></div>
+    <div class="button_container"><a class="button" href="<?php echo $this->url('message/create.php')?>">Nouvelle discussion</a></div>
 </section>
 <section id="contents">
     <?php if(!empty($current_discussion)):?>
