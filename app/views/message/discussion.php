@@ -18,7 +18,7 @@
     <ul id="discussions_list">
         <?php foreach ($discussions as $discussion):?>
         <li <?php if($current_discussion['_id'] == $discussion['_id']) echo 'class="current"'; elseif(!in_array($this->getSession('id'), $discussion['views'])) echo 'class="unread"'?>>
-            <a href="<?php echo $this->secureUrl('message', 'discussion', $discussion['_id']) . '#last'?>"><?php echo $discussion['name']?></a>
+            <a href="<?php echo $this->secureUrl('message', 'discussion', $discussion['_id']) . '#last'?>"><?php echo htmlentities($discussion['name'])?></a>
         </li>
         <?php endforeach?>
     </ul>
@@ -27,7 +27,7 @@
 <section id="contents">
     <?php if(!empty($current_discussion)):?>
     <article>
-        <h1 class="title">Discussion : <span id="discussion_name"><?php echo $current_discussion['name']?></span></h1>
+        <h1 class="title">Discussion : <span id="discussion_name"><?php echo htmlentities($current_discussion['name'])?></span></h1>
         <div id="discussion_room">
             <?php foreach ($current_discussion['messages'] as $message):?>
             <p class="message <?php echo $message['sender'] == $this->getSession('id') ? 'me' : 'other'?>">
