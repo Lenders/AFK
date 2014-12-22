@@ -19,8 +19,10 @@
         </li>
         <li><strong>Nom :</strong> <?php echo $user['FIRST_NAME'], ' ', $user['LAST_NAME']?></li>
         <li><strong>Pseudo :</strong> <?php echo $user['PSEUDO']?></li>
-        <li><?php echo $this->friendButton($user['USER_ID'])?></li>
     </ul>
+    <div class="button_container">
+        <?php echo $this->friendButton($user['USER_ID'])?>
+    </div>
 </section>
 <section id="contents">
     <h1><?php echo $user['PSEUDO']?></h1>
