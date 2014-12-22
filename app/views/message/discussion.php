@@ -47,3 +47,4 @@
     </article>
     <?php endif?>
 </section>
+<?php echo $this->js('message')?>

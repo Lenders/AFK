@@ -142,4 +142,23 @@ class Message extends \system\mvc\Controller {
             'error' => $error
         ));
     }
+    
+    public function discussionlistAction(){
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+        
+        $data = $this->model->getDiscussions($this->session->id);
+        $ret = array();
+        
+        foreach($data as $row){
+            $view = in_array($this->session->id, $row['views']);
+            $ret[] = array(
+                'name' => htmlentities($row['name']),
+                'view' => $view,
+                'id' => $row['_id']->{'$id'},
+            );
+        }
+        
+        return json_encode($ret);
+    }
 }
