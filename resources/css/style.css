@@ -338,3 +338,10 @@ a:hover .avatar{
 #image_info img{
     max-width: 100%;
 }
+
+img.thumb{
+    float: left;
+    max-height: 30px;
+    max-width: 30px;
+    margin-top: 2px;
+}
