@@ -1,5 +1,12 @@
 <section id="left_menu">
-    <h2>Profil</h2>
+    <h2>
+        Profil
+        <?php if($this->isOnline($user['USER_ID'])):?>
+        <span class="button green" data-online-button data-user-id="<?php echo $user['USER_ID']?>">En ligne</span>
+        <?php else:?>
+        <span class="button red" data-online-button data-user-id="<?php echo $user['USER_ID']?>">Hors ligne</span>
+        <?php endif?>
+    </h2>
     <ul>
         <li>
             <?php if($this->getSession('id') == $user['USER_ID']):?>
@@ -24,3 +31,4 @@
     </article>
     <?php endfor?>
 </section>
+<?php echo $this->js('profile')?>

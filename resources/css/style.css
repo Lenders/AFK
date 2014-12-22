@@ -159,7 +159,7 @@ input:not([type="submit"]):not([type="button"]):focus{
 }
 
 
-input[type="submit"]:hover, input[type="button"]:hover, .button:hover{
+input[type="submit"]:hover, input[type="button"]:hover, a.button:hover{
     box-shadow: 0 0 2px #2C75FF;
 }
 
@@ -269,6 +269,11 @@ a{
     border: 1px solid #C33;
 }
 
+.button.green{
+    background: darkgreen;
+    border: 1px solid #383;
+}
+
 #left_menu{
     width: 200px;
     border-right: 1px solid #444;
@@ -281,7 +286,6 @@ a{
     font-size: 14px;
     font-style: italic;
     margin-bottom: 10px;
-    padding: 3px;
     padding-left: 15px;
 }
 

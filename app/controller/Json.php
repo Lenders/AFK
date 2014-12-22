@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,16 +24,39 @@
  * THE SOFTWARE.
  */
 
-return array(
-    //TTL of the session in seconds
-    'expire' => 7200,
+namespace app\controller;
+
+/**
+ * Controller for Json requests
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Json extends \system\mvc\Controller {
+    public function __construct(\system\Base $base) {
+        parent::__construct($base);
+        
+        if(!$this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
+
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+    }
     
-    //Prefix for sessions keys in Redis
-    'session_prefix' => 'afk_session_',
-    
-    //Name for the sessid cookie
-    'cookie_name' => 'AFK_SESSID',
-    
-    //How many time we have to wait to pas offline (in secondes)
-    'online_time' => 300,
-);
+    public function checkonlineAction(){
+        if(!isset($this->input->post->who)){
+            throw new \system\error\Http404Error('Missing who parametter');
+        }
+        
+        $who = json_decode($this->input->post->who, true);
+        $response = array();
+        
+        if(!is_array($who))
+            return '{}';
+        
+        foreach($who as $user_id){
+            $response[$user_id] = $this->session->isOnline($user_id) ? 'ONLINE' : 'OFFLINE';
+        }
+        
+        return json_encode($response);
+    }
+}

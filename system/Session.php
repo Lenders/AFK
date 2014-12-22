@@ -73,8 +73,12 @@ class Session {
         
         if($data === false)
             $data = array();
-        else
+        else{
             $this->storage->setTimeout ($this->_getSESSID (), $this->config->expire);
+        }
+        
+        if(!empty($data['id']))
+            $this->storage->setex($this->config->session_prefix . 'online_' . $data['id'], $this->config->online_time, 1);
             
         $this->data = $data;
     }
@@ -109,11 +113,15 @@ class Session {
     }
     
     public function clear(){
+        $this->storage->del($this->_getSESSID(), $this->config->session_prefix . 'online_' . $this->id);
         $this->data = array();
-        $this->storage->del($this->_getSESSID());
     }
     
     public function isLogged(){
         return !empty($this->data);
+    }
+    
+    public function isOnline($user){
+        return $this->storage->exists($this->config->session_prefix . 'online_' . $user);
     }
 }

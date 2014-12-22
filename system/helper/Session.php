@@ -43,7 +43,7 @@ class Session implements Helper {
     }
     
     public function export() {
-        return array('getSession', 'isLogged');
+        return array('getSession', 'isLogged', 'isOnline');
     }
     
     public function getSession($var){
@@ -52,5 +52,9 @@ class Session implements Helper {
     
     public function isLogged(){
         return $this->session->isLogged();
+    }
+    
+    public function isOnline($user){
+        return $this->session->isOnline($user);
     }
 }
