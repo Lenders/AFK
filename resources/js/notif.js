@@ -26,13 +26,15 @@
 (function(){
     function loadNotif(){
         $.get(Config.getBaseUrl() + 'json/notif', function(data){
-            
-            if(data.friends > 0){
-                $('#friends_notif').html(data.friends);
-                $('#friends_notif').show();
-            }else{
-                $('#friends_notif').hide();
-            }
+            $.each(data, function(name, value){
+                var $elem = $('#' + name + '_notif');
+                if(value > 0){
+                    $elem.html(value);
+                    $elem.show();
+                }else{
+                    $elem.hide();
+                }
+            });
             
             setTimeout(loadNotif, 3000);
         }).fail(function(xhr){

@@ -25,6 +25,6 @@
  */
 
 return array(
-    'url', 'assets', 'config', 'session', 'bench'
+    'url', 'assets', 'config', 'session', 'bench', 'notification',
 );
 

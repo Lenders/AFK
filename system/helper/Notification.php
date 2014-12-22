@@ -24,14 +24,14 @@
  * THE SOFTWARE.
  */
 
-namespace app\controller;
+namespace system\helper;
 
 /**
- * Controller for Json requests
+ * Description of Notification
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Json extends \system\mvc\Controller {
+class Notification implements Helper {
     /**
      *
      * @var \app\model\Friend
@@ -44,40 +44,31 @@ class Json extends \system\mvc\Controller {
      */
     private $message;
     
-    public function __construct(\system\Base $base, \app\model\Friend $friend, \app\model\Message $message) {
-        parent::__construct($base);
+    /**
+     *
+     * @var \system\Session
+     */
+    private $session;
+
+    function __construct(\app\model\Friend $friend, \app\model\Message $message, \system\Session $session) {
         $this->friend = $friend;
         $this->message = $message;
-        
-        if(!$this->session->isLogged())
-            throw new \system\error\Http403Forbidden();
+        $this->session = $session;
+    }
 
-        $this->output->setLayoutTemplate(null);
-        $this->output->getHeader()->setMimeType('text/json');
+    public function export() {
+        return array('getFriendNotif', 'getMessageNotif');
+    }
+
+    public function getFriendNotif(){
+        return $this->_notifHTML($this->friend->getFriendRequestCount($this->session->id), 'friend_notif');
     }
     
-    public function checkonlineAction(){
-        if(!isset($this->input->post->who)){
-            throw new \system\error\Http404Error('Missing who parametter');
-        }
-        
-        $who = json_decode($this->input->post->who, true);
-        $response = array();
-        
-        if(!is_array($who))
-            return '{}';
-        
-        foreach($who as $user_id){
-            $response[$user_id] = $this->session->isOnline($user_id) ? 'ONLINE' : 'OFFLINE';
-        }
-        
-        return json_encode($response);
+    public function getMessageNotif(){
+        return $this->_notifHTML($this->message->getUnreadMessagesCount($this->session->id), 'message_notif');
     }
     
-    public function notifAction(){
-        return json_encode(array(
-            'friend' => $this->friend->getFriendRequestCount($this->session->id),
-            'message' => $this->message->getUnreadMessagesCount($this->session->id)
-        ));
+    private function _notifHTML($count, $id){
+        return '<span class="notif" id="' . $id .'">' . ($count > 0 ? $count : '') . '</span>';
     }
 }

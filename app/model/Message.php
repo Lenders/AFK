@@ -129,4 +129,8 @@ class Message {
     public function getUserIdByPseudo($pseudo){
         return $this->account->getUserIdByPseudo($pseudo);
     }
+    
+    public function getUnreadMessagesCount($user){
+        return $this->mongo->count(array('users' => (int)$user, 'views' => array('$ne' => (int)$user)));
+    }
 }
