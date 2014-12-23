@@ -36,12 +36,12 @@
                 }
             });
             
-            setTimeout(loadNotif, 3000);
-        }).fail(function(xhr){
             setTimeout(loadNotif, 10000);
+        }).fail(function(xhr){
+            setTimeout(loadNotif, 30000);
         });
     }
     $(document).ready(function(){
-        setTimeout(loadNotif, 3000);
+        setTimeout(loadNotif, 10000);
     });
 })();

@@ -52,10 +52,10 @@ var Message = {};
     Message.checkDiscussionList = function(){
         $.get(Config.getBaseUrl() + 'message/discussionlist.json', function(data){
             Message.upateDiscussionList(data);
-            setTimeout(Message.checkDiscussionList, 3000);
+            setTimeout(Message.checkDiscussionList, 10000);
         }).fail(function(xhr){
             console.log(xhr.error);
-            setTimeout(Message.checkDiscussionList, 10000);
+            setTimeout(Message.checkDiscussionList, 30000);
         });
     };
     
@@ -150,7 +150,7 @@ var Message = {};
     };
     
     $(document).ready(function(){
-        setTimeout(Message.checkDiscussionList, 3000);
+        setTimeout(Message.checkDiscussionList, 10000);
         Message.submitOnCtrlEnter('#message');
         setTimeout(Message.checkMessages, 3000);
         Message.prepareSubmit('#message_form', '#message');

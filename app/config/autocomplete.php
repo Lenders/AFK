@@ -29,5 +29,5 @@ return array(
     'prefix' => 'afk_autocomplete_',
     
     //TTL for autocomplete sets
-    'cache_expire' => 10,
+    'cache_expire' => 3600,
 );

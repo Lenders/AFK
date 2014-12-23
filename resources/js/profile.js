@@ -58,13 +58,13 @@ var Profile = {};
                     }
                 });
                 
-                setTimeout(Profile.checkOnline, 10000);
+                setTimeout(Profile.checkOnline, 60000);
             }
         );
     };
     
     $(document).ready(function(){
         Profile.loadOnlineButtons();
-        setTimeout(Profile.checkOnline, 10000);
+        setTimeout(Profile.checkOnline, 60000);
     });
 })();
