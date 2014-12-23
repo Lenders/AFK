@@ -24,8 +24,12 @@
 
 
 (function(){
+    var _base_title = document.title;
     function loadNotif(){
+        
         $.get(Config.getBaseUrl() + 'json/notif', function(data){
+            var total = 0;
+            
             $.each(data, function(name, value){
                 var $elem = $('#' + name + '_notif');
                 if(value > 0){
@@ -34,8 +38,16 @@
                 }else{
                     $elem.hide();
                 }
+                
+                total += parseInt(value);
             });
             
+            var title = _base_title;
+            
+            if(total > 0)
+                title += ' (' + total + ')';
+            
+            document.title = title;
             setTimeout(loadNotif, 10000);
         }).fail(function(xhr){
             setTimeout(loadNotif, 30000);
