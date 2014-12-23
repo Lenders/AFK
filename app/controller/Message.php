@@ -175,4 +175,21 @@ class Message extends \system\mvc\Controller {
         
         return json_encode($messages);
     }
+    
+    public function privateAction($user_id){
+        $id = $this->model->getPrivateDiscussionId($this->session->id, $user_id);
+        
+        if($id !== null)
+            return $this->discussionAction($id);
+        
+        $pseudo = $this->model->getPseudoByUserId($user_id);
+        
+        if($pseudo === null)
+            throw new \system\error\Http404Error('Utilisateur inconnue');
+
+        return $this->output->render('message/create.php', array(
+            'name' => 'MP (' . $this->session->pseudo . ', ' . $pseudo . ')',
+            'target' => $pseudo
+        ));
+    }
 }

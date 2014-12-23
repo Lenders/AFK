@@ -1,7 +1,7 @@
 <section id="contents">
     <article>
         <h1 class="title">Créer une discussion</h1>
-        <form action="" method="post" id="new_msg_form">
+        <form action="<?php echo $this->url('message/create.php')?>" method="post" id="new_msg_form">
             <?php if(!empty($error)):?>
             <p class="error"><?php echo $error?></p>
             <?php endif?>

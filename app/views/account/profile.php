@@ -23,6 +23,9 @@
     <div class="button_container">
         <?php echo $this->friendButton($user['USER_ID'])?>
     </div>
+    <div class="button_container">
+        <a href="<?php echo $this->secureUrl('message', 'private', $user['USER_ID'])?>#last" class="button">Message privé</a>
+    </div>
 </section>
 <section id="contents">
     <h1><?php echo $user['PSEUDO']?></h1>

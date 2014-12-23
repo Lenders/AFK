@@ -415,8 +415,8 @@ ul#discussions_list li.unread{
 }
 
 #left_menu .button_container{
+    width: 100%;
     text-align: center;
-    margin: 5px;
 }
 
 #new_msg_form{
@@ -425,4 +425,8 @@ ul#discussions_list li.unread{
 
 #new_msg_form input:not([type="submit"]){
     width: 100%;
+}
+
+.error{
+    color: darkred;
 }

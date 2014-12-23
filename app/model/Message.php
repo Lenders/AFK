@@ -162,7 +162,25 @@ class Message {
         return $this->account->getUserIdByPseudo($pseudo);
     }
     
+    public function getPseudoByUserId($id){
+        return $this->account->getPseudoByUserId($id);
+    }
+    
     public function getUnreadMessagesCount($user){
         return $this->mongo->count(array('users' => (int)$user, 'views' => array('$ne' => (int)$user)));
+    }
+    
+    public function getPrivateDiscussionId($user1, $user2){
+        $data = $this->mongo->find(
+            array('users' => array((int)$user1, (int)$user2)), 
+            array('_id')
+        )->sort(array('last_message_date' => -1));
+        
+        if(!$data || $data->count() < 1)
+            return null;
+        
+        $data = $data->getNext();
+        
+        return $data['_id']->{'$id'};
     }
 }
