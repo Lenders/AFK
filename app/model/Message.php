@@ -172,9 +172,10 @@ class Message {
     
     public function getPrivateDiscussionId($user1, $user2){
         $data = $this->mongo->find(
-            array('users' => array((int)$user1, (int)$user2)), 
+            array('users' => array('$in' => array(array((int)$user1, (int)$user2), array((int)$user2, (int)$user1)))), 
             array('_id')
         )->sort(array('last_message_date' => -1));
+        
         
         if(!$data || $data->count() < 1)
             return null;
