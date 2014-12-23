@@ -117,6 +117,38 @@ class Message {
         return $discussion;
     }
     
+    public function getLastMessages($discussion_id, $user_id, \MongoDate $date){
+        $user_id = (int)$user_id;
+        
+        $data = $this->mongo->findAndModify(
+            array('_id' => new \MongoId($discussion_id), 'users' => $user_id),
+            array('$push' => array('views' => $user_id)),
+            array(
+                'messages' => array(
+                    '$elemMatch' => array('date' => array('$gt' => $date))
+                ),
+                '_id' => 0
+            )
+        );
+        
+        if(empty($data))
+            return array();
+        
+        $messages = array();
+        
+        foreach($data['messages'] as $row){
+            $messages[] = array(
+                'date' => $row['date']->sec . ',' . $row['date']->usec,
+                'date_str' => date('d/m/y à H:i:s', $row['date']->sec),
+                'message' => htmlentities($row['message']->bin),
+                'sender' => $this->account->getPseudoByUserId($row['sender']),
+                'me' => $row['sender'] == $user_id
+            );
+        }
+        
+        return $messages;
+    }
+    
     public function getDiscussionUsers($id){
         $data = $this->mongo->findOne(array('_id' => new \MongoId($id)), array('users'));
         

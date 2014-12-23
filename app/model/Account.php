@@ -82,4 +82,13 @@ class Account extends \system\mvc\Model {
         
         return $data['USER_ID'];
     }
+    
+    public function getPseudoByUserId($id){
+        $data = $this->db->selectFirst('SELECT PSEUDO FROM ACCOUNT WHERE USER_ID = ?', $id);
+        
+        if($data == null)
+            return null;
+        
+        return $data['PSEUDO'];
+    }
 }

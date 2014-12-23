@@ -30,7 +30,7 @@
         <h1 class="title">Discussion : <span id="discussion_name"><?php echo htmlentities($current_discussion['name'])?></span></h1>
         <div id="discussion_room">
             <?php foreach ($current_discussion['messages'] as $message):?>
-            <p class="message <?php echo $message['sender'] == $this->getSession('id') ? 'me' : 'other'?>">
+            <p data-message-date="<?php echo $message['date']->sec, ',', $message['date']->usec?>" class="message <?php echo $message['sender'] == $this->getSession('id') ? 'me' : 'other'?>">
                 <span class="who"><?php echo $current_discussion['real_users'][$message['sender']]['PSEUDO']?>, le <?php echo date('d/m/y à H:i:s', $message['date']->sec)?></span>
                 <?php echo nl2br(htmlentities($message['message']->bin))?>
             </p>
@@ -40,9 +40,9 @@
     </article>
     <article>
         <h2 class="title">Message</h2>
-        <form id="message_form" method="post" action="<?php echo $this->secureUrl('message', 'post', $current_discussion['_id'])?>">
-            <textarea id="message" name="message" placeholder="Message..." required></textarea>
-            <input type="submit" value="Envoyer"/>
+        <form id="message_form" method="post" action="<?php echo $this->secureUrl('message', 'post', $current_discussion['_id'])?>" data-discussion-id="<?php echo $current_discussion['_id']?>">
+            <textarea id="message" name="message" placeholder="Message... (Ctrl + Entrer pour envoyer)" required></textarea>
+            <input type="submit" value="Envoyer" title="Ctrl + Entrer"/>
         </form>
     </article>
     <?php endif?>

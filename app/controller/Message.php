@@ -161,4 +161,18 @@ class Message extends \system\mvc\Controller {
         
         return json_encode($ret);
     }
+    
+    public function lastmessagesAction($discussion, $date){
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+        
+        $date = explode(',', $date, 2);
+        
+        if(count($date) < 2)
+            throw new \system\error\Http403Forbidden();
+
+        $messages = $this->model->getLastMessages($discussion, $this->session->id, new \MongoDate((int)$date[0], (int)$date[1]));
+        
+        return json_encode($messages);
+    }
 }
