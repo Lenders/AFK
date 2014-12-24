@@ -67,6 +67,9 @@ class Image extends \system\mvc\Controller {
         
         $this->output->setLayoutTemplate(null);
         $this->output->getHeader()->setMimeType($data['mime']);
+        $this->output->getHeader()->set('Cache-Control', 'public');
+        $this->output->getHeader()->set('Expires', gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time() + 86400));
+        
         echo $data['data']->bin;
     }
     
