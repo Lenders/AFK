@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 p13006720.
+ * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,27 +24,43 @@
  * THE SOFTWARE.
  */
 
-namespace app\model;
+namespace app\controller;
 
 /**
- * Description of Event
+ * Description of Createevent
  *
- * @author p13006720
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Event extends \system\mvc\Model  {
-    public function getEventById($id){
-        return $this->db->selectFirst('SELECT * FROM EVENT WHERE EVENT_ID = ?', $id);
+class Createevent extends \system\mvc\Controller {
+    /**
+     *
+     * @var \app\form\CreateEvent
+     */
+    private $form;
+    
+    public function __construct(\system\Base $base, \app\form\CreateEvent $form) {
+        parent::__construct($base);
+        $this->form = $form;
+        
+        if(!$this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
     }
     
-    public function getEvenByName($name){
-        return $this->db->selectFirst('SELECT * FROM EVENT WHERE EVENT_NAME = ?', $name);
+    public function indexAction(){
+        return $this->output->render('event/createevent.php', array('form' => $this->form));
     }
     
-    public function findEventsByOrganizer($organizer){
-        return $this->db->selectAll('SELECT * FROM EVENT WHERE ORGANIZER = ?', $organizer);
+    public function scriptAction(){
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/javascript');
+        return $this->form->getJS();
     }
     
-    public function getPropertyChecks(){
-        return $this->db->query('SELECT * FROM EVENT_PROPERTY_CHECK')->fetchAll();
+    public function validateAction($field){
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+        $errors = array();
+        $this->form->validate($field, $errors);
+        return json_encode($errors);
     }
 }

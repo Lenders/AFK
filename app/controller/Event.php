@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 p13006720.
+ * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,27 +24,31 @@
  * THE SOFTWARE.
  */
 
-namespace app\model;
+namespace app\controller;
 
 /**
  * Description of Event
  *
- * @author p13006720
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Event extends \system\mvc\Model  {
-    public function getEventById($id){
-        return $this->db->selectFirst('SELECT * FROM EVENT WHERE EVENT_ID = ?', $id);
+class Event extends \system\mvc\Controller {
+    /**
+     *
+     * @var \app\model\Event
+     */
+    private $model;
+    
+    public function __construct(\system\Base $base, \app\model\Event $model) {
+        parent::__construct($base);
+        $this->model = $model;
     }
     
-    public function getEvenByName($name){
-        return $this->db->selectFirst('SELECT * FROM EVENT WHERE EVENT_NAME = ?', $name);
-    }
-    
-    public function findEventsByOrganizer($organizer){
-        return $this->db->selectAll('SELECT * FROM EVENT WHERE ORGANIZER = ?', $organizer);
-    }
-    
-    public function getPropertyChecks(){
-        return $this->db->query('SELECT * FROM EVENT_PROPERTY_CHECK')->fetchAll();
+    public function indexAction(){
+        if(!$this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
+        
+        return $this->output->render('event/index.php', array(
+            'organized' => $this->model->findEventsByOrganizer($this->session->id)
+        ));
     }
 }

@@ -277,6 +277,7 @@ a{
 #left_menu{
     width: 200px;
     border-right: 1px solid #444;
+    border-bottom: 1px solid #444;
     border-left: none;
     display: table-cell;
 }

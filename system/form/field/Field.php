@@ -72,7 +72,7 @@ abstract class Field {
         $this->error = $error;
     }
 
-        public function getName() {
+    public function getName() {
         return $this->name;
     }
 
