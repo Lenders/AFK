@@ -42,6 +42,7 @@ body{
     font-size: 14px;
     min-height: 100%;
     position: relative;
+    min-width: 700px;
 }
 
 header{
@@ -480,4 +481,10 @@ ul#discussions_list li.unread{
 .event_list .left{
     float: left;
     width: 220px;
+}
+
+@media(max-width: 950px){
+    #speed_search{
+        display: none;
+    }
 }

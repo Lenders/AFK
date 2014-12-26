@@ -87,16 +87,6 @@ class Createevent extends \system\mvc\Controller {
             }
         }
         
-        $mysql_timestamp_format = 'Y-m-d H:i:s';
-        
-        $event_id = $this->model->createEvent(
-            $this->form->getName()->getValue(), 
-            $this->session->id, 
-            $this->form->getPrivacy()->getValue(), 
-            $this->form->strToTime($this->form->getStart()->getValue())->format($mysql_timestamp_format), 
-            $this->form->strToTime($this->form->getEnd()->getValue())->format($mysql_timestamp_format)
-        );
-        
         $properties = array();
         
         foreach($this->form->getProperties() as $property){
@@ -108,11 +98,20 @@ class Createevent extends \system\mvc\Controller {
             $properties[$property->getName()] = $value;
         }
         
-        $this->model->addEventProperties($event_id, $properties);
+        $mysql_timestamp_format = 'Y-m-d H:i:s';
+        
+        $event_id = $this->model->createEvent(
+            $this->form->getName()->getValue(), 
+            $this->session->id, 
+            $this->form->getPrivacy()->getValue(), 
+            $this->form->strToTime($this->form->getStart()->getValue())->format($mysql_timestamp_format), 
+            $this->form->strToTime($this->form->getEnd()->getValue())->format($mysql_timestamp_format),
+            $properties
+        );
         
         if($method === 'ajax')
-            return $this->output->render ('event/createevent_success.json.php');
+            return $this->output->render ('event/createevent_success.json.php', array('event_id' => $event_id));
         
-        $this->output->getHeader()->setLocation($this->helpers->url('events.php'));
+        $this->output->getHeader()->setLocation($this->helpers->secureUrl('events', 'show', $event_id));
     }
 }

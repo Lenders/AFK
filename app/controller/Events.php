@@ -48,7 +48,27 @@ class Events extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         return $this->output->render('event/index.php', array(
-            'org_events' => $this->model->findEventsByOrganizer($this->session->id)
+            'org_events' => $this->model->findEventsByOrganizer($this->session->id),
+            'par_events' => $this->model->findParticipatedEvents($this->session->id)
+        ));
+    }
+    
+    public function showAction($event_id){
+        $event_id = (int)$event_id;
+        
+        $event = $this->model->getEventById($event_id);
+        
+        if(!$event)
+            throw new \system\error\Http404Error('Évènement introuvable');
+
+
+        $isCompetitor = $this->model->isCompetitor($event_id, $this->session->id);
+        
+        return $this->output->render('event/show.php', array(
+            'properties' => $this->model->getPropertiesByEvent($event_id, !$isCompetitor),
+            'event' => $event,
+            'isCompetitor' => $isCompetitor,
+            'competitors' => $this->model->getCompetitors($event_id)
         ));
     }
 }

@@ -1,7 +1,7 @@
 <section id="contents">
     <article>
         <h1 class="title">Créer un évènement</h1>
-        <form id="create_event_form">
+        <form id="create_event_form" method="post" action="<?php echo $this->url('createevent/submit.php')?>">
             <table>
                 <tr>
                     <td><label for="<?php echo $form->getName()->getName()?>">Nom</label></td>

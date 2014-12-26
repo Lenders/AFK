@@ -8,4 +8,11 @@
             <a href="<?php echo $this->url('createevent.php')?>" class="button">Créer un évènement</a>
         </div>
     </article>
+    
+    <?php if(!empty($par_events)):?>
+    <article>
+        <h2 class="title">Participations</h2>
+        <?php echo $this->loadView('event/event_list.php', array('events' => $par_events))?>
+    </article>
+    <?php endif?>
 </section>
