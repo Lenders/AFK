@@ -8,6 +8,7 @@
                     <li><a href="<?php echo $this->helpers->url('account.php')?>">Mon compte</a></li>
                     <li><a href="<?php echo $this->helpers->url('friends.php')?>">Mes amis<?php echo $this->helpers->getFriendNotif()?></a></li>
                     <li><a href="<?php echo $this->helpers->url('message.php#last')?>">Messages<?php echo $this->helpers->getMessageNotif()?></a></li>
+                    <li><a href="<?php echo $this->helpers->url('events.php')?>">Mes évènements</a></li>
                     <li><a href="<?php echo $this->helpers->url('account/logout.php')?>">Déconnexion</a></li>
                     <li>
                         <form id="speed_search" method="get" action="<?php echo $this->helpers->url('search.php')?>">

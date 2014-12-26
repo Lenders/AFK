@@ -41,7 +41,28 @@ class Event extends \system\mvc\Model  {
     }
     
     public function findEventsByOrganizer($organizer){
-        return $this->db->selectAll('SELECT * FROM EVENT WHERE ORGANIZER = ?', $organizer);
+        $events = $this->db->selectAll('SELECT *, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT WHERE ORGANIZER = ?', $organizer);
+        
+        foreach($events as &$event){
+            $properties = $this->getPropertiesByEvent($event['EVENT_ID']);
+            $prop = array();
+            
+            foreach($properties as $property){
+                $prop[strtoupper($property['PROPERTY_NAME'])] = $property;
+            }
+            
+            $event['PROPERTIES'] = $prop;
+        }
+        
+        return $events;
+    }
+    
+    public function getPropertiesByEvent($event_id){
+        return $this->db->selectAll('SELECT PROPERTY_VALUE, PROPERTY_NAME '
+                . 'FROM EVENT_PROPERTY P '
+                . 'JOIN EVENT_PROPERTY_CHECK C '
+                . 'ON P.PROPERTY_ID = C.PROPERTY_ID '
+                . 'WHERE EVENT_ID = ?', $event_id);
     }
     
     public function getPropertyChecks(){

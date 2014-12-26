@@ -48,7 +48,7 @@ class Events extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         return $this->output->render('event/index.php', array(
-            'organized' => $this->model->findEventsByOrganizer($this->session->id)
+            'org_events' => $this->model->findEventsByOrganizer($this->session->id)
         ));
     }
 }
