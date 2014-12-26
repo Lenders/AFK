@@ -88,6 +88,9 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                 _errorHandler.forEach(function(handler){
                     handler(data);
                 });
+            }).fail(function(xhr){
+                var win = window.open();
+                win.document.write(xhr.responseText);
             });
         }
     });
@@ -105,6 +108,7 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                 if(msg === 'SUCCESS'){
                     $field.removeClass('error');
                     $field.addClass('valid');
+                    $field.attr('title', '');
                 }else{
                     $field.removeClass('valid');
                     $field.addClass('error');
