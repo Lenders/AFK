@@ -38,8 +38,15 @@ class Createevent extends \system\mvc\Controller {
      */
     private $form;
     
-    public function __construct(\system\Base $base, \app\form\CreateEvent $form) {
+    /**
+     *
+     * @var \app\model\Event
+     */
+    private $model;
+    
+    public function __construct(\system\Base $base, \app\form\CreateEvent $form, \app\model\Event $model) {
         parent::__construct($base);
+        $this->model = $model;
         $this->form = $form;
         
         if(!$this->session->isLogged())
@@ -62,5 +69,50 @@ class Createevent extends \system\mvc\Controller {
         $errors = array();
         $this->form->validate($field, $errors);
         return json_encode($errors);
+    }
+    
+    public function submitAction($method = 'html'){
+        if($method === 'ajax'){
+            $this->output->setLayoutTemplate(null);
+            $this->output->getHeader()->setMimeType('text/json');
+        }
+        
+        $errors = array();
+        
+        if(!$this->form->validate(null, $errors)){
+            if($method === 'ajax'){
+                return json_encode($errors);
+            }else{
+                return $this->output->render('event/createevent.php', array('form' => $this->form));
+            }
+        }
+        
+        $mysql_timestamp_format = 'Y-m-d H:i:s';
+        
+        $event_id = $this->model->createEvent(
+            $this->form->getName()->getValue(), 
+            $this->session->id, 
+            $this->form->getPrivacy()->getValue(), 
+            $this->form->strToTime($this->form->getStart()->getValue())->format($mysql_timestamp_format), 
+            $this->form->strToTime($this->form->getEnd()->getValue())->format($mysql_timestamp_format)
+        );
+        
+        $properties = array();
+        
+        foreach($this->form->getProperties() as $property){
+            $value = $property->getValue();
+            
+            if(empty($value))
+                continue;
+            
+            $properties[$property->getName()] = $value;
+        }
+        
+        $this->model->addEventProperties($event_id, $properties);
+        
+        if($method === 'ajax')
+            return $this->output->render ('event/createevent_success.json.php');
+        
+        $this->output->getHeader()->setLocation($this->helpers->url('events.php'));
     }
 }

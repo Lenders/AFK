@@ -31,7 +31,7 @@ namespace app\controller;
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Event extends \system\mvc\Controller {
+class Events extends \system\mvc\Controller {
     /**
      *
      * @var \app\model\Event

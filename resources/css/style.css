@@ -431,3 +431,11 @@ ul#discussions_list li.unread{
 .error{
     color: darkred;
 }
+
+#create_event_form > table{
+    margin: auto;
+}
+
+#create_event_form label:after{
+    content: " : ";
+}

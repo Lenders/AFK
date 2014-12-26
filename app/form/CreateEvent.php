@@ -42,7 +42,7 @@ class CreateEvent extends \system\form\Form {
      *
      * @var \system\form\field\Field
      */
-    private $type;
+    private $privacy;
     
     /**
      *
@@ -83,25 +83,58 @@ class CreateEvent extends \system\form\Form {
         $this->name->addRule($required);
         $this->addField($this->name);
         
-        $this->type = new \system\form\field\Select($this, 'type', array(
+        $this->privacy = new \system\form\field\Select($this, 'privacy', array(
             'Publique' => 'PUBLIC',
             'Privé' => 'PRIVATE',
             'Uniquement les amis' => 'FRIEND'
         ));
-        $this->type->addRule($required);
-        $this->addField($this->type);
+        $this->privacy->addRule($required);
+        $this->addField($this->privacy);
         
-        $date_regex = new \system\form\rule\Regex('/([0-9]{1,2}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2})/i', 'Date invalide');
+        $date_regex = new \system\form\rule\Regex('/([0-9]{2}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2})/i', 'Date invalide');
+        $date_format = 'jj-mm-aa hh:mm';
+        $check_time = new \system\form\rule\Callback(function($value, &$error){
+            $r = $this->strToTime($value);
+            
+            if(!$r){
+                $error = 'Date invalide : ' . array_values(\DateTime::getLastErrors()['errors'])[0];
+                return false;
+            }
+            
+            return true;
+        });
         
         $this->start = new \system\form\field\Input($this, 'start');
+        $this->start->setAttribute('placeholder', $date_format);
         $this->start->addRule($date_regex);
         $this->start->addRule($required);
+        $this->start->addRule($check_time);
         $this->addField($this->start);
         
         $this->end = new \system\form\field\Input($this, 'end');
+        $this->end->setAttribute('placeholder', $date_format);
         $this->end->addRule($date_regex);
         $this->end->addRule($required);
+        $this->end->addRule($check_time);
+        $this->end->addRule(new \system\form\rule\Callback(function($value){
+            $start = $this->strToTime($this->start->getValue());
+            $end = $this->strToTime($value);
+            
+            if(!$start || !$end)
+                return false;
+            
+            return $end->getTimestamp() > $start->getTimestamp();
+        }, 'La date de fin doit être supérieur à celle de début'));
         $this->addField($this->end);
+    }
+    
+    /**
+     * Convert a date string to DateTime
+     * @param string $str_time The string representation of the date
+     * @return \DateTime
+     */
+    public function strToTime($str_time){
+        return \DateTime::createFromFormat('d-m-y G:i', $str_time);
     }
     
     private function _makePropertyFields(){
@@ -122,8 +155,8 @@ class CreateEvent extends \system\form\Form {
         return $this->name;
     }
 
-    public function getType() {
-        return $this->type;
+    public function getPrivacy() {
+        return $this->privacy;
     }
 
     public function getStart() {

@@ -25,9 +25,9 @@
 (function(){
     function _getNewRowButton(){
         var $row = $('<tr>');
-        $row.append('<td>Nouvelle ligne</td>');
+        $row.append('<td><label for="select_hidden_row">Nouvelle ligne</label></td>');
         
-        var $select = $('<select>');
+        var $select = $('<select id="select_hidden_row">');
         $select.css('display', 'inline-block');
         $select.css('width', '70%');
         
@@ -47,6 +47,10 @@
         $button.click(function(){
             $('[data-name="' + $select.val() + '"]').detach().insertBefore($select.parents('tr')).show(800);
             $select.find('[value="' + $select.val() + '"]').remove();
+            
+            if($select.children().size() == 0)
+                $row.remove();
+            
             return false;
         });
         

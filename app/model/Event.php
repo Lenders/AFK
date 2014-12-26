@@ -47,4 +47,46 @@ class Event extends \system\mvc\Model  {
     public function getPropertyChecks(){
         return $this->db->query('SELECT * FROM EVENT_PROPERTY_CHECK')->fetchAll();
     }
+    
+    public function getPropertyChecksByName(){
+        $data = $this->getPropertyChecks();
+        
+        $ret = array();
+        
+        foreach($data as $check){
+            $ret[$check['PROPERTY_NAME']] = $check;
+        }
+        
+        return $ret;
+    }
+    
+    /**
+     * Create a new event and return its ID
+     * @param type $name
+     * @param type $organizer
+     * @param type $privacy
+     * @param type $start
+     * @param type $end
+     * @return int the generated ID of the event
+     */
+    public function createEvent($name, $organizer, $privacy, $start, $end){
+        $this->db->executeUpdate('INSERT INTO EVENT(EVENT_NAME, ORGANIZER, EVENT_PRIVACY, EVENT_START, EVENT_END) VALUES(?,?,?,?,?)', $name, $organizer, $privacy, $start, $end);
+        return $this->db->lastInsertId();
+    }
+    
+    public function addEventProperty($event_id, $property, $value){
+        $this->db->executeUpdate('INSERT INTO EVENT_PROPERTY(EVENT_ID, PROPERTY_ID, PROPERTY_VALUE) VALUES(?,?,?)', $event_id, $property, $value);
+    }
+    
+    public function addEventProperties($event_id, array $properties){
+        $checks = $this->getPropertyChecksByName();
+        
+        $this->db->beginTransaction();
+        
+        foreach($properties as $name => $value){
+            $this->addEventProperty($event_id, $checks[$name]['PROPERTY_ID'], $value);
+        }
+        
+        $this->db->commit();
+    }
 }

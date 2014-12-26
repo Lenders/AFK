@@ -8,8 +8,8 @@
                     <td><?php echo $form->getName()?></td>
                 </tr>
                 <tr>
-                    <td><label for="<?php echo $form->getType()->getName()?>">Type</label></td>
-                    <td><?php echo $form->getType()?></td>
+                    <td><label for="<?php echo $form->getPrivacy()->getName()?>">Type</label></td>
+                    <td><?php echo $form->getPrivacy()?></td>
                 </tr>
                 <tr>
                     <td><label for="<?php echo $form->getStart()->getName()?>">Date de début</label></td>
