@@ -2,9 +2,12 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8"/>
+        <!--[if lt IE 9]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <meta name=viewport content="width=device-width, initial-scale=1"/>
         <title><?php echo $this->helpers->conf('name')?> - <?php echo $this->title?></title>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <?php echo $this->helpers->css('style')?>
         <script type="text/javascript">
             var Config = {
