@@ -80,6 +80,7 @@ header{
 }
 
 #header_nav a:hover{
+    background: #48505F;
     background: rgba(22,  59, 128, .2);
     box-shadow: 0 0 2px #2C75FF inset;
     transition-property: all;
@@ -153,6 +154,7 @@ input:not([type="submit"]):not([type="button"]), select{
 }
 
 input:not([type="submit"]):not([type="button"]):focus, textarea:focus{
+    background: #48505F;
     box-shadow: 0 0 2px #2C75FF inset;
     background: rgba(70,  128, 255, .2);
     transform-style: background, box-shadow;

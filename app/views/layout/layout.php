@@ -4,6 +4,9 @@
         <meta charset="utf-8"/>
         <!--[if lt IE 9]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="http://jamesallardice.github.io/Placeholders.js/assets/js/placeholders.min.js"></script>
+            <script src="http://s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
+            <?php echo $this->helpers->js('selectivizr-min')?>
         <![endif]-->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <meta name=viewport content="width=device-width, initial-scale=1"/>
