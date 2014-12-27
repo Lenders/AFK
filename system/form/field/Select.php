@@ -40,13 +40,18 @@ class Select extends Field {
     }
     
     public function getHTML() {
+        if($this->getError()){
+            $this->setAttribute('title', $this->getError());
+            $this->setAttribute('class', $this->getAttribute('class') . ' error');
+        }
+        
         $html = '<select ' . $this->getHTMLAttributes() . '>';
         
         foreach($this->options as $key => $value){
             if(is_numeric($key))
                 $key = $value;
             
-            $html .= '<option value="' . addslashes($value) . '">' . $key . '</option>';
+            $html .= '<option value="' . addslashes($value) . '"' . ($this->getValue() === $value ? ' selected ' : '') . '>' . $key . '</option>';
         }
         
         return $html . '</select>';

@@ -50,7 +50,11 @@ abstract class Field {
     }
     
     public function setAttribute($name, $value){
-        $this->attributes[$name] = $value;
+        $this->attributes[strtolower($name)] = htmlentities($value);
+    }
+    
+    public function getAttribute($name){
+        return isset($this->attributes[strtolower($name)]) ? $this->attributes[strtolower($name)] : null;
     }
     
     public function isValid(){

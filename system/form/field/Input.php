@@ -37,6 +37,13 @@ class Input extends Field {
         $this->setAttribute('type', 'text');
     }
     public function getHTML() {
+        if($this->getError()){
+            $this->setAttribute('title', $this->getError());
+            $this->setAttribute('class', $this->getAttribute('class') . ' error');
+        }
+        
+        $this->setAttribute('value', $this->getValue());
+        
         return '<input ' . $this->getHTMLAttributes() . '/>';
     }
 }
