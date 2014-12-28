@@ -113,11 +113,7 @@ class Login extends \system\mvc\Controller {
         if($valid){
             $this->session->id = $account['USER_ID'];
             $this->session->pseudo = $account['PSEUDO'];
-            $this->session->mail = $account['MAIL'];
-            $this->session->firstName = $account['FIRST_NAME'];
-            $this->session->lastName = $account['LAST_NAME'];
-            $this->session->gender = $account['GENDER'];
-            $this->session->avatar = $account['AVATAR'];
+            $this->session->isAdmin = $account['IS_ADMIN'];
         }
         
         if($method === 'ajax'){

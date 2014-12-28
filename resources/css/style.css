@@ -490,3 +490,15 @@ ul#discussions_list li.unread{
         display: none;
     }
 }
+
+[data-chart-type]{
+    width: 800px;
+    min-height: 200px;
+    text-align: center;
+    line-height: 200px;
+}
+
+[data-chart-type]:empty:after{
+    content: "Chargement...";
+    font-weight: bold;
+}

@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,25 +24,40 @@
  * THE SOFTWARE.
  */
 
-/**
- * Library to load at the start
- * Format : 
- *  'registry name' => 'Library class name', //to load the library and store in the registry
- * or :
- *  'Library class name', //to only load the library
- * 
- * @warning don't load unsafe code in critical section !
- */
-return array(
-    //critical loading (no error handler)
-    'output' => '\system\output\Output', //load the Output manager
-    'helpers' => '\system\helper\HelpersManager',
-    '\system\error\ErrorsHandler',
-    
-    //safe loading (with error handler)
-    'input' => '\system\input\Input',
-    '\system\helper\HelpersLoader',
-    'session' => '\system\Session',
-    '\system\Statistics'
-);
+namespace app\controller;
 
+/**
+ * Description of Adminjson
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Adminjson extends \system\mvc\Controller {
+    /**
+     *
+     * @var \app\model\Stats
+     */
+    private $stats;
+    
+    public function __construct(\system\Base $base, \app\model\Stats $stats) {
+        parent::__construct($base);
+        $this->stats = $stats;
+        
+        if($this->session->isAdmin !== 'YES')
+            throw new \system\error\Http403Forbidden();
+        
+        $this->output->setLayoutTemplate(null);
+        $this->output->getHeader()->setMimeType('text/json');
+    }
+    
+    public function malefemaleAction(){
+        return json_encode($this->stats->getMaleFemaleCounts());
+    }
+    
+    public function pagecountsAction($max = 10){
+        return json_encode($this->stats->getPagesCounts($max));
+    }
+    
+    public function browsercountsAction(){
+        return json_encode($this->stats->getBrowserCounts());
+    }
+}

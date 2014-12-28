@@ -100,4 +100,8 @@ class Input {
     public function getReferer(){
         return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $this->getBaseUrl();
     }
+    
+    public function getUserAgent(){
+        return isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    }
 }

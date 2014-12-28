@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,25 +24,23 @@
  * THE SOFTWARE.
  */
 
-/**
- * Library to load at the start
- * Format : 
- *  'registry name' => 'Library class name', //to load the library and store in the registry
- * or :
- *  'Library class name', //to only load the library
- * 
- * @warning don't load unsafe code in critical section !
- */
-return array(
-    //critical loading (no error handler)
-    'output' => '\system\output\Output', //load the Output manager
-    'helpers' => '\system\helper\HelpersManager',
-    '\system\error\ErrorsHandler',
-    
-    //safe loading (with error handler)
-    'input' => '\system\input\Input',
-    '\system\helper\HelpersLoader',
-    'session' => '\system\Session',
-    '\system\Statistics'
-);
+namespace app\controller;
 
+/**
+ * Description of Admin
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Admin extends \system\mvc\Controller {
+    public function __construct(\system\Base $base) {
+        parent::__construct($base);
+        
+        if($this->session->isAdmin !== 'YES')
+            throw new \system\error\Http403Forbidden();
+    }
+    
+    public function statsAction(){
+        $this->output->setTitle('Statistiques');
+        return $this->output->render('admin/stats.php');
+    }
+}

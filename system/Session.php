@@ -32,11 +32,7 @@ namespace system;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  * @property string $pseudo
  * @property int $id
- * @property string $mail
- * @property string $firstName
- * @property string $lastName
- * @property string $avatar
- * @property string $gender
+ * @property string $isAdmin YES or NO
  */
 class Session {
     /**
@@ -69,12 +65,12 @@ class Session {
     }
     
     private function _loadData(){
-        $data = $this->storage->hGetAll($this->_getSESSID());
+        $data = $this->storage->hGetAll($this->getSESSID());
         
         if($data === false)
             $data = array();
         else{
-            $this->storage->setTimeout ($this->_getSESSID (), $this->config->expire);
+            $this->storage->setTimeout ($this->getSESSID (), $this->config->expire);
         }
         
         if(!empty($data['id']))
@@ -83,7 +79,7 @@ class Session {
         $this->data = $data;
     }
     
-    private function _getSESSID(){
+    public function getSESSID(){
         if($this->SESSID === null){
             if($this->input->cookie->get($this->config->cookie_name) === null){
                 $this->SESSID = $this->_generateSESSID();
@@ -109,11 +105,11 @@ class Session {
     
     public function __set($name, $value) {
         $this->data[$name] = $value;
-        $this->storage->hSet($this->_getSESSID(), $name, $value);
+        $this->storage->hSet($this->getSESSID(), $name, $value);
     }
     
     public function clear(){
-        $this->storage->del($this->_getSESSID(), $this->config->session_prefix . 'online_' . $this->id);
+        $this->storage->del($this->getSESSID(), $this->config->session_prefix . 'online_' . $this->id);
         $this->data = array();
     }
     
