@@ -57,7 +57,7 @@ class Register extends \system\form\Form {
         $this->firstName = new \system\form\field\Input($this, 'first_name');
         $this->lastName = new \system\form\field\Input($this, 'last_name');
         $this->gender = new \system\form\field\Select($this, 'gender', array(
-            'Civilité' => '',
+            'Civilité' => 'UNKNOWN',
             'Homme' => 'MALE',
             'Femme' => 'FEMALE'
         ));
