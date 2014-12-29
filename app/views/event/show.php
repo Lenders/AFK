@@ -8,8 +8,9 @@
         <li><strong>Organisateur : </strong><a href="<?php echo $this->secureUrl('account', 'profile', $event['ORGANIZER'])?>"><?php echo $event['PSEUDO']?></a></li>
     </ul>
     <h2>Participants</h2>
-    <ul>
+    <ul id="competitors_list">
     <?php foreach($competitors as $competitor):?>
+        <img class="thumb" src="<?php echo $competitor['AVATAR'] ? $this->secureUrl('image', 'get', $competitor['USER_ID'], $competitor['AVATAR']) : $this->url('resources/images/default.png')?>" alt="Avatar"/>
         <li><a href="<?php echo $this->secureUrl('account', 'profile', $competitor['USER_ID'])?>"><?php echo $competitor['PSEUDO']?></a></li>
     <?php endforeach?>
     </ul>

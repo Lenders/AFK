@@ -153,7 +153,7 @@ class Event extends \system\mvc\Model  {
     }
     
     public function getCompetitors($event_id){
-        return $this->db->selectAll('SELECT C.USER_ID, A.PSEUDO FROM COMPETITOR C JOIN ACCOUNT A ON A.USER_ID = C.USER_ID WHERE EVENT_ID = ?', $event_id);
+        return $this->db->selectAll('SELECT C.USER_ID, A.PSEUDO, A.AVATAR FROM COMPETITOR C JOIN ACCOUNT A ON A.USER_ID = C.USER_ID WHERE EVENT_ID = ?', $event_id);
     }
     
     public function getEventName($event_id){
