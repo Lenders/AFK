@@ -127,8 +127,23 @@ article .title{
     font-size: 18px;
 }
 
+article .title.small{
+    font-size: 16px;
+}
+
 article p{
     padding: 5px;
+}
+
+article .date{
+    color: #AAA;
+    font-size: 10px;
+    font-style: italic;
+    text-align: right;
+}
+
+article .date:before{
+    content: "le ";
 }
 
 input, select, .button, textarea{

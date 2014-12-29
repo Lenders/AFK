@@ -164,4 +164,8 @@ class Event extends \system\mvc\Model  {
         
         return $data['EVENT_NAME'];
     }
+    
+    public function sendMessage($event_id, $user_id, $message){
+        $this->db->executeUpdate('INSERT INTO EVENT_MESSAGE(EVENT_ID, USER_ID, MESSAGE) VALUES(?,?,?)', $event_id, $user_id, $message);
+    }
 }

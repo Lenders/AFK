@@ -27,12 +27,12 @@
 namespace app\flux\parser;
 
 /**
- * Description of Join
+ * Description of Eventcreate
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Join extends AbstractEventParser {
+class Eventcreate extends AbstractEventParser {
     protected function getMessage(array $row) {
-        return "<strong>{$this->getPseudo($row)}</strong> a rejoin l'évènement <strong>{$this->getEventName($row)}</strong> !";
+        return 'Création de l\'évènement.';
     }
 }

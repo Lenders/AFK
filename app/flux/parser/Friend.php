@@ -24,28 +24,45 @@
  * THE SOFTWARE.
  */
 
-namespace app\flux\event;
+namespace app\flux\parser;
 
 /**
- * Description of EventFlux
+ * Description of Friend
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class EventFlux extends \app\flux\Flux {
-    private $eventId;
+class Friend implements Parser {
+    /**
+     *
+     * @var \app\model\Account
+     */
+    private $account;
     
-    public function __construct(\system\output\Output $output, \app\flux\parser\ParserHandler $parserHandler, \system\Database $db) {
-        parent::__construct($output, $parserHandler, $db);
-    }
+    /**
+     *
+     * @var \system\helper\Url
+     */
+    private $url;
     
-    public function setEventId($eventId) {
-        $this->eventId = $eventId;
+    function __construct(\app\model\Account $account, \system\helper\Url $url) {
+        $this->account = $account;
+        $this->url = $url;
     }
-    
-    protected function getStatement() {
-        $stmt = $this->db->prepare('SELECT * FROM EVENT_FLUX WHERE EVENT_ID = :id');
-        $stmt->bindValue('id', $this->eventId, \PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+
+    public function parseRow(array $row) {
+        $senderPseudo = $this->account->getPseudoByUserId($row['SENDER']);
+        $targetPseudo = $this->account->getPseudoByUserId($row['TARGET']);
+        
+        return array(
+            'target' => $targetPseudo,
+            'targetUrl' => $this->url->secureUrl('account', 'profile', $row['TARGET']),
+            'sender' => $senderPseudo,
+            'senderUrl' => $this->url->secureUrl('account', 'profile', $row['SENDER']),
+            'date' => $row['FLUX_DATE'],
+            'message' => <<<EOD
+            <strong>$senderPseudo</strong> et <strong>$targetPseudo</strong> sont maintenant amis !
+EOD
+        );
     }
+
 }

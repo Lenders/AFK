@@ -57,10 +57,16 @@ class Account extends \system\mvc\Controller {
         if(!$account)
             throw new \system\error\Http404Error('L\'utilisateur n\'existe pas.');
         
+        $flux = $this->loader->load('\app\flux\AccountFlux');
+        $flux->setUserId($id);
+        
         $this->output->setTitle('Profil ' . $account['PSEUDO']);
         
         $this->helpers->loadHelper('FriendButton');
-        return $this->output->render('account/profile.php', array('user' => $this->model->getAccountById($id)));
+        return $this->output->render('account/profile.php', array(
+            'user' => $this->model->getAccountById($id),
+            'flux' => $flux
+        ));
     }
     
     public function logoutAction(){

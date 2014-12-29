@@ -24,15 +24,24 @@
  * THE SOFTWARE.
  */
 
-namespace app\flux\parser;
+namespace app\flux;
 
 /**
- * Description of Join
+ * Description of AccountFlux
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Join extends AbstractEventParser {
-    protected function getMessage(array $row) {
-        return "<strong>{$this->getPseudo($row)}</strong> a rejoin l'évènement <strong>{$this->getEventName($row)}</strong> !";
+class AccountFlux extends Flux {
+    private $userId;
+    
+    public function setUserId($userId) {
+        $this->userId = $userId;
+    }
+    
+    protected function getStatement() {
+        $stmt = $this->db->prepare('SELECT * FROM ACCOUNT_FLUX WHERE SENDER = :id');
+        $stmt->bindValue('id', $this->userId, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
     }
 }

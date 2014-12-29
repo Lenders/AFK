@@ -24,15 +24,28 @@
  * THE SOFTWARE.
  */
 
-namespace app\flux\parser;
+namespace app\flux;
 
 /**
- * Description of Join
+ * Description of EventFlux
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Join extends AbstractEventParser {
-    protected function getMessage(array $row) {
-        return "<strong>{$this->getPseudo($row)}</strong> a rejoin l'évènement <strong>{$this->getEventName($row)}</strong> !";
+class EventFlux extends \app\flux\Flux {
+    private $eventId;
+    
+    public function __construct(\system\output\Output $output, \app\flux\parser\ParserHandler $parserHandler, \system\Database $db) {
+        parent::__construct($output, $parserHandler, $db);
+    }
+    
+    public function setEventId($eventId) {
+        $this->eventId = $eventId;
+    }
+    
+    protected function getStatement() {
+        $stmt = $this->db->prepare('SELECT * FROM EVENT_FLUX WHERE TARGET = :id');
+        $stmt->bindValue('id', $this->eventId, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
     }
 }

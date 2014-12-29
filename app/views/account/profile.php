@@ -29,11 +29,8 @@
 </section>
 <section id="contents">
     <h1><?php echo $user['PSEUDO']?></h1>
-    <?php for($i = 0; $i < 100; ++$i):?>
-    <article>
-        <h2 class="title">titre</h2>
-        <p>Contenue</p>
-    </article>
-    <?php endfor?>
+    <?php foreach($flux as $article):?>
+    <?php echo $article->getArticle('html')?>
+    <?php endforeach?>
 </section>
 <?php echo $this->js('profile')?>
