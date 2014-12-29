@@ -109,4 +109,29 @@ class Autocomplete extends \system\mvc\Model {
         
         return $this->_get('PSEUDO', strtolower($pseudo));
     }
+    
+    public function queryEvents($query){
+        if (!$this->_exists('EVENT')) {
+            $values = array();
+            
+            $stmt = $this->db->query('SELECT DISTINCT EVENT_NAME FROM EVENT');
+            
+            while($a = $stmt->fetch()){
+                $values[] = $a['EVENT_NAME'];
+            }
+            
+            $stmt = $this->db->query('SELECT DISTINCT PROPERTY_VALUE FROM EVENT_PROPERTY P '
+                    . 'JOIN EVENT_PROPERTY_CHECK C ON C.PROPERTY_ID = P.PROPERTY_ID '
+                    . 'WHERE PROPERTY_PRIVACY = \'PUBLIC\'');
+            
+            while($a = $stmt->fetch()){
+                $values[] = $a['PROPERTY_VALUE'];
+            }
+            
+            $this->_store('EVENT', $values);
+        }
+        
+        return $this->_get('EVENT', strtolower($query));
+    }
+    
 }

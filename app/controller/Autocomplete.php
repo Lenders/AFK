@@ -46,8 +46,11 @@ class Autocomplete extends \system\mvc\Controller {
     }
     
     public function userAction($term = ''){
-        //return json_encode(array('test', 'test','test', 'test','test', 'test','test', 'test'));
         return json_encode($this->model->queryUsers($term));
+    }
+    
+    public function eventAction($term = ''){
+        return json_encode($this->model->queryEvents($term));
     }
     
     public function pseudolistAction($list = ''){

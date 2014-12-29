@@ -168,4 +168,29 @@ class Event extends \system\mvc\Model  {
     public function sendMessage($event_id, $user_id, $message){
         $this->db->executeUpdate('INSERT INTO EVENT_MESSAGE(EVENT_ID, USER_ID, MESSAGE) VALUES(?,?,?)', $event_id, $user_id, $message);
     }
+    
+    public function searchEvents($query){
+        $query = '%' . str_replace('*', '%', $query) . '%';
+        
+        $events = $this->db->selectAll(
+                'SELECT DISTINCT E.*, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
+                . 'JOIN EVENT_PROPERTY P ON P.EVENT_ID = E.EVENT_ID '
+                . 'JOIN EVENT_PROPERTY_CHECK C ON P.PROPERTY_ID = C.PROPERTY_ID '
+                . 'WHERE PROPERTY_PRIVACY = \'PUBLIC\' AND (EVENT_NAME LIKE ? OR PROPERTY_VALUE LIKE ?)',
+                $query, $query
+        );
+        
+        foreach($events as &$event){
+            $properties = $this->getPropertiesByEvent($event['EVENT_ID']);
+            $prop = array();
+            
+            foreach($properties as $property){
+                $prop[strtoupper($property['PROPERTY_NAME'])] = $property;
+            }
+            
+            $event['PROPERTIES'] = $prop;
+        }
+        
+        return $events;
+    }
 }

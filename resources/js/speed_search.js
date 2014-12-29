@@ -30,5 +30,8 @@
         speedSearch.addHandler(new AutoCompletion.Handler('user_autocomplete', function(value){
             return Config.getBaseUrl() + 'autocomplete/user/' + encodeURIComponent(value) + '.json';
         }));
+        speedSearch.addHandler(new AutoCompletion.Handler('user_autocomplete', function(value){
+            return Config.getBaseUrl() + 'autocomplete/event/' + encodeURIComponent(value) + '.json';
+        }));
     });
 })();

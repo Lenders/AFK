@@ -38,9 +38,16 @@ class Search extends \system\mvc\Controller {
      */
     private $account;
     
-    public function __construct(\system\Base $base, \app\model\Account $account) {
+    /**
+     *
+     * @var \app\model\Event
+     */
+    private $event;
+    
+    public function __construct(\system\Base $base, \app\model\Account $account, \app\model\Event $event) {
         parent::__construct($base);
         $this->account = $account;
+        $this->event = $event;
     }
     
     public function indexAction(){
@@ -48,7 +55,8 @@ class Search extends \system\mvc\Controller {
         $this->helpers->loadHelper('FriendButton');
         
         return $this->output->render('search/results.php', array(
-            'users' => $this->account->searchAccount($this->input->get->search)
+            'users' => $this->account->searchAccount($this->input->get->search),
+            'events' => $this->event->searchEvents($this->input->get->search)
         ));
     }
 }
