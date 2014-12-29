@@ -60,7 +60,9 @@ class Events extends \system\mvc\Controller {
         
         if(!$event)
             throw new \system\error\Http404Error('Évènement introuvable');
-
+        
+        $flux = $this->loader->load('\app\flux\event\EventFlux');
+        $flux->setEventId($event_id);
 
         $isCompetitor = $this->model->isCompetitor($event_id, $this->session->id);
         
@@ -68,7 +70,8 @@ class Events extends \system\mvc\Controller {
             'properties' => $this->model->getPropertiesByEvent($event_id, !$isCompetitor),
             'event' => $event,
             'isCompetitor' => $isCompetitor,
-            'competitors' => $this->model->getCompetitors($event_id)
+            'competitors' => $this->model->getCompetitors($event_id),
+            'flux' => $flux
         ));
     }
 }
