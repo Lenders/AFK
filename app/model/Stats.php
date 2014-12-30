@@ -38,9 +38,16 @@ class Stats extends \system\mvc\Model {
      */
     private $statistics;
     
-    public function __construct(\system\Database $db, \system\Statistics $statistics) {
+    /**
+     *
+     * @var \system\Cache
+     */
+    private $cache;
+    
+    public function __construct(\system\Database $db, \system\Statistics $statistics, \system\Cache $cache) {
         parent::__construct($db);
         $this->statistics = $statistics;
+        $this->cache = $cache;
     }
     
     public function getMaleFemaleCounts(){
@@ -90,11 +97,8 @@ class Stats extends \system\mvc\Model {
     public function getBrowserCounts(){
         $browsers = array();
         
-        foreach($this->statistics->getUserAgents() as $ua){
-            $curl = curl_init('http://www.useragentstring.com/?uas=' . urlencode($ua) . '&getJSON=agent_name');
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $data = json_decode(curl_exec($curl), true);
-            $browser = $data['agent_name'];
+        foreach($this->statistics->getUserAgents() as $ua){   
+            $browser = $this->_getBrowser($ua);
             
             if(!isset($browsers[$browser]))
                 $browsers[$browser] = 1;
@@ -112,5 +116,14 @@ class Stats extends \system\mvc\Model {
         }
         
         return $ret;
+    }
+    
+    private function _getBrowser($user_agent){
+        return $this->cache->storeCallback('browser' . base64_decode($user_agent), function() use($user_agent){
+            $curl = curl_init('http://www.useragentstring.com/?uas=' . urlencode($user_agent) . '&getJSON=agent_name');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $data = json_decode(curl_exec($curl), true);
+            return $data['agent_name'];
+        }, 3600);
     }
 }
