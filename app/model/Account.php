@@ -74,7 +74,13 @@ class Account extends \system\mvc\Model {
         $query = str_replace('*', '%', $query);
         $query = '%' . $query . '%';
         
-        return $this->db->selectAll('SELECT * FROM ACCOUNT WHERE PSEUDO LIKE ? OR CONCAT(FIRST_NAME, " ", LAST_NAME) LIKE ?', $query, $query);
+        return $this->cache->storeCallback(
+            'search_account_' . base64_encode($query),
+            function() use($query){
+                return $this->db->selectAll('SELECT * FROM ACCOUNT WHERE PSEUDO LIKE ? OR CONCAT(FIRST_NAME, " ", LAST_NAME) LIKE ?', $query, $query);
+            },
+            600
+        );
     }
     
     public function setAvatar($user, $avatar){

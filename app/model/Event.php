@@ -32,6 +32,17 @@ namespace app\model;
  * @author p13006720
  */
 class Event extends \system\mvc\Model  {
+    /**
+     *
+     * @var \system\Cache
+     */
+    private $cache;
+    
+    public function __construct(\system\Database $db, \system\Cache $cache) {
+        parent::__construct($db);
+        $this->cache = $cache;
+    }
+    
     public function getEventById($id){
         return $this->db->selectFirst(
                 'SELECT E.*, A.PSEUDO FROM EVENT E '
@@ -172,25 +183,27 @@ class Event extends \system\mvc\Model  {
     public function searchEvents($query){
         $query = '%' . str_replace('*', '%', $query) . '%';
         
-        $events = $this->db->selectAll(
-                'SELECT DISTINCT E.*, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
-                . 'JOIN EVENT_PROPERTY P ON P.EVENT_ID = E.EVENT_ID '
-                . 'JOIN EVENT_PROPERTY_CHECK C ON P.PROPERTY_ID = C.PROPERTY_ID '
-                . 'WHERE PROPERTY_PRIVACY = \'PUBLIC\' AND (EVENT_NAME LIKE ? OR PROPERTY_VALUE LIKE ?)',
-                $query, $query
-        );
-        
-        foreach($events as &$event){
-            $properties = $this->getPropertiesByEvent($event['EVENT_ID']);
-            $prop = array();
-            
-            foreach($properties as $property){
-                $prop[strtoupper($property['PROPERTY_NAME'])] = $property;
+        return $this->cache->storeCallback('event_search_' . base64_encode($query), function() use($query){
+            $events = $this->db->selectAll(
+                    'SELECT DISTINCT E.*, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
+                    . 'JOIN EVENT_PROPERTY P ON P.EVENT_ID = E.EVENT_ID '
+                    . 'JOIN EVENT_PROPERTY_CHECK C ON P.PROPERTY_ID = C.PROPERTY_ID '
+                    . 'WHERE PROPERTY_PRIVACY = \'PUBLIC\' AND (EVENT_NAME LIKE ? OR PROPERTY_VALUE LIKE ?)',
+                    $query, $query
+            );
+
+            foreach($events as &$event){
+                $properties = $this->getPropertiesByEvent($event['EVENT_ID']);
+                $prop = array();
+
+                foreach($properties as $property){
+                    $prop[strtoupper($property['PROPERTY_NAME'])] = $property;
+                }
+
+                $event['PROPERTIES'] = $prop;
             }
-            
-            $event['PROPERTIES'] = $prop;
-        }
-        
-        return $events;
+
+            return $events;
+        }, 600);
     }
 }
