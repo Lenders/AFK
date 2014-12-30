@@ -58,7 +58,7 @@ class Statistics {
     }
     
     private function _track(){
-        $data = $this->mongo->findOne(array('session' => $this->session->getSESSID()));
+        $data = $this->mongo->findOne(array('session' => $this->session->getSESSID()), array('_id'));
         
         if(!$data){
             $this->mongo->insert (array(
