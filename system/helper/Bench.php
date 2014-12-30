@@ -32,11 +32,47 @@ namespace system\helper;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Bench implements Helper {
+    private $entries = array();
+    
+    /**
+     *
+     * @var \system\Config
+     */
+    private $config;
+    
+    public function __construct(\system\Config $config) {
+        $this->config = $config;
+    }
+
     public function export() {
-        return array('bench');
+        return array('bench', 'benchEntries');
     }
 
     public function bench(){
         return (microtime(true) - START_TIME) * 1000;
+    }
+    
+    public function start($label){
+        if($this->config->enable){
+            $id = count($this->entries);
+            $this->entries[] = array($label, microtime(true));
+            return $id;
+        }
+    }
+    
+    public function end($id = null){
+        if(!$this->config->enable)
+            return;
+        
+        if($id === null)
+            $id = count($this->entries) - 1;
+        
+        $time = microtime(true);
+        $this->entries[$id][] = $time;
+        $this->entries[$id][] = ($time - $this->entries[$id][1]) * 1000;
+    }
+    
+    public function benchEntries(){
+        return $this->entries;
     }
 }

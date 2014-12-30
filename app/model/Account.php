@@ -32,6 +32,17 @@ namespace app\model;
  * @author p13006720
  */
 class Account extends \system\mvc\Model {
+    /**
+     *
+     * @var \system\Cache
+     */
+    private $cache;
+    
+    public function __construct(\system\Database $db, \system\Cache $cache) {
+        parent::__construct($db);
+        $this->cache = $cache;
+    }
+    
     public function getAccountById($id){
         return $this->db->selectFirst('SELECT * FROM ACCOUNT WHERE USER_ID = ?', $id);
     }

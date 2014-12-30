@@ -11,6 +11,7 @@ namespace system;
  * @property \system\input\Input $input Input manager
  * @property \system\helper\HelpersManager $helpers The helpers manager
  * @property \system\Session $session Session handler
+ * @property \system\Cache $cache The cache handler
  * @warning This class is a critical class because this class is loaded before having an error handler.
  */
 class Base{

@@ -39,7 +39,7 @@ class AccountFlux extends Flux {
     }
     
     protected function getStatement() {
-        $stmt = $this->db->prepare('SELECT * FROM ACCOUNT_FLUX WHERE SENDER = :id');
+        $stmt = $this->db->prepare('SELECT * FROM ACCOUNT_FLUX WHERE SENDER_ID = :id');
         $stmt->bindValue('id', $this->userId, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;

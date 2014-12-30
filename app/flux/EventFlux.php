@@ -43,7 +43,7 @@ class EventFlux extends \app\flux\Flux {
     }
     
     protected function getStatement() {
-        $stmt = $this->db->prepare('SELECT * FROM EVENT_FLUX WHERE TARGET = :id');
+        $stmt = $this->db->prepare('SELECT * FROM EVENT_FLUX WHERE TARGET_ID = :id');
         $stmt->bindValue('id', $this->eventId, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;

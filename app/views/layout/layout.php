@@ -31,7 +31,22 @@
             <?php echo $this->contents?>
         </div>
         <footer>
-            Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms
+            <?php if(DEBUG):?>
+            <div id="generation_time">Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms</div>
+            <table>
+                <legend>Benchmark</legend>
+                <tr>
+                    <th>#</th><th>Label</th><th>Temps</th>
+                </tr>
+                <?php foreach($this->helpers->benchEntries() as $key => $entry):?>
+                <tr>
+                    <td>#<?php echo $key?></td>
+                    <td><?php echo $entry[0]?></td>
+                    <td><?php echo round($entry[3], 2)?>ms</td>
+                </tr>
+                <?php endforeach?>
+            </table>
+            <?php endif?>
         </footer>
     </body>
 </html>

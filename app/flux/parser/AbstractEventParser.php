@@ -34,55 +34,24 @@ namespace app\flux\parser;
 abstract class AbstractEventParser implements Parser {
     /**
      *
-     * @var \app\model\Account
-     */
-    private $account;
-    
-    /**
-     *
-     * @var \app\model\Event
-     */
-    private $event;
-    
-    /**
-     *
      * @var \system\helper\Url
      */
     private $url;
-    
-    private $pseudo = null;
-    private $eventName = null;
 
 
-    public function __construct(\app\model\Account $account, \app\model\Event $event, \system\helper\Url $url) {
-        $this->account = $account;
-        $this->event = $event;
+    public function __construct(\system\helper\Url $url) {
         $this->url = $url;
     }
     
     public function parseRow(array $row) {
         return array(
-            'senderUrl' => $this->url->secureUrl('account', 'profile', $row['SENDER']),
-            'sender' => $this->getPseudo($row),
-            'targetUrl' => $this->url->secureUrl('events', 'show', $row['TARGET']),
-            'target' => $this->getEventName($row),
+            'senderUrl' => $this->url->secureUrl('account', 'profile', $row['SENDER_ID']),
+            'sender' => $row['SENDER_NAME'],
+            'targetUrl' => $this->url->secureUrl('events', 'show', $row['TARGET_ID']),
+            'target' => $row['TARGET_NAME'],
             'date' => $row['FLUX_DATE'],
             'message' => $this->getMessage($row)
         );
-    }
-    
-    protected function getPseudo(array $row){
-        if($this->pseudo === null)
-            $this->pseudo = $this->account->getPseudoByUserId($row['SENDER']);
-        
-        return $this->pseudo;
-    }
-
-    protected function getEventName(array $row){
-        if($this->eventName === null)
-            $this->eventName = $this->event->getEventName($row['TARGET']);
-        
-        return $this->eventName;
     }
 
     abstract protected function getMessage(array $row);

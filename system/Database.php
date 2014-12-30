@@ -38,21 +38,32 @@ class Database extends \PDO{
      */
     private $config;
     
-    public function __construct(Config $config) {
+    /**
+     *
+     * @var \system\helper\Bench
+     */
+    private $bench;
+    
+    public function __construct(Config $config, \system\helper\Bench $bench) {
         $this->config = $config;
+        $this->bench = $bench;
+        
+        $bench->start('Database connect');
+        
+        $options = array(
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                \PDO::ATTR_STATEMENT_CLASS => array('\system\BenchStatement', array($bench))
+        );
         
         parent::__construct(
             $this->generateDSN(), 
             $config->user, 
             $config->pass,
-            array(
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-            )
+            $options
         );
-        
-        
+        $bench->end();
     }
     
     private function generateDSN(){
@@ -84,4 +95,32 @@ class Database extends \PDO{
         $stmt->execute($params);
         return $stmt->fetch();
     }
+    
+    public function query($statement) {
+        $this->bench->start($statement);
+        $stmt = parent::query($statement);
+        $this->bench->end();
+        return $stmt;
+    }
+
+}
+
+class BenchStatement extends \PDOStatement{
+    /**
+     *
+     * @var \system\helper\Bench
+     */
+    private $bench;
+    
+    private function __construct(\system\helper\Bench $bench) {
+        $this->bench = $bench;
+    }
+
+    public function execute($input_parameters = null) {
+        $this->bench->start($this->queryString);
+        $ret = parent::execute($input_parameters);
+        $this->bench->end();
+        return $ret;
+    }
+
 }

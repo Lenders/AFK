@@ -32,8 +32,12 @@ namespace system;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Storage extends \Redis {
+    /**
+     *
+     * @var \system\Config
+     */
     private $config;
-    
+
     public function __construct(Config $config) {
         parent::__construct();
         $this->config = $config;

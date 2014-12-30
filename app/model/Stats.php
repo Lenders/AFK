@@ -119,7 +119,7 @@ class Stats extends \system\mvc\Model {
     }
     
     private function _getBrowser($user_agent){
-        return $this->cache->storeCallback('browser' . base64_decode($user_agent), function() use($user_agent){
+        return $this->cache->storeCallback('browser' . base64_encode($user_agent), function() use($user_agent){
             $curl = curl_init('http://www.useragentstring.com/?uas=' . urlencode($user_agent) . '&getJSON=agent_name');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             $data = json_decode(curl_exec($curl), true);

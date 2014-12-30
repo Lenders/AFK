@@ -43,6 +43,7 @@ return array(
     'input' => '\system\input\Input',
     '\system\helper\HelpersLoader',
     'session' => '\system\Session',
-    '\system\Statistics'
+    '\system\Statistics',
+    'cache' => '\system\Cache',
 );
 

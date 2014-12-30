@@ -34,30 +34,21 @@ namespace app\flux\parser;
 class Inscription implements Parser {
     /**
      *
-     * @var \app\model\Account
-     */
-    private $account;
-    
-    /**
-     *
      * @var \system\helper\Url
      */
     private $url;
     
-    function __construct(\app\model\Account $account, \system\helper\Url $url) {
-        $this->account = $account;
+    function __construct(\system\helper\Url $url) {
         $this->url = $url;
     }
 
     public function parseRow(array $row) {
-        $sender = $this->account->getPseudoByUserId($row['SENDER']);
-        
         return array(
-            'sender' => $sender,
-            'senderUrl' => $this->url->secureUrl('account', 'profile', $row['SENDER']),
+            'sender' => $row['SENDER_NAME'],
+            'senderUrl' => $this->url->secureUrl('account', 'profile', $row['SENDER_ID']),
             'date' => $row['FLUX_DATE'],
             'message' => <<<EOD
-            <strong>$sender</strong> à rejoint <strong>AFK</strong> !
+            <strong>{$row['SENDER_NAME']}</strong> à rejoint <strong>AFK</strong> !
 EOD
         );
     }

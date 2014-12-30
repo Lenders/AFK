@@ -43,6 +43,7 @@ return array(
             'HelpersLoader' => require 'helpers.php',
             'Compressor' => require 'compressor.php',
             'Crypt' => require 'crypt.php',
+            'Bench' => require 'bench.php',
         ),
         
         'Database' => require 'database.php',
@@ -50,6 +51,7 @@ return array(
         'Storage' => require 'storage.php',
         'Session' => require 'session.php',
         'Mongo' => require 'mongo.php',
+        'Cache' => require 'cache.php',
     ),
     
     'app' => array(

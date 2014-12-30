@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,35 +24,6 @@
  * THE SOFTWARE.
  */
 
-namespace app\flux\parser;
-
-/**
- * Description of Friend
- *
- * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
- */
-class Friend implements Parser {
-    /**
-     *
-     * @var \system\helper\Url
-     */
-    private $url;
-    
-    function __construct(\system\helper\Url $url) {
-        $this->url = $url;
-    }
-
-    public function parseRow(array $row) {
-        return array(
-            'target' => $row['TARGET_NAME'],
-            'targetUrl' => $this->url->secureUrl('account', 'profile', $row['TARGET_ID']),
-            'sender' => $row['SENDER_NAME'],
-            'senderUrl' => $this->url->secureUrl('account', 'profile', $row['SENDER_ID']),
-            'date' => $row['FLUX_DATE'],
-            'message' => <<<EOD
-            <strong>{$row['SENDER_NAME']}</strong> et <strong>{$row['TARGET_NAME']}</strong> sont maintenant amis !
-EOD
-        );
-    }
-
-}
+return array(
+    'enable' => true,
+);

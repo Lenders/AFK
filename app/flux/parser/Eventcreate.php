@@ -33,6 +33,6 @@ namespace app\flux\parser;
  */
 class Eventcreate extends AbstractEventParser {
     protected function getMessage(array $row) {
-        return 'Création de l\'évènement.';
+        return "<strong>{$row['SENDER_NAME']}</strong> a créé l'évènement <strong>{$row['TARGET_NAME']}</strong>";
     }
 }
