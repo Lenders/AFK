@@ -32,6 +32,7 @@ namespace app\model;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Autocomplete extends \system\mvc\Model {
+    const MAX_SIZE = 4;
 
     /**
      *
@@ -55,10 +56,15 @@ class Autocomplete extends \system\mvc\Model {
         $it = null;
         $set = $this->_getSetName($set);
         $ret = array();
+        
+        $size = 0;
 
-        while ($a = $this->storage->sscan($set, $it, '*' . $term . '*')) {
+        while ((($a = $this->storage->sscan($set, $it, '*' . $term . '*')) !== false) && $size < self::MAX_SIZE) {
             foreach ($a as $data) {
                 $ret[] = $data;
+                
+                if(++$size > self::MAX_SIZE)
+                    break;
             }
         }
 
