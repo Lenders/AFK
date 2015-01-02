@@ -54,6 +54,8 @@ class Friends extends \system\mvc\Controller {
         if(!$this->session->isLogged())
             throw new \system\error\Http403Forbidden();
         
+        $this->output->setTitle('Mes amis');
+        
         return $this->output->render('friends/index.php', array(
             'friends' => $this->model->getFriendsByUserId($this->session->id),
             'requests' => $this->model->getFriendRequests($this->session->id)
@@ -144,6 +146,8 @@ class Friends extends \system\mvc\Controller {
         
         if(!$user)
             throw new \system\error\Http404Error('Utilisateur introuvable');
+        
+        $this->output->setTitle('Amis ' . $user['PSEUDO']);
         
         return $this->output->render('friends/list.php', array(
             'user' => $user,
