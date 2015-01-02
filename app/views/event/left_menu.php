@@ -1,7 +1,7 @@
 <section id="left_menu">
     <h2>Informations</h2>
+    <img class="avatar" src="<?php echo $this->url('resources/images/default.png')?>" alt="Avatar"/>
     <ul>
-        <li><img class="avatar" src="<?php echo $this->url('resources/images/default.png')?>" alt="Avatar"/></li>
         <?php foreach($properties as $property):?>
         <li><strong><?php echo $property['PROPERTY_NAME']?> : </strong><?php echo $property['PROPERTY_VALUE']?></li>
         <?php endforeach?>

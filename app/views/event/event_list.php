@@ -4,7 +4,7 @@
 <ul class="event_list">
     <?php foreach($events as $event):?>
     <li <?php if(time() > $event['END_TIME']) echo 'class="terminated"'?>>
-        <img src="<?php echo $this->url('resources/images/default.png')?>" class="thumb" />
+        <img src="<?php echo $this->url('resources/images/default.png')?>" class="thumb"  alt="Image"/>
         <div class="left">
             <a href="<?php echo $this->secureUrl('events', 'show', $event['EVENT_ID'])?>"><h3><?php echo $event['EVENT_NAME']?></h3></a>
             <span class="event_description"><?php echo $event['PROPERTIES']['DESCRIPTION']['PROPERTY_VALUE']?></span>
