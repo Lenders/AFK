@@ -35,7 +35,7 @@
             <?php if(DEBUG):?>
             <div id="generation_time">Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms</div>
             <table>
-                <legend>Benchmark</legend>
+                <caption>Benchmarks</caption>
                 <tr>
                     <th>#</th><th>Label</th><th>Temps</th>
                 </tr>
