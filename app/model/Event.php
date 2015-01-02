@@ -45,7 +45,7 @@ class Event extends \system\mvc\Model  {
     
     public function getEventById($id){
         return $this->db->selectFirst(
-                'SELECT E.*, A.PSEUDO FROM EVENT E '
+                'SELECT E.*, A.PSEUDO, UNIX_TIMESTAMP(EVENT_START) AS EVENT_START, UNIX_TIMESTAMP(EVENT_END) AS EVENT_END FROM EVENT E '
                 . 'JOIN ACCOUNT A ON USER_ID = ORGANIZER '
                 . 'WHERE EVENT_ID = ?', $id);
     }
@@ -164,7 +164,7 @@ class Event extends \system\mvc\Model  {
     }
     
     public function getCompetitors($event_id){
-        return $this->db->selectAll('SELECT C.USER_ID, A.PSEUDO, A.AVATAR FROM COMPETITOR C JOIN ACCOUNT A ON A.USER_ID = C.USER_ID WHERE EVENT_ID = ?', $event_id);
+        return $this->db->selectAll('SELECT A.USER_ID, A.PSEUDO, A.AVATAR, A.FIRST_NAME, A.LAST_NAME FROM COMPETITOR C JOIN ACCOUNT A ON A.USER_ID = C.USER_ID WHERE EVENT_ID = ?', $event_id);
     }
     
     public function getEventName($event_id){
@@ -180,30 +180,60 @@ class Event extends \system\mvc\Model  {
         $this->db->executeUpdate('INSERT INTO EVENT_MESSAGE(EVENT_ID, USER_ID, MESSAGE) VALUES(?,?,?)', $event_id, $user_id, $message);
     }
     
-    public function searchEvents($query){
+    public function searchEvents($query, $limit = false){
         $query = '%' . str_replace('*', '%', $query) . '%';
         
-        return $this->cache->storeCallback('event_search_' . base64_encode($query), function() use($query){
-            $events = $this->db->selectAll(
-                    'SELECT DISTINCT E.*, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
-                    . 'JOIN EVENT_PROPERTY P ON P.EVENT_ID = E.EVENT_ID '
-                    . 'JOIN EVENT_PROPERTY_CHECK C ON P.PROPERTY_ID = C.PROPERTY_ID '
-                    . 'WHERE PROPERTY_PRIVACY = \'PUBLIC\' AND (EVENT_NAME LIKE ? OR PROPERTY_VALUE LIKE ?)',
-                    $query, $query
-            );
+        $events = $this->db->selectAll(
+                'SELECT DISTINCT E.*, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
+                . 'JOIN EVENT_PROPERTY P ON P.EVENT_ID = E.EVENT_ID '
+                . 'JOIN EVENT_PROPERTY_CHECK C ON P.PROPERTY_ID = C.PROPERTY_ID '
+                . 'WHERE PROPERTY_PRIVACY = \'PUBLIC\' AND (EVENT_NAME LIKE ? OR PROPERTY_VALUE LIKE ?) '
+                . 'ORDER BY EVENT_DATE DESC' . ($limit ? ' LIMIT ' . (int)$limit : ''),
+                $query, $query
+        );
 
-            foreach($events as &$event){
-                $properties = $this->getPropertiesByEvent($event['EVENT_ID']);
-                $prop = array();
+        foreach($events as &$event){
+            $properties = $this->getPropertiesByEvent($event['EVENT_ID']);
+            $prop = array();
 
-                foreach($properties as $property){
-                    $prop[strtoupper($property['PROPERTY_NAME'])] = $property;
-                }
-
-                $event['PROPERTIES'] = $prop;
+            foreach($properties as $property){
+                $prop[strtoupper($property['PROPERTY_NAME'])] = $property;
             }
 
-            return $events;
-        }, 600);
+            $event['PROPERTIES'] = $prop;
+        }
+
+        return $events;
+    }
+    
+    public function requestExists($event_id, $user_id){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM JOIN_REQUEST WHERE EVENT_ID = ? AND USER_ID = ?', $event_id, $user_id)['COUNT(*)'] > 0;
+    }
+    
+    public function addRequest($event_id, $user_id){
+        return $this->db->executeUpdate('INSERT INTO JOIN_REQUEST(EVENT_ID, USER_ID) VALUES(?,?)', $event_id, $user_id);
+    }
+    
+    public function removeRequest($event_id, $user_id){
+        $this->db->executeUpdate('DELETE FROM JOIN_REQUEST WHERE USER_ID = ? AND EVENT_ID= ?', $user_id, $event_id);
+    }
+    
+    public function requestCountByEvent($event_id){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM JOIN_REQUEST WHERE EVENT_ID = ?', $event_id)['COUNT(*)'];
+    }
+    
+    public function getRequestList($event_id){
+        return $this->db->selectAll('SELECT A.* FROM JOIN_REQUEST R JOIN ACCOUNT A ON R.USER_ID = A.USER_ID WHERE EVENT_ID = ?', $event_id);
+    }
+    
+    public function acceptRequest($event_id, $user_id){
+        $this->db->beginTransaction();
+        $this->removeRequest($event_id, $user_id);
+        $this->addCompetitor($event_id, $user_id);
+        $this->db->commit();
+    }
+    
+    public function removeCompetitor($event_id, $user_id){
+        $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE EVENT_ID = ? ND USER_ID = ?', $event_id, $user_id);
     }
 }

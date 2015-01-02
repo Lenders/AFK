@@ -81,6 +81,7 @@ class CreateEvent extends \system\form\Form {
         $this->name = new \system\form\field\Input($this, 'name');
         $this->name->addRule(new \system\form\rule\Length(4, 32));
         $this->name->addRule($required);
+        $this->name->addRule(new \system\form\rule\Regex('/^[a-zéàèäëïöâêîôûçù#\._ -]{4,32}$/i', 'Le nom ne doit pas contenir des caractères spéciaux'));
         $this->addField($this->name);
         
         $this->privacy = new \system\form\field\Select($this, 'privacy', array(
@@ -109,6 +110,9 @@ class CreateEvent extends \system\form\Form {
         $this->start->addRule($date_regex);
         $this->start->addRule($required);
         $this->start->addRule($check_time);
+        $this->start->addRule(new \system\form\rule\Callback(function($value){
+            return time() < $this->strToTime($value)->getTimestamp();
+        }, 'L\'évènement ne peut commencer avant sa création :/'));
         $this->addField($this->start);
         
         $this->end = new \system\form\field\Input($this, 'end');

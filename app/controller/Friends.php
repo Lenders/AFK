@@ -54,7 +54,6 @@ class Friends extends \system\mvc\Controller {
         if(!$this->session->isLogged())
             throw new \system\error\Http403Forbidden();
         
-        $this->helpers->loadHelper('FriendButton');
         return $this->output->render('friends/index.php', array(
             'friends' => $this->model->getFriendsByUserId($this->session->id),
             'requests' => $this->model->getFriendRequests($this->session->id)
@@ -133,5 +132,22 @@ class Friends extends \system\mvc\Controller {
         
         if($redirect === true)
             $this->output->getHeader()->setLocation($this->input->getReferer());
+    }
+    
+    public function listAction($user_id = 0){
+        $user_id = (int)$user_id;
+        
+        if($this->session->isLogged() && $user_id == $this->session->id)
+            return $this->indexAction();
+        
+        $user = $this->account->getAccountById($user_id);
+        
+        if(!$user)
+            throw new \system\error\Http404Error('Utilisateur introuvable');
+        
+        return $this->output->render('friends/list.php', array(
+            'user' => $user,
+            'friends' => $this->model->getFriendsByUserId($user_id)
+        ));
     }
 }

@@ -1,3 +1,4 @@
+<?php echo $this->widget('ProfileMenu', $this->getSession('id'))?>
 <section id="contents">
     <h1>Mes amis</h1>
     <article>

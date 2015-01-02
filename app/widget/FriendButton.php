@@ -24,56 +24,43 @@
  * THE SOFTWARE.
  */
 
-namespace app\controller;
+namespace app\widget;
 
 /**
- * Description of Account
+ * Description of FriendButton
  *
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-class Account extends \system\mvc\Controller {
+class FriendButton extends \system\mvc\Widget {
     /**
      *
-     * @var \app\model\Account
+     * @var \app\model\Friend
      */
     private $model;
     
-    public function __construct(\system\Base $base, \app\model\Account $model) {
+    private static $jsLoaded = false;
+    
+    public function __construct(\system\Base $base, \app\model\Friend $model) {
         parent::__construct($base);
         $this->model = $model;
     }
     
-    public function indexAction(){
-        if(!$this->session->isLogged())
-            throw new \system\error\Http403Forbidden();
+    public function __invoke($user_id) {
+        if(!$this->session->isLogged() || $this->session->id == $user_id)
+            return;
         
-        $this->output->setTitle('Mon compte');
+        if(!self::$jsLoaded)
+            echo $this->helpers->js('friend_button');
         
-        return $this->profileAction($this->session->id);
-    }
-    
-    public function profileAction($id){
-        $id = (int)$id;
-        $account = $this->model->getAccountById($id);
+        if($this->model->isFriends($this->session->id, $user_id))
+            $tpl = 'remove';
+        elseif($this->model->friendRequestExists($this->session->id, $user_id)) //I'm the requester
+            $tpl = 'cancel';
+        elseif($this->model->friendRequestExists($user_id, $this->session->id)) //I'm the target
+            $tpl = 'accept';
+        else
+            $tpl = 'add';
         
-        if(!$account)
-            throw new \system\error\Http404Error('L\'utilisateur n\'existe pas.');
-        
-        $this->output->setTitle('Profil ' . $account['PSEUDO']);
-        
-        return $this->cache->storeCallback('account_profile_' . $id, function() use($id){
-            $flux = $this->loader->load('\app\flux\AccountFlux');
-            $flux->setUserId($id);
-            
-            return $this->output->render('account/profile.php', array(
-                'user' => $this->model->getAccountById($id),
-                'flux' => $flux
-            ));
-        }, 600);
-    }
-    
-    public function logoutAction(){
-        $this->session->clear();
-        $this->output->getHeader()->setLocation($this->helpers->baseUrl());
+        return $this->output->render('widget/friend_button_' . $tpl . '.php', array('user_id' => $user_id));
     }
 }

@@ -30,6 +30,7 @@
         <div id="body">
             <?php echo $this->contents?>
         </div>
+        <a href="#" id="button_top"></a>
         <footer>
             <?php if(DEBUG):?>
             <div id="generation_time">Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms</div>

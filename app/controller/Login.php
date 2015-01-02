@@ -60,6 +60,8 @@ class Login extends \system\mvc\Controller {
     }
     
     public function indexAction(){
+        $this->output->setTitle('Connexion');
+        
         return $this->output->render('login/index.php', array(
             'error' => false,
             'form' => $this->form

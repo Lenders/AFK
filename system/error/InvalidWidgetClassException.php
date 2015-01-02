@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,15 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench', 'notification', 'widget'
-);
+namespace system\error;
 
+/**
+ * Description of InvalidHelperClassException
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class InvalidWidgetClassException extends \Exception {
+    public function __construct($message, $code = 10008, $previous = null) {
+        parent::__construct($message, $code, $previous);
+    }
+}

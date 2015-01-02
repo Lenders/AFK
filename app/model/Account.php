@@ -70,16 +70,15 @@ class Account extends \system\mvc\Model {
         return $this->db->selectFirst('SELECT COUNT(*) FROM ACCOUNT WHERE USER_ID = ?', $id)['COUNT(*)'] > 0;
     }
     
-    public function searchAccount($query){
+    public function searchAccount($query, $limit = false){
         $query = str_replace('*', '%', $query);
         $query = '%' . $query . '%';
         
-        return $this->cache->storeCallback(
-            'search_account_' . base64_encode($query),
-            function() use($query){
-                return $this->db->selectAll('SELECT * FROM ACCOUNT WHERE PSEUDO LIKE ? OR CONCAT(FIRST_NAME, " ", LAST_NAME) LIKE ?', $query, $query);
-            },
-            600
+        return $this->db->selectAll(
+            'SELECT * FROM ACCOUNT '
+          . 'WHERE PSEUDO LIKE ? OR CONCAT(FIRST_NAME, " ", LAST_NAME) LIKE ? '
+          . 'ORDER BY PSEUDO ASC' . ($limit ? ' LIMIT ' . (int)$limit : ''),
+            $query, $query
         );
     }
     

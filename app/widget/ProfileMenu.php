@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,32 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench', 'notification', 'widget'
-);
+namespace app\widget;
 
+/**
+ * Description of ProfileMenu
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class ProfileMenu extends \system\mvc\Widget {
+    /**
+     *
+     * @var \app\model\Account
+     */
+    private $model;
+    
+    public function __construct(\system\Base $base, \app\model\Account $model) {
+        parent::__construct($base);
+        $this->model = $model;
+    }
+    
+    public function __invoke($user) {
+        if(!is_array($user))
+            $user = $this->model->getAccountById((int)$user);
+        
+        if(!$user)
+            throw new \InvalidArgumentException('ProfileMenu : invalid user');
+        
+        return $this->output->render('widget/profile_menu.php', array('user' => $user));
+    }
+}

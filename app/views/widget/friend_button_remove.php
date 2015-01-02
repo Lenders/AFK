@@ -1,0 +1,1 @@
+<a href="<?php echo $this->secureUrl('friends', 'remove', $user_id)?>" class="button red" data-action="remove" data-friend-button data-user-id="<?php echo $user_id?>">Retirer des amis</a>

@@ -342,16 +342,54 @@ var ActiveList = {};
     };
 })();
 
-/*$(document).ready(function(){
-    $('[data-friend-button]').click(function(){
-        $this = $(this);
+$(document).ready(function(){
+    if(screen.width < 700){
+        var $menu = $('#left_menu');
 
-        $.get(Config.getBaseUrl() + 'friends/' + $this.data('action') + '/' + $this.data('user-id') + '/noredirect', function(data){
-        }).fail(function(xhr){
-            var win = window.open();
-            win.document.write(xhr.responseText);
-        });
+        if($menu.size() > 0){
+            $menu.hide();
 
+            var $button = $('<button>');
+            $button.attr('id', 'button_menu');
+            $button.addClass('open');
+
+            var opened = false;
+
+            $button.click(function(){
+                if(!opened){
+                    $menu.show();
+                    $button.removeClass('open');
+                    $button.addClass('close');
+                    opened = true;
+                }else{
+                    $menu.hide();
+                    $button.removeClass('close');
+                    $button.addClass('open');
+                    opened = false;
+                }
+            });
+
+            $(body).append($button);
+        }
+    }else{
+        $('#left_menu').css('display', 'table-cell');
+        $('#button_menu').remove();
+    }
+    
+    var $top = $('#button_top');
+    $top.hide();
+    $top.click(function(){
+        $('body, html').animate({
+            scrollTop: 0
+        }, 500);
         return false;
     });
-})();*/
+    
+    $(window).scroll(function(){
+        if($(window).scrollTop() > 150){
+            $top.fadeIn(500);
+        }else{
+            $top.fadeOut(500);
+        }
+    });
+});

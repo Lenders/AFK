@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,15 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench', 'notification', 'widget'
-);
+namespace app\flux;
 
+/**
+ * Description of PublicFlux
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class PublicFlux extends Flux {
+    protected function getStatement() {
+        return $this->db->query('SELECT * FROM PUBLIC_FLUX LIMIT 10');
+    }
+}

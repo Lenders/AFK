@@ -42,7 +42,6 @@ body{
     font-size: 14px;
     min-height: 100%;
     position: relative;
-    min-width: 700px;
 }
 
 header{
@@ -253,6 +252,14 @@ section > h1{
     margin-bottom: 15px;
 }
 
+section > h1 a{
+    text-decoration: none;
+}
+
+section > h1 a:hover{
+    text-decoration: underline;
+}
+
 a{
     color: #DDD;
     text-decoration: underline;
@@ -288,6 +295,7 @@ a{
 
 .button{
     display: inline-block;
+    line-height: 17px;
 }
 
 .button.red{
@@ -336,8 +344,8 @@ footer{
 }
 
 .avatar{
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 180px;
+    max-height: 180px;
 }
 
 a:hover .avatar{
@@ -414,21 +422,21 @@ img.thumb{
     content: " : ";
 }
 
-ul#discussions_list{
+ul#discussions_list, #left_menu ul.links_list{
     margin: 0;
 }
 
-ul#discussions_list li{
+ul#discussions_list li, #left_menu ul.links_list li{
     background: #333;
 }
 
-ul#discussions_list li a{
+ul#discussions_list li a, #left_menu ul.links_list li a{
     text-decoration: none;
     display: block;
     padding: 5px;
 }
 
-ul#discussions_list li:hover{
+ul#discussions_list li:hover, #left_menu ul.links_list li:hover{
     background: #444;
 }
 
@@ -458,6 +466,10 @@ ul#discussions_list li.unread{
     color: darkred;
 }
 
+p.error{
+    text-align: center;
+}
+
 #create_event_form > table{
     margin: auto;
 }
@@ -469,6 +481,10 @@ ul#discussions_list li.unread{
 .event_list{
     list-style-type: none;
     padding: 5px;
+}
+
+.event_list .terminated{
+    opacity: .5;
 }
 
 .event_list li{
@@ -514,6 +530,12 @@ ul#discussions_list li.unread{
     }
 }
 
+@media(max-width: 750px){
+    #header_nav .shortcut{
+        display: none;
+    }
+}
+
 [data-chart-type]{
     width: 800px;
     min-height: 200px;
@@ -532,4 +554,58 @@ ul#discussions_list li.unread{
 
 #competitors_list .thumb{
     margin-right: 4px;
+}
+
+#button_menu{
+    border: none;
+    color: #DDD;
+    background: #333;
+    position: fixed;
+    top: 50px;
+    font-size: 18px;
+    height: 30px;
+    width: 30px;
+    border: 1px solid #666;
+    border-radius: 15px;
+}
+
+#button_menu.open{
+    left: 2px;
+}
+
+#button_menu.open:after{
+    content: ">";
+}
+
+#button_menu.close{
+    left: 168px;
+}
+
+#button_menu.close:after{
+    content: "x";
+}
+
+#button_top{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: #DDD;
+    font-size: 18px;
+    height: 30px;
+    width: 30px;
+    border: 1px solid #666;
+    border-radius: 15px;
+    background: #333;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    z-index: 2;
+}
+
+#button_top:after{
+    content: "⇪";
+}
+
+#glob_search, #user_search, #evt_search{
+    width: 500px;
 }

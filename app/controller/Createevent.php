@@ -54,6 +54,7 @@ class Createevent extends \system\mvc\Controller {
     }
     
     public function indexAction(){
+        $this->output->setTitle('Création d`un évènement');
         return $this->output->render('event/createevent.php', array('form' => $this->form));
     }
     

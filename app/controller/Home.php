@@ -15,6 +15,18 @@ namespace app\controller;
  */
 class Home extends \system\mvc\Controller {
     public function indexAction(){
-        return 'Hello World !';
+        $this->output->setTitle('Accueil');
+        
+        if(!$this->session->isLogged()){
+            return $this->cache->storeCallback('home', function(){
+                return $this->output->render('home/public_flux.php', array('flux' => $this->loader->load('\app\flux\PublicFlux')));
+            }, 600);
+        }else{
+            $flux = $this->loader->load('\app\flux\MyFlux');
+            $flux->setUserId($this->session->id);
+            return $this->output->render('home/my_flux.php', array(
+                'flux'=> $flux
+            ));
+        }
     }
 }

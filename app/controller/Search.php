@@ -51,12 +51,40 @@ class Search extends \system\mvc\Controller {
     }
     
     public function indexAction(){
-        $this->output->setTitle('Rechercher');
-        $this->helpers->loadHelper('FriendButton');
+        $this->output->setTitle('Recherche');
         
-        return $this->output->render('search/results.php', array(
-            'users' => $this->account->searchAccount($this->input->get->search),
-            'events' => $this->event->searchEvents($this->input->get->search)
-        ));
+        return $this->cache->storeCallback('search_index_' . base64_encode($this->input->get->search), 
+            function(){
+                return $this->output->render('search/results.php', array(
+                    'users' => $this->account->searchAccount($this->input->get->search, 5),
+                    'events' => $this->event->searchEvents($this->input->get->search, 5),
+                    'query' => $this->input->get->search
+                ));
+            }, 600
+        );
+    }
+    
+    public function usersAction(){
+        $this->output->setTitle('Recherche d\'utilisateurs');
+        
+        return $this->cache->storeCallback('search_users_' . base64_encode($this->input->get->search), 
+            function(){
+                return $this->output->render('search/users.php', array(
+                    'users' => $this->account->searchAccount($this->input->get->search),
+                    'query' => $this->input->get->search
+                ));
+        }, 600);
+    }
+    
+    public function eventsAction(){
+        $this->output->setTitle('Recherche d\'évènements');
+        
+        return $this->cache->storeCallback('search_events_' . base64_encode($this->input->get->search), 
+            function(){
+                return $this->output->render('search/events.php', array(
+                    'events' => $this->event->searchEvents($this->input->get->search),
+                    'query' => $this->input->get->search
+                ));
+        }, 600);
     }
 }

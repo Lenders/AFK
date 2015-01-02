@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -24,7 +24,30 @@
  * THE SOFTWARE.
  */
 
-return array(
-    'url', 'assets', 'config', 'session', 'bench', 'notification', 'widget'
-);
+namespace app\flux\parser;
 
+/**
+ * Description of Eventstart
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Eventstart implements Parser {
+    /**
+     *
+     * @var \system\helper\Url
+     */
+    private $url;
+    
+    function __construct(\system\helper\Url $url) {
+        $this->url = $url;
+    }
+
+    public function parseRow(array $row) {
+        return array(
+            'senderUrl' => $this->url->secureUrl('events', 'show', $row['TARGET_ID']),
+            'sender' => $row['TARGET_NAME'],
+            'date' => $row['FLUX_DATE'],
+            'message' => "L'évènement <strong>{$row['TARGET_NAME']}</strong> a commencé."
+        );
+    }
+}

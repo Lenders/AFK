@@ -1,6 +1,9 @@
+<?php if(empty($events)):?>
+<p class="error">pas de résultats</p>
+<?php else:?>
 <ul class="event_list">
     <?php foreach($events as $event):?>
-    <li>
+    <li <?php if(time() > $event['END_TIME']) echo 'class="terminated"'?>>
         <img src="<?php echo $this->url('resources/images/default.png')?>" class="thumb" />
         <div class="left">
             <a href="<?php echo $this->secureUrl('events', 'show', $event['EVENT_ID'])?>"><h3><?php echo $event['EVENT_NAME']?></h3></a>
@@ -13,3 +16,4 @@
     </li>
     <?php endforeach?>
 </ul>
+<?php endif?>

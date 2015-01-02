@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
@@ -22,16 +24,36 @@
  * THE SOFTWARE.
  */
 
+namespace system\helper;
 
+/**
+ * Description of Widget
+ *
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
+ */
+class Widget implements Helper {
+    /**
+     *
+     * @var \system\Loader
+     */
+    private $loader;
+    
+    function __construct(\system\Loader $loader) {
+        $this->loader = $loader;
+    }
 
-(function(){
-    $(document).ready(function(){
-        var speedSearch = new AutoCompletion('#speed_search input[name="search"]');
-        speedSearch.addHandler(new AutoCompletion.Handler('user_autocomplete', function(value){
-            return Config.getBaseUrl() + 'autocomplete/user/' + encodeURIComponent(value) + '.json';
-        }));
-        speedSearch.addHandler(new AutoCompletion.Handler('user_autocomplete', function(value){
-            return Config.getBaseUrl() + 'autocomplete/event/' + encodeURIComponent(value) + '.json';
-        }));
-    });
-})();
+    public function export() {
+        return array('widget');
+    }
+    
+    public function widget($name, $_ = null){
+        $w = $this->loader->load('\app\widget\\' . ucfirst($name));
+        
+        if(!($w instanceof \system\mvc\Widget))
+            throw new \system\error\InvalidWidgetClassException('for widget ' . $name);
+
+        $params = func_get_args();
+        array_shift($params);
+        return call_user_func_array($w, $params);
+    }
+}

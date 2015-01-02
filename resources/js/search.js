@@ -22,18 +22,43 @@
  * THE SOFTWARE.
  */
 
-$(document).ready(function(){
-    Location.getLocality(function (locality){
-        $('#search_from').attr('value', locality);
-    });
-    
-    var completion = new AutoCompletion($('#search_to, #search_from'));
-    completion.addHandler(new AutoCompletion.Handler(
-        'search_autocompletion',
-        function(value){
-            return Config.getBaseUrl() + 'search/autocomplete/' + value + '.json';
+
+
+(function(){
+    $(document).ready(function(){
+        var speedSearch = new AutoCompletion('#speed_search input[name="search"]');
+        
+        var userAutocomplete = new AutoCompletion.Handler('user_autocomplete', function(value){
+            return Config.getBaseUrl() + 'autocomplete/user/' + encodeURIComponent(value) + '.json';
+        });
+        
+        var eventAutocomplete = new AutoCompletion.Handler('event_autocomplete', function(value){
+            return Config.getBaseUrl() + 'autocomplete/event/' + encodeURIComponent(value) + '.json';
+        });
+        
+        speedSearch.addHandler(userAutocomplete);
+        speedSearch.addHandler(eventAutocomplete);
+        
+        var $glob = $('#glob_search');
+        
+        if($glob.size() > 0){
+            var globSearch = new AutoCompletion($glob);
+            globSearch.addHandler(userAutocomplete);
+            globSearch.addHandler(eventAutocomplete);
         }
-    ));
-});
-
-
+        
+        var $user = $('#user_search');
+        
+        if($user.size() > 0){
+            var userSearch = new AutoCompletion($user);
+            userSearch.addHandler(userAutocomplete);
+        }
+        
+        var $event = $('#evt_search');
+        
+        if($event.size() > 0){
+            var userSearch = new AutoCompletion($event);
+            userSearch.addHandler(eventAutocomplete);
+        }
+    });
+})();

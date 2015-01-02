@@ -1,0 +1,1 @@
+<a href="<?php echo $this->secureUrl('friends', 'add', $user_id)?>" class="button" data-action="add" data-friend-button data-user-id="<?php echo $user_id?>">Ajouter</a>
