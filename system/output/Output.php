@@ -37,6 +37,8 @@ class Output extends \system\Registry {
     private $title;
     private $contents;
     
+    private $keywords = array('AFK', 'geek', 'tournois', 'iut');
+    
     /**
      *
      * @var \system\output\Header
@@ -110,6 +112,15 @@ class Output extends \system\Registry {
      */
     public function loadView($template){
         return new \system\mvc\View($template, $this->helpers);
+    }
+    
+    public function getKeywords() {
+        return $this->keywords;
+    }
+
+    public function addKeyword($kw){
+        foreach(func_get_args() as $a)
+            $this->keywords[] = htmlentities($a);
     }
 
 }

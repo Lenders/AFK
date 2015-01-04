@@ -10,6 +10,8 @@
         <![endif]-->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <meta name=viewport content="width=device-width, initial-scale=1"/>
+        <meta name="descrption" content="AFK est un site communautaire pour geek permettant l'organisation de tournois pour différents jeux."/>
+        <meta name="keywords" content="<?php echo implode(', ', $this->getKeywords())?>"/>
         <title><?php echo $this->helpers->conf('name')?> - <?php echo $this->title?></title>
         <?php echo $this->helpers->css('style')?>
         <script type="text/javascript">
@@ -32,7 +34,16 @@
         </div>
         <a href="#" id="button_top"></a>
         <footer>
-            <?php if(DEBUG):?>
+            <div>
+                <strong><a href="<?php echo $this->helpers->url('home.php')?>">AFK</a></strong> - copyright © <?php echo date('Y')?>
+            </div>
+            <ul>
+                <li><a href="<?php echo $this->helpers->url('search/users.php?query=*')?>">Annuaire des membres</a></li>
+                <li><a href="<?php echo $this->helpers->url('search/events.php?query=*')?>">Liste des évènements</a></li>
+            </ul>
+        </footer>
+        <?php if(DEBUG):?>
+        <div id="debug">
             <div id="generation_time">Temps de génération : <?php echo round($this->helpers->bench(), 1)?>ms</div>
             <table>
                 <caption>Benchmarks</caption>
@@ -47,7 +58,7 @@
                 </tr>
                 <?php endforeach?>
             </table>
-            <?php endif?>
-        </footer>
+        </div>
+        <?php endif?>
     </body>
 </html>

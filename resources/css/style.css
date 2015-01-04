@@ -621,3 +621,103 @@ p.error{
 #left_menu p{
     padding: 5px;
 }
+
+#debug{
+    border-top: 1px solid #666;
+    position: absolute;
+    bottom: -1000px;
+    width: 100%;
+}
+
+#debug td, #debug th{
+    border: 1px solid #DDD;
+    padding: 2px;
+}
+
+#debug tr:nth-of-type(2n) td{
+    background: #EAEAEA;
+}
+
+#debug tr:nth-of-type(2n + 1) td{
+    background: #F5F5F5;
+}
+
+#debug th{
+    background: firebrick;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+}
+
+#debug table{
+    border-collapse: collapse;
+    width: 100%;
+    color: #333;
+}
+
+#debug caption{
+    color: #FFF;
+    font-weight: bold;
+}
+
+footer div, footer ul{
+    display: block;
+    height: 100%;
+    float: left;
+    padding: 10px;
+}
+
+footer ul{
+    list-style-type: none;
+}
+
+.calendar{
+    overflow: hidden;
+}
+
+.calendar_col{
+    float: left;
+    width: 12.5%;
+    box-sizing: border-box;
+    height: 1300px;
+    border-left: 1px solid #444;
+}
+
+.calendar_row{
+    height: 50px;
+    border-bottom: 1px solid #444;
+    box-sizing: border-box;
+}
+
+#month_calendar{
+    width: 100%;
+}
+
+#month_calendar td{
+    height: 100px;
+    background: #444;
+    width: 14.2857142857%;
+    vertical-align: top;
+    overflow: auto;
+}
+
+#month_calendar td ul{
+    list-style-type: none;
+    font-size: 12px;
+}
+
+#month_calendar .disable{
+    background: none;
+}
+
+#month_calendar .active{
+    background: #167;
+}
+
+.button.big{
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 35px;
+    line-height: 27px;
+}

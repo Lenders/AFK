@@ -55,6 +55,7 @@ class Image extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         $this->output->setTitle('Mes images');
+        $this->output->addKeyword('images');
         
         return $this->output->render('image/index.php', array(
             'images' => $this->model->getUserImages($this->session->id)

@@ -9,6 +9,7 @@
                     <li class="shortcut"><a href="<?php echo $this->helpers->url('friends.php')?>">Mes amis<?php echo $this->helpers->getFriendNotif()?></a></li>
                     <li><a href="<?php echo $this->helpers->url('message.php#last')?>">Messages<?php echo $this->helpers->getMessageNotif()?></a></li>
                     <li class="shortcut"><a href="<?php echo $this->helpers->url('events.php')?>">Mes évènements</a></li>
+                    <li><a href="<?php echo $this->helpers->url('calendar.php')?>">Calendrier</a></li>
                     <li><a href="<?php echo $this->helpers->url('account/logout.php')?>">Déconnexion</a></li>
                     <?php endif?>
                     <li>

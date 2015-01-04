@@ -236,4 +236,33 @@ class Event extends \system\mvc\Model  {
     public function removeCompetitor($event_id, $user_id){
         $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE EVENT_ID = ? ND USER_ID = ?', $event_id, $user_id);
     }
+    
+    public function getEventAgenda($startTime, $endTime, $user){
+        $agenda = array();
+        
+        $data = $this->db->selectAll(
+            'SELECT EVENT_NAME, E.EVENT_ID, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
+                . 'JOIN COMPETITOR C ON C.EVENT_ID = E.EVENT_ID '
+                . 'WHERE (UNIX_TIMESTAMP(EVENT_START) BETWEEN ? AND ? '
+                . 'OR UNIX_TIMESTAMP(EVENT_END) BETWEEN ? AND ?) AND USER_ID = ? ', 
+            $startTime, $endTime, $startTime, $endTime, $user
+        );
+        
+        for(;$startTime < $endTime; $startTime += 24 * 3600){
+            $agenda[$startTime] = array();
+        }
+        
+        foreach($data as $row){
+            foreach($agenda as $day => &$events){
+                $next = $day + 24 * 3600;
+                
+                if($row['START_TIME'] >= $day && $row['START_TIME'] < $next)
+                    $events[] = $row;
+                elseif($row['END_TIME'] >= $day && $row['END_TIME'] < $next)
+                    $events[] = $row;
+            }
+        }
+        
+        return $agenda;
+    }
 }

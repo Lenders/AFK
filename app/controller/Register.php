@@ -59,6 +59,7 @@ class Register extends \system\mvc\Controller {
     
     public function indexAction(){
         $this->output->setTitle('Inscription');
+        $this->output->addKeyword('inscription');
         
         return $this->output->render('register/register.php', array('form' => $this->form));
     }

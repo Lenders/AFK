@@ -45,8 +45,10 @@ class Home extends \system\mvc\Controller {
     
     public function indexAction(){
         $this->output->setTitle('Accueil');
+        $this->output->addKeyword('acceuil');
         
         if(!$this->session->isLogged()){
+            $this->output->addKeyword('bienvenue');
             return $this->cache->storeCallback('home', function(){
                 return $this->output->render('home/public_flux.php', array(
                     'flux' => $this->loader->load('\app\flux\PublicFlux'),
@@ -56,6 +58,7 @@ class Home extends \system\mvc\Controller {
                 ));
             }, 600);
         }else{
+            $this->output->addKeyword('actualité');
             $flux = $this->loader->load('\app\flux\MyFlux');
             $flux->setUserId($this->session->id);
             return $this->output->render('home/my_flux.php', array(

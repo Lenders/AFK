@@ -65,6 +65,8 @@ class Events extends \system\mvc\Controller {
             $this->output->setTitle('Évènements ' . $user_pseudo);
         }
         
+        $this->output->addKeyword('évènements');
+        
         return $this->output->render('event/list.php', array(
             'org_events' => $this->model->findEventsByOrganizer($user_id),
             'par_events' => $this->model->findParticipatedEvents($user_id),
@@ -82,15 +84,21 @@ class Events extends \system\mvc\Controller {
             throw new \system\error\Http404Error('Évènement introuvable');
         
         $this->output->setTitle('Évènement ' . $event['EVENT_NAME']);
-
+        $this->output->addKeyword('évènement', $event['EVENT_NAME']);
+        
         $isCompetitor = $this->model->isCompetitor($event_id, $this->session->id);
+        $properties = $this->model->getPropertiesByEvent($event_id, !$isCompetitor);
+        
+        foreach($properties as $p){
+            $this->output->addKeyword($p['PROPERTY_VALUE']);
+        }
         
         if($isCompetitor){
             $flux = $this->loader->load('\app\flux\EventFlux');
             $flux->setEventId($event_id);
             
             $vars = array(
-                'properties' => $this->model->getPropertiesByEvent($event_id, !$isCompetitor),
+                'properties' => $properties,
                 'event' => $event,
                 'competitors' => $this->model->getCompetitors($event_id),
                 'flux' => $flux
@@ -127,6 +135,7 @@ class Events extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         $this->output->setTitle('Liste des participants ' . $event['EVENT_NAME']);
+        $this->output->addKeyword('évènement', 'participants', $event['EVENT_NAME']);
         
         $vars = array(
             'properties' => $this->model->getPropertiesByEvent($event_id),

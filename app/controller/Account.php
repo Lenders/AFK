@@ -60,6 +60,7 @@ class Account extends \system\mvc\Controller {
             throw new \system\error\Http404Error('L\'utilisateur n\'existe pas.');
         
         $this->output->setTitle('Profil ' . $account['PSEUDO']);
+        $this->output->addKeyword('profil', $account['PSEUDO'], $account['FIRST_NAME'], $account['LAST_NAME']);
         
         return $this->cache->storeCallback('account_profile_' . $id, function() use($id){
             $flux = $this->loader->load('\app\flux\AccountFlux');

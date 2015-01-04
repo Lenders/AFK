@@ -52,6 +52,7 @@ class Search extends \system\mvc\Controller {
     
     public function indexAction(){
         $this->output->setTitle('Recherche');
+        $this->output->addKeyword('rechercher');
         
         return $this->cache->storeCallback('search_index_' . base64_encode($this->input->get->search), 
             function(){
@@ -66,6 +67,7 @@ class Search extends \system\mvc\Controller {
     
     public function usersAction(){
         $this->output->setTitle('Recherche d\'utilisateurs');
+        $this->output->addKeyword('rechercher', 'utilisateurs');
         
         return $this->cache->storeCallback('search_users_' . base64_encode($this->input->get->search), 
             function(){
@@ -78,6 +80,7 @@ class Search extends \system\mvc\Controller {
     
     public function eventsAction(){
         $this->output->setTitle('Recherche d\'évènements');
+        $this->output->addKeyword('rechercher', 'évènements');
         
         return $this->cache->storeCallback('search_events_' . base64_encode($this->input->get->search), 
             function(){

@@ -54,6 +54,7 @@ class Message extends \system\mvc\Controller {
         
         if($discussion != null){
             $this->output->setTitle('Discussion ' . htmlentities($discussion['name']));
+            $this->output->addKeyword('messages', $discussion['name']);
             
             return $this->output->render('message/discussion.php', array(
                 'discussions' => $this->model->getDiscussions($this->session->id),
@@ -74,6 +75,7 @@ class Message extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         $this->output->setTitle('Discussion ' . htmlentities($discussion['name']));
+        $this->output->addKeyword('messages', $discussion['name']);
         
         return $this->output->render('message/discussion.php', array(
             'discussions' => $this->model->getDiscussions($this->session->id),
@@ -140,6 +142,7 @@ class Message extends \system\mvc\Controller {
         }
         
         $this->output->setTitle('Nouvelle discussion');
+        $this->output->addKeyword('messages');
         
         return $this->output->render('message/create.php', array(
             'name' => $this->input->post->name,
