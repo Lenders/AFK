@@ -260,6 +260,8 @@ class Event extends \system\mvc\Model  {
                     $events[] = $row;
                 elseif($row['END_TIME'] >= $day && $row['END_TIME'] < $next)
                     $events[] = $row;
+                elseif($row['START_TIME'] <= $day && $row['END_TIME'] >= $day)
+                    $events[] = $row;
             }
         }
         
