@@ -79,6 +79,10 @@ class Session {
         $this->data = $data;
     }
     
+    public function getOnlineCount(){
+        return count($this->storage->keys($this->config->session_prefix . 'online_*'));
+    }
+    
     public function getSESSID(){
         if($this->SESSID === null){
             if($this->input->cookie->get($this->config->cookie_name) === null){
@@ -121,3 +125,4 @@ class Session {
         return $this->storage->exists($this->config->session_prefix . 'online_' . $user);
     }
 }
+

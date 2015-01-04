@@ -52,9 +52,11 @@ class Login extends \system\form\Form {
     
     private function makeFields(){
         $this->pass->setAttribute('type', 'password');
+        $this->pass->setAttribute('placeholder', 'Mot de passe');
         $required = new \system\form\rule\Required();
         $this->pass->addRule($required);
         $this->pseudo->addRule($required);
+        $this->pseudo->setAttribute('placeholder', 'Pseudo');
         
         $this->addField($this->pass);
         $this->addField($this->pseudo);
@@ -71,4 +73,13 @@ class Login extends \system\form\Form {
     public function getValidationURL() {
         return 'login/validate';
     }
+    
+    public function getPseudo() {
+        return $this->pseudo;
+    }
+
+    public function getPass() {
+        return $this->pass;
+    }
+
 }

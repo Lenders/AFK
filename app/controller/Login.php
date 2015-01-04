@@ -124,7 +124,7 @@ class Login extends \system\mvc\Controller {
             return $this->output->render('login/login_success.json.php');
         }else{
             if(!$valid)
-                return $this->output->render('login/index.php', array('error' => false, 'form' => $this->form));
+                return $this->output->render('login/index.php', array('error' => 'Login incorrect', 'form' => $this->form));
             $this->output->getHeader()->setLocation($this->helpers->baseUrl());
         }
     }

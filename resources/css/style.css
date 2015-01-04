@@ -609,3 +609,15 @@ p.error{
 #glob_search, #user_search, #evt_search{
     width: 500px;
 }
+
+#left_menu form{
+    padding: 5px;
+}
+
+#left_menu input:not([type="submit"]):not([type="button"]){
+    width: 100%;
+}
+
+#left_menu p{
+    padding: 5px;
+}
