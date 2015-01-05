@@ -240,19 +240,25 @@ class Event extends \system\mvc\Model  {
     public function getEventAgenda($startTime, $endTime, $user){
         $agenda = array();
         
-        $data = $this->db->selectAll(
+        $stmt = $this->db->prepare(
             'SELECT EVENT_NAME, E.EVENT_ID, UNIX_TIMESTAMP(EVENT_START) AS START_TIME, UNIX_TIMESTAMP(EVENT_END) AS END_TIME FROM EVENT E '
                 . 'JOIN COMPETITOR C ON C.EVENT_ID = E.EVENT_ID '
-                . 'WHERE (UNIX_TIMESTAMP(EVENT_START) BETWEEN ? AND ? '
-                . 'OR UNIX_TIMESTAMP(EVENT_END) BETWEEN ? AND ?) AND USER_ID = ? ', 
-            $startTime, $endTime, $startTime, $endTime, $user
+                . 'WHERE (UNIX_TIMESTAMP(EVENT_START) BETWEEN :start AND :end '
+                . 'OR UNIX_TIMESTAMP(EVENT_END) BETWEEN :start AND :end '
+                . 'OR :start BETWEEN UNIX_TIMESTAMP(EVENT_START) AND UNIX_TIMESTAMP(EVENT_END) '
+                . 'OR :end BETWEEN UNIX_TIMESTAMP(EVENT_START) AND UNIX_TIMESTAMP(EVENT_END)) AND USER_ID = :user '
         );
         
-        for(;$startTime < $endTime; $startTime += 24 * 3600){
+        $stmt->bindValue('start', $startTime);
+        $stmt->bindValue('end', $endTime);
+        $stmt->bindValue('user', $user);
+        $stmt->execute();
+        
+        for(;$startTime <= $endTime; $startTime += 24 * 3600){
             $agenda[$startTime] = array();
         }
         
-        foreach($data as $row){
+        while($row = $stmt->fetch()){
             foreach($agenda as $day => &$events){
                 $next = $day + 24 * 3600;
                 
