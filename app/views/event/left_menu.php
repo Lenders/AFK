@@ -1,6 +1,12 @@
 <section id="left_menu">
     <h2>Informations</h2>
-    <img class="avatar" src="<?php echo $this->url('resources/images/default.png')?>" alt="Avatar"/>
+    <?php if($event['ORGANIZER'] == $this->getSession('id')):?>
+    <a href="<?php echo $this->secureUrl('image', 'select', $event['EVENT_ID'])?>" title="Changer d'image">
+    <?php endif?>
+    <img class="avatar" src="<?php echo $event['IMAGE'] ? $this->secureUrl('image', 'get', $event['ORGANIZER'], $event['IMAGE']) : $this->url('resources/images/default.png')?>" alt="Image"/>
+    <?php if($event['ORGANIZER'] == $this->getSession('id')):?>
+    </a>
+    <?php endif?>
     <ul>
         <?php foreach($properties as $property):?>
         <li><strong><?php echo $property['PROPERTY_NAME']?> : </strong><?php echo $property['PROPERTY_VALUE']?></li>

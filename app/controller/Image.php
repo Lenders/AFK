@@ -44,10 +44,17 @@ class Image extends \system\mvc\Controller {
      */
     private $account;
     
-    public function __construct(\system\Base $base, \app\model\Image $model, \app\model\Account $account) {
+    /**
+     *
+     * @var \app\model\Event
+     */
+    private $event;
+    
+    public function __construct(\system\Base $base, \app\model\Image $model, \app\model\Account $account, \app\model\Event $event) {
         parent::__construct($base);
         $this->model = $model;
         $this->account = $account;
+        $this->event = $event;
     }
     
     public function indexAction(){
@@ -96,7 +103,7 @@ class Image extends \system\mvc\Controller {
             }
         }
         
-        $this->output->getHeader()->setLocation($this->helpers->url('image.php'));
+        $this->output->getHeader()->setLocation($this->input->getReferer());
     }
     
     public function infoAction($image = ''){
@@ -132,5 +139,31 @@ class Image extends \system\mvc\Controller {
         
         $this->account->setAvatar($this->session->id, $image);
         $this->output->getHeader()->setLocation($this->helpers->url('account.php'));
+    }
+    
+    public function selectAction($event_id = 0){
+        $event_id = (int)$event_id;
+        
+        if(!$this->session->isLogged() || !$this->event->isOrganizer($this->session->id, $event_id))
+            throw new \system\error\Http403Forbidden();
+        
+        $this->output->setTitle('Sélectionner une image');
+        
+        return $this->output->render('image/select.php', array(
+            'event' => $event_id,
+            'images' => $this->model->getUserImages($this->session->id)
+        ));
+    }
+    
+    public function useeventAction($event_id = 0, $file = ''){
+        $event_id = (int)$event_id;
+        
+        if(!$this->session->isLogged() 
+                || !$this->event->isOrganizer($this->session->id, $event_id)
+                || !$this->model->imageExists($this->session->id, $file))
+            throw new \system\error\Http403Forbidden();
+        
+        $this->event->setImage($event_id, $file);
+        $this->output->getHeader()->setLocation($this->helpers->secureUrl('events', 'show', $event_id));
     }
 }

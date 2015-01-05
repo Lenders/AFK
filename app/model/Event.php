@@ -267,4 +267,12 @@ class Event extends \system\mvc\Model  {
         
         return $agenda;
     }
+    
+    public function isOrganizer($user_id, $event_id){
+        return $this->db->selectFirst('SELECT COUNT(*) FROM EVENT WHERE EVENT_ID = ? AND ORGANIZER = ?', $event_id, $user_id)['COUNT(*)'] > 0;
+    }
+    
+    public function setImage($event_id, $file){
+        $this->db->executeUpdate('UPDATE EVENT SET IMAGE = ? WHERE EVENT_ID = ?', $file, $event_id);
+    }
 }
