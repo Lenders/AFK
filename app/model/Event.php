@@ -234,7 +234,7 @@ class Event extends \system\mvc\Model  {
     }
     
     public function removeCompetitor($event_id, $user_id){
-        $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE EVENT_ID = ? ND USER_ID = ?', $event_id, $user_id);
+        $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE EVENT_ID = ? AND USER_ID = ?', $event_id, $user_id);
     }
     
     public function getEventAgenda($startTime, $endTime, $user){

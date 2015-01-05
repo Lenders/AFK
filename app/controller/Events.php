@@ -258,6 +258,26 @@ class Events extends \system\mvc\Controller {
             throw new \system\error\Http403Forbidden();
         
         $this->model->removeCompetitor($event_id, $user_id);
+        return $this->output->getHeader()->setLocation($this->helpers->secureUrl('events', 'competitors', $event_id));
+    }
+    
+    public function quitAction($event_id = 0){
+        if(!$this->session->isLogged())
+            throw new \system\error\Http403Forbidden();
+        
+        $event_id = (int)$event_id;
+        
+        $event = $this->model->getEventById($event_id);
+        
+        if(!$event)
+            throw new \system\error\Http404Error('Event introuvable');
+        
+        if($this->session->id == $event['ORGANIZER']
+                || time() > $event['EVENT_START'])
+            throw new \system\error\Http403Forbidden();
+        
+        $this->model->removeCompetitor($event_id, $this->session->id);
+        return $this->output->getHeader()->setLocation($this->helpers->secureUrl('events', 'show', $event_id));
     }
     
     private function _canJoinEvent(array $event){

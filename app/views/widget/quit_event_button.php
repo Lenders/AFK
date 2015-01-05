@@ -1,0 +1,1 @@
+<a href="<?php echo $this->secureUrl('events', 'quit', $event['EVENT_ID'])?>" class="button red">Se désinscrire</a>

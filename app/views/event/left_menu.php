@@ -26,4 +26,7 @@
         <li><a href="<?php echo $this->secureUrl('events', 'competitors', $event['EVENT_ID'])?>">Participants <span class="notif"><?php echo $req_count > 0 ? $req_count : ''?></span></a></li>
     </ul>
     <?php endif?>
+    <div class="button_container">
+        <?php echo $this->widget('QuitEventButton', $event)?>
+    </div>
 </section>
