@@ -12,6 +12,10 @@
         <meta name=viewport content="width=device-width, initial-scale=1"/>
         <meta name="descrption" content="AFK est un site communautaire pour geek permettant l'organisation de tournois pour différents jeux."/>
         <meta name="keywords" content="<?php echo implode(', ', $this->getKeywords())?>"/>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->helpers->url('resources/images/favicon.ico')?>" />
+        <link rel="icon" type="image/jpg" href="<?php echo $this->helpers->url('resources/images/favicon.jpg')?>" />
+        <link rel="icon" type="image/gif" href="<?php echo $this->helpers->url('resources/images/favicon.gif')?>" />
+        <link rel="icon" type="image/png" href="<?php echo $this->helpers->url('resources/images/favicon.png')?>" />
         <title><?php echo $this->helpers->conf('name')?> - <?php echo $this->title?></title>
         <?php echo $this->helpers->css('style')?>
         <script type="text/javascript">
@@ -40,6 +44,9 @@
             <ul>
                 <li><a href="<?php echo $this->helpers->url('search/users.php?query=*')?>">Annuaire des membres</a></li>
                 <li><a href="<?php echo $this->helpers->url('search/events.php?query=*')?>">Liste des évènements</a></li>
+                <?php if($this->helpers->getSession('isAdmin') === 'YES'):?>
+                <li><a href="<?php echo $this->helpers->url('admin.php')?>">Administration</a></li>
+                <?php endif?>
             </ul>
         </footer>
         <?php if(DEBUG):?>

@@ -32,15 +32,89 @@ namespace app\controller;
  * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
 class Admin extends \system\mvc\Controller {
-    public function __construct(\system\Base $base) {
+    /**
+     *
+     * @var \app\model\Account
+     */
+    private $account;
+    
+    /**
+     *
+     * @var \app\model\Event
+     */
+    private $event;
+    
+    public function __construct(\system\Base $base, \app\model\Account $account, \app\model\Event $event) {
         parent::__construct($base);
+        $this->account = $account;
+        $this->event = $event;
         
         if($this->session->isAdmin !== 'YES')
             throw new \system\error\Http403Forbidden();
     }
     
-    public function statsAction(){
+    public function indexAction(){
         $this->output->setTitle('Statistiques');
         return $this->output->render('admin/stats.php');
+    }
+    
+    public function usersAction(){
+        $this->output->setTitle('Gestion des utilisateurs');
+        
+        return $this->output->render('admin/users.php', array(
+            'users' => $this->account->searchAccount($this->input->get->search),
+            'query' => $this->input->get->search
+        ));
+    }
+    
+    public function eventsAction(){
+        $this->output->setTitle('Gestion des évènements');
+        
+        return $this->output->render('admin/events.php', array(
+            'events' => $this->event->searchEvents($this->input->get->search),
+            'query' => $this->input->get->search
+        ));
+    }
+    
+    public function setadmAction($user_id = 0){
+        $user_id = (int)$user_id;
+        
+        if($this->session->id == $user_id)
+            throw new \system\error\Http403Forbidden();
+        
+        $this->account->setAdmin($user_id, true);
+        $this->output->getHeader()->setLocation($this->input->getReferer());
+    }
+    
+    public function deladmAction($user_id = 0){
+        $user_id = (int)$user_id;
+        
+        if($this->session->id == $user_id)
+            throw new \system\error\Http403Forbidden();
+        
+        $this->account->setAdmin($user_id, false);
+        $this->output->getHeader()->setLocation($this->input->getReferer());
+    }
+    
+    public function deluserAction($user_id = 0){
+        $user_id = (int)$user_id;
+        
+        $user = $this->account->getAccountById($user_id);
+        
+        if(!$user)
+            throw new \system\error\Http404Error('Utilisateur introuvable');
+
+
+        if($this->session->id == $user_id || $user['IS_ADMIN'] == 'YES')
+            throw new \system\error\Http403Forbidden();
+        
+        $this->event->deleteEventsByOrganizer($user_id);
+        $this->account->delete($user_id);
+        $this->output->getHeader()->setLocation($this->input->getReferer());
+    }
+    
+    public function deleventAction($event_id = 0){
+        $this->event->deleteEvent((int)$event_id);
+        $this->output->getHeader()->setLocation($this->input->getReferer());
     }
 }

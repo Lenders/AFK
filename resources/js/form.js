@@ -41,6 +41,7 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                 });
             }else{
                 window.location.replace(data.redirect);
+                console.log('form : redirection ' + data.redirect);
             }
         }).fail(function(xhr){
             var win = window.open();
@@ -53,7 +54,6 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
         var rules = [];
         var $this = $(this);
         var name = $this.attr('name');
-        var $label = FormValidator.getLabel($this);
         var value = $this.val().trim();
         
         console.log('blur() ' + name);
@@ -89,8 +89,10 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                     handler(data);
                 });
             }).fail(function(xhr){
-                var win = window.open();
-                win.document.write(xhr.responseText);
+                if(xhr.status == 500){
+                    var win = window.open();
+                    win.document.write(xhr.responseText);
+                }
             });
         }
     });

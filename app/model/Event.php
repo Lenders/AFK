@@ -281,4 +281,22 @@ class Event extends \system\mvc\Model  {
     public function setImage($event_id, $file){
         $this->db->executeUpdate('UPDATE EVENT SET IMAGE = ? WHERE EVENT_ID = ?', $file, $event_id);
     }
+    
+    public function deleteEventsByOrganizer($organizer){
+        $this->db->beginTransaction();
+        $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE EVENT_ID IN (SELECT EVENT_ID FROM EVENT WHERE ORGANIZER = ?)', $organizer);
+        $this->db->executeUpdate('DELETE FROM EVENT_MESSAGE WHERE EVENT_ID IN (SELECT EVENT_ID FROM EVENT WHERE ORGANIZER = ?)', $organizer);
+        $this->db->executeUpdate('DELETE FROM EVENT_PROPERTY WHERE EVENT_ID IN (SELECT EVENT_ID FROM EVENT WHERE ORGANIZER = ?)', $organizer);
+        $this->db->executeUpdate('DELETE FROM EVENT WHERE ORGANIZER = ?', $organizer);
+        $this->db->commit();
+    }
+    
+    public function deleteEvent($event_id){
+        $this->db->beginTransaction();
+        $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE EVENT_ID = ?', $event_id);
+        $this->db->executeUpdate('DELETE FROM EVENT_MESSAGE WHERE EVENT_ID = ?', $event_id);
+        $this->db->executeUpdate('DELETE FROM EVENT_PROPERTY WHERE EVENT_ID = ?', $event_id);
+        $this->db->executeUpdate('DELETE FROM EVENT WHERE EVENT_ID = ?', $event_id);
+        $this->db->commit();
+    }
 }

@@ -1,3 +1,4 @@
+<?php include 'menu.php'?>
 <section id="contents">
     <h1>Statistiques</h1>
     <article>

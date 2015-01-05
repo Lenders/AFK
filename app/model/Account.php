@@ -107,4 +107,18 @@ class Account extends \system\mvc\Model {
         
         return $data['PSEUDO'];
     }
+    
+    public function setAdmin($user, $admin){
+        $this->db->executeUpdate('UPDATE ACCOUNT SET IS_ADMIN = ? WHERE USER_ID = ?', $admin ? 'YES' : 'NO', $user);
+    }
+    
+    public function delete($user){
+        $this->db->beginTransaction();
+        $this->db->executeUpdate('DELETE FROM FRIEND_REQUEST WHERE REQUESTER = ? OR TARGET = ?', $user, $user);
+        $this->db->executeUpdate('DELETE FROM FRIEND WHERE USER1 = ? OR USER2 = ?', $user, $user);
+        $this->db->executeUpdate('DELETE FROM EVENT_MESSAGE WHERE USER_ID = ?', $user);
+        $this->db->executeUpdate('DELETE FROM COMPETITOR WHERE USER_ID = ?', $user);
+        $this->db->executeUpdate('DELETE FROM ACCOUNT WHERE USER_ID = ?', $user);
+        $this->db->commit();
+    }
 }
