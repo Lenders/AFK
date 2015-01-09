@@ -10,7 +10,7 @@
         <![endif]-->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <meta name=viewport content="width=device-width, initial-scale=1"/>
-        <meta name="descrption" content="AFK est un site communautaire pour geek permettant l'organisation de tournois pour différents jeux."/>
+        <meta name="description" content="AFK est un site communautaire pour geek permettant l'organisation de tournois pour différents jeux."/>
         <meta name="keywords" content="<?php echo implode(', ', $this->getKeywords())?>"/>
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->helpers->url('resources/images/favicon.ico')?>" />
         <link rel="icon" type="image/jpg" href="<?php echo $this->helpers->url('resources/images/favicon.jpg')?>" />
