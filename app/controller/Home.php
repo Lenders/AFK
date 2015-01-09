@@ -70,7 +70,7 @@ class Home extends \system\mvc\Controller {
     public function rssAction($user_id = 0, $key = ''){
         $user_id = (int)$user_id;
         $this->output->setLayoutTemplate('layout/rss.xml.php');
-        //$this->output->getHeader()->setMimeType('application/rss+xml');
+        $this->output->getHeader()->setMimeType('application/rss+xml');
         
         return $this->cache->storeCallback('home-public-rss', function() use($user_id){
             if($user_id === 0){
