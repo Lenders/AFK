@@ -5,11 +5,7 @@
         <?php foreach($current_discussion['real_users'] as $user):?>
         <li>
             <a href="<?php echo $this->secureUrl('account', 'profile', $user['USER_ID'])?>"><?php echo $user['PSEUDO']?></a>
-            <?php if($this->isOnline($user['USER_ID'])):?>
-            <span class="button green" data-online-button data-user-id="<?php echo $user['USER_ID']?>">En ligne</span>
-            <?php else:?>
-            <span class="button red" data-online-button data-user-id="<?php echo $user['USER_ID']?>">Hors ligne</span>
-            <?php endif?>
+            <?php echo $this->widget('StatusButton', $user['USER_ID'])?>
         </li>
         <?php endforeach?>
     </ul>
