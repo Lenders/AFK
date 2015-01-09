@@ -84,6 +84,8 @@ class Friends extends \system\mvc\Controller {
         
         if($redirect === true)
             $this->output->getHeader()->setLocation($this->input->getReferer());
+        else
+            return $this->friendbuttonAction($id);
     }
     
     public function cancelAction($id = 0, $redirect = true){
@@ -96,6 +98,8 @@ class Friends extends \system\mvc\Controller {
         
         if($redirect === true)
             $this->output->getHeader()->setLocation($this->input->getReferer());
+        else
+            return $this->friendbuttonAction($id);
     }
     
     public function rejectAction($id = 0, $redirect = true){
@@ -108,6 +112,8 @@ class Friends extends \system\mvc\Controller {
         
         if($redirect === true)
             $this->output->getHeader()->setLocation($this->input->getReferer());
+        else
+            return $this->friendbuttonAction($id);
     }
     
     public function removeAction($id = 0, $redirect = true){
@@ -120,6 +126,8 @@ class Friends extends \system\mvc\Controller {
         
         if($redirect === true)
             $this->output->getHeader()->setLocation($this->input->getReferer());
+        else
+            return $this->friendbuttonAction($id);
     }
     
     public function acceptAction($id = 0, $redirect = true){
@@ -135,6 +143,8 @@ class Friends extends \system\mvc\Controller {
         
         if($redirect === true)
             $this->output->getHeader()->setLocation($this->input->getReferer());
+        else
+            return $this->friendbuttonAction($id);
     }
     
     public function listAction($user_id = 0){
@@ -155,5 +165,10 @@ class Friends extends \system\mvc\Controller {
             'user' => $user,
             'friends' => $this->model->getFriendsByUserId($user_id)
         ));
+    }
+    
+    public function friendbuttonAction($user_id){
+        $this->output->setLayoutTemplate(null);
+        return $this->helpers->widget('FriendButton', $user_id, false);
     }
 }

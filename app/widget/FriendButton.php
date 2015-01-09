@@ -45,12 +45,14 @@ class FriendButton extends \system\mvc\Widget {
         $this->model = $model;
     }
     
-    public function __invoke($user_id) {
+    public function __invoke($user_id, $loadJs = true) {
         if(!$this->session->isLogged() || $this->session->id == $user_id)
             return;
         
-        if(!self::$jsLoaded)
+        if(!self::$jsLoaded && $loadJs){
             echo $this->helpers->js('friend_button');
+            self::$jsLoaded = true;
+        }
         
         if($this->model->isFriends($this->session->id, $user_id))
             $tpl = 'remove';
