@@ -72,7 +72,19 @@ class Home extends \system\mvc\Controller {
         $this->output->setLayoutTemplate('layout/rss.xml.php');
         $this->output->getHeader()->setMimeType('application/rss+xml');
         
-        return $this->cache->storeCallback('home-public-rss', function() use($user_id){
+        if($user_id !== 0){
+            $private_key = $this->model->getRssKey($user_id);
+            
+            if($private_key === null)
+                throw new \system\error\Http404Error('Flux introuvable');
+            
+            if($private_key !== $key)
+                throw new \system\error\Http403Forbidden();
+        }
+        
+        $this->output->setTitle($user_id === 0 ? 'Public' : $this->loader->load('\app\model\Account')->getPseudoByUserId($user_id));
+        
+        return $this->cache->storeCallback('home-rss-' . $user_id, function() use($user_id){
             if($user_id === 0){
                 $flux = $this->loader->load('\app\flux\PublicFlux');
             }else{

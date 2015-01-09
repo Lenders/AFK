@@ -6,7 +6,7 @@
         <description>AFK est un site communautaire pour geek permettant l'organisation de tournois pour différents jeux.</description>
         <copyright>AFK copyright © <?php echo date('Y')?></copyright>
         <image>
-            <url><?php echo $this->helpers->url('resources/images/logo.png')?></url>
+            <url><?php echo $this->helpers->url('resources/images/favicon.png')?></url>
             <title>Logo AFK</title>
             <link><?php echo $this->helpers->baseUrl()?></link>
         </image>
