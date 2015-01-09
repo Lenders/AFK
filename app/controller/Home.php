@@ -66,4 +66,38 @@ class Home extends \system\mvc\Controller {
             ));
         }
     }
+    
+    public function rssAction($user_id = 0, $key = ''){
+        $user_id = (int)$user_id;
+        $this->output->setLayoutTemplate('layout/rss.xml.php');
+        $this->output->getHeader()->setMimeType('application/rss+xml');
+        
+        if($user_id !== 0){
+            $private_key = $this->model->getRssKey($user_id);
+            
+            if($private_key === null)
+                throw new \system\error\Http404Error('Flux introuvable');
+            
+            if($private_key !== $key)
+                throw new \system\error\Http403Forbidden();
+        }
+        
+        $this->output->setTitle($user_id === 0 ? 'Public' : $this->loader->load('\app\model\Account')->getPseudoByUserId($user_id));
+        
+        return $this->cache->storeCallback('home-rss-' . $user_id, function() use($user_id){
+            if($user_id === 0){
+                $flux = $this->loader->load('\app\flux\PublicFlux');
+            }else{
+                $flux = $this->loader->load('\app\flux\MyFlux');
+                $flux->setUserId($user_id);
+            }
+            
+            $contents = '';
+
+            foreach($this->loader->load('\app\flux\PublicFlux') as $article)
+                $contents .= $article->getArticle('rss');
+
+            return $contents;
+        },900);
+    }
 }

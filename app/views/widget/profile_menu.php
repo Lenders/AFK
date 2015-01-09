@@ -28,6 +28,9 @@
     <ul class="links_list">
         <li><a href="<?php echo $this->secureUrl('friends', 'list', $user['USER_ID'])?>">Amis</a></li>
         <li><a href="<?php echo $this->secureUrl('events', 'list', $user['USER_ID'])?>">Évènements</a></li>
+        <?php if($user['USER_ID'] == $this->getSession('id')):?>
+        <li><a href="<?php echo $this->secureUrl('home', 'rss', $user['USER_ID'], sha1($user['SALT']))?>.xml">RSS privé</a></li>
+        <?php endif?>
     </ul>
 </section>
 <?php echo $this->js('profile')?>

@@ -39,4 +39,13 @@ class Home extends \system\mvc\Model {
     public function getEventsCount(){
         return $this->db->query('SELECT COUNT(*) FROM EVENT')->fetch()['COUNT(*)'];
     }
+    
+    public function getRssKey($user_id){
+        $data = $this->db->selectFirst('SELECT SALT FROM ACCOUNT WHERE USER_ID = ?', $user_id);
+        
+        if(!$data)
+            return null;
+        
+        return sha1($data['SALT']);
+    }
 }

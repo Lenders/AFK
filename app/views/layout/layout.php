@@ -44,6 +44,7 @@
             <ul>
                 <li><a href="<?php echo $this->helpers->url('search/users.php?query=*')?>">Annuaire des membres</a></li>
                 <li><a href="<?php echo $this->helpers->url('search/events.php?query=*')?>">Liste des évènements</a></li>
+                <li><a href="<?php echo $this->helpers->url('home/rss.xml')?>">RSS public</a></li>
                 <?php if($this->helpers->getSession('isAdmin') === 'YES'):?>
                 <li><a href="<?php echo $this->helpers->url('admin.php')?>">Administration</a></li>
                 <?php endif?>

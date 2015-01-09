@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+namespace app\widget;
+
 /**
  * Description of OnlineButton
  *
