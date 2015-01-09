@@ -33,7 +33,7 @@ namespace app\widget;
  */
 class StatusButton extends \system\mvc\Widget {
     public function __invoke($user_id) {
-        if($this->session->isOnline($this->session->id, $user_id))
+        if($this->session->isOnline($user_id))
             $tpl = 'online';
         else
             $tpl = 'offline';
