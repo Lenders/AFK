@@ -3,7 +3,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2014 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
+ * Copyright 2015 Vincent Quatrevieux <quatrevieux.vincent@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,42 +24,8 @@
  * THE SOFTWARE.
  */
 
-/**
- * Main configuration file
- */
 return array(
-    'name' => 'AFK',
-    'mail' => '...',
-    'autoload' => require 'autoload.php',
-    'image' => require 'image.php',
-    
-    'system' => array(
-        'error' => array(
-            'ErrorsHandler' => require 'errors.php',
-        ),
-        
-        'helper' => array(
-            'HelpersLoader' => require 'helpers.php',
-            'Compressor' => require 'compressor.php',
-            'Crypt' => require 'crypt.php',
-            'Bench' => require 'bench.php',
-        ),
-        
-        'Database' => require 'database.php',
-        'Router' => require 'router.php',
-        'Storage' => require 'storage.php',
-        'Session' => require 'session.php',
-        'Mongo' => require 'mongo.php',
-        'Cache' => require 'cache.php',
-        'output' => array(
-            'Output' => require 'output.php'
-        ),
-    ),
-    
-    'app' => array(
-        'model' => array(
-            'Autocomplete' => require 'autocomplete.php',
-        )
-    )
+    'indent' => true,
+    'default_layout' => 'layout/layout.php',
+    'indent_mimes' => array('text/html', 'application/rss+xml')
 );
-

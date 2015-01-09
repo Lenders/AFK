@@ -50,12 +50,19 @@ class Output extends \system\Registry {
      * @var \system\helper\HelpersManager
      */
     private $helpers;
+    
+    /**
+     *
+     * @var \system\Config
+     */
+    private $config;
 
-    public function __construct(\system\Base $base, \system\helper\HelpersManager $helpers) {
+    public function __construct(\system\Base $base, \system\helper\HelpersManager $helpers, \system\Config $config) {
         parent::__construct($base);
-        $this->layoutTemplate = $this->config->default_layout;
         $this->header = new Header();
         $this->helpers = $helpers;
+        $this->config = $config;
+        $this->layoutTemplate = $config->default_layout;
     }
     
     public function start(){
@@ -86,10 +93,23 @@ class Output extends \system\Registry {
         if(empty($this->contents))
             return;
         
+        $indent = $this->config->indent && in_array($this->header->getMimeType(), $this->config->getArray('indent_mimes'));
+        
+        if($indent){
+            ob_start();
+        }
+        
         if($this->layoutTemplate != null)
             require ROOT . 'app' . DS . 'views' . DS . $this->layoutTemplate;
         else
             echo $this->contents;
+        
+        if($indent){
+            $html = ob_get_clean();
+            require __DIR__ . DS . 'dindent' . DS . 'src' . DS . 'Indenter' . EXT;
+            $indenter = new \Gajus\Dindent\Indenter();
+            echo $indenter->indent($html);
+        }
     }
     
     /**

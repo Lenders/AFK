@@ -50,6 +50,10 @@ class Header {
         $this->headers[strtolower($key)] = $value;
     }
     
+    public function get($key){
+        return isset($this->headers[strtolower($key)]) ? $this->headers[strtolower($key)] : null;
+    }
+    
     public function remove($key){
         unset($this->headers[strtolower($key)]);
     }
@@ -71,5 +75,14 @@ class Header {
     
     public function setMimeType($mime){
         $this->headers['Content-Type'] = $mime . '; charset=UTF-8';
+    }
+    
+    public function getMimeType(){
+        $mime = $this->get('Content-Type');
+        
+        if(!$mime)
+            return 'text/html';
+        
+        return $mime;
     }
 }

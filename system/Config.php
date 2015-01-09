@@ -36,14 +36,17 @@ class Config implements \Iterator {
     private $name;
     private $children = array();
     private $parent;
+    private $array;
 
     private function __construct($name, array $children, Config $parent = null) {
         $this->name = $name;
         $this->parent = $parent;
+        $this->array = $children;
         
         foreach ($children as $key => $value){
-            if(is_array($value))
+            if(is_array($value)){
                 $value = new self($key, $value, $this);
+            }
             
             $this->children[$key] = $value;
         }
@@ -51,6 +54,10 @@ class Config implements \Iterator {
 
     public function __get($name) {
         return $this->get($name);
+    }
+    
+    public function getArray($name){
+        return isset($this->array[$name]) ? $this->array[$name] : array();
     }
     
     public function __isset($name) {
