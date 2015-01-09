@@ -1,11 +1,7 @@
 <section id="left_menu">
     <h2>
         Profil
-        <?php if($this->isOnline($user['USER_ID'])):?>
-        <span class="button green" data-online-button data-user-id="<?php echo $user['USER_ID']?>">En ligne</span>
-        <?php else:?>
-        <span class="button red" data-online-button data-user-id="<?php echo $user['USER_ID']?>">Hors ligne</span>
-        <?php endif?>
+        <?php echo $this->widget('StatusButton', $user['USER_ID'])?>
     </h2>
     <ul>
         <li>
