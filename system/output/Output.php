@@ -93,7 +93,7 @@ class Output extends \system\Registry {
         if(empty($this->contents))
             return;
         
-        $indent = $this->config->indent && in_array($this->header->getMimeType(), $this->config->getArray('indent_mimes'));
+        $indent = $this->config->indent && in_array($this->header->getMime(), $this->config->getArray('indent_mimes'));
         
         if($indent){
             ob_start();

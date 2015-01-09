@@ -38,6 +38,8 @@ class Header {
      */
     private $headers = array();
     
+    private $mime;
+    
     public function setHttpCode($code = 200){
         $this->set('http', $code);
     }
@@ -48,10 +50,6 @@ class Header {
 
     public function set($key, $value){
         $this->headers[strtolower($key)] = $value;
-    }
-    
-    public function get($key){
-        return isset($this->headers[strtolower($key)]) ? $this->headers[strtolower($key)] : null;
     }
     
     public function remove($key){
@@ -75,14 +73,11 @@ class Header {
     
     public function setMimeType($mime){
         $this->headers['Content-Type'] = $mime . '; charset=UTF-8';
+        $this->mime = $mime;
     }
     
-    public function getMimeType(){
-        $mime = $this->get('Content-Type');
-        
-        if(!$mime)
-            return 'text/html';
-        
-        return $mime;
+    public function getMime() {
+        return empty($this->mime) ? 'text/html' : $this->mime;
     }
+
 }
