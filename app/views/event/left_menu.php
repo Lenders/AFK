@@ -16,8 +16,10 @@
     <h2>Participants</h2>
     <ul id="competitors_list">
     <?php foreach($competitors as $competitor):?>
-        <img class="thumb" src="<?php echo $competitor['AVATAR'] ? $this->secureUrl('image', 'get', $competitor['USER_ID'], $competitor['AVATAR']) : $this->url('resources/images/default.png')?>" alt="Avatar"/>
-        <li><a href="<?php echo $this->secureUrl('account', 'profile', $competitor['USER_ID'])?>"><?php echo $competitor['PSEUDO']?></a></li>
+        <li>
+            <img class="thumb" src="<?php echo $competitor['AVATAR'] ? $this->secureUrl('image', 'get', $competitor['USER_ID'], $competitor['AVATAR']) : $this->url('resources/images/default.png')?>" alt="Avatar"/>
+            <a href="<?php echo $this->secureUrl('account', 'profile', $competitor['USER_ID'])?>"><?php echo $competitor['PSEUDO']?></a>
+        </li>
     <?php endforeach?>
     </ul>
     <?php if($event['ORGANIZER'] == $this->getSession('id')):?>
