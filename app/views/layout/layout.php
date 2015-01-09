@@ -30,7 +30,7 @@
     </head>
     <body>
         <header>
-            <div id="logo"><a href="<?php echo $this->helpers->img = resources/images/bleumoche.png?>" title="Retourner à la page d'acceuil">AFK</a></div>
+            <div id="logo"><a href="<?php echo $this->helpers->baseUrl()?>" title="Retourner à la page d'acceuil"><?php echo $this->helpers->img('bleumoche.png')?></a></div>
             <?php include 'header_nav.php'?>
         </header>
         <div id="body">

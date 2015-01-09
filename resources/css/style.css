@@ -94,6 +94,10 @@ header{
     padding: 5px;
 }
 
+#logo img{
+    height: 30px;
+}
+
 #logo a{
     color: #DDD;
     text-decoration: none;
