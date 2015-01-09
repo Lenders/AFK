@@ -33,6 +33,6 @@ namespace app\flux\parser;
  */
 class Join extends AbstractEventParser {
     protected function getMessage(array $row) {
-        return "<strong>{$row['SENDER_NAME']}</strong> a rejoin l'évènement <strong>{$row['TARGET_NAME']}</strong> !";
+        return "<strong>{$row['SENDER_NAME']}</strong> a rejoint l'évènement <strong>{$row['TARGET_NAME']}</strong> !";
     }
 }
