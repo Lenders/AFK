@@ -1,0 +1,1 @@
+<span class="button green" data-online-button data-user-id="<?php echo $user['USER_ID']?>">En ligne</span>
