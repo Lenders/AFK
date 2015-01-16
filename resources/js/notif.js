@@ -31,7 +31,7 @@
             var total = 0;
             
             $.each(data, function(name, value){
-                var $elem = $('#' + name + '_notif');
+                var $elem = $('[data-notif="' + name + '"]');
                 if(value > 0){
                     $elem.html(value);
                     $elem.show();

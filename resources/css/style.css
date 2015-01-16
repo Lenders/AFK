@@ -526,13 +526,19 @@ p.error{
     width: 220px;
 }
 
+@media(max-width: 1060px){
+    #speed_search input[name="search"]{
+        width: 100px;
+    }
+}
+
 @media(max-width: 950px){
     #speed_search{
         display: none;
     }
 }
 
-@media(max-width: 750px){
+@media(max-width: 780px){
     #header_nav .shortcut{
         display: none;
     }

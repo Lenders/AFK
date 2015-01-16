@@ -26,9 +26,10 @@
     <?php endif?>
     <h2>Liens</h2>
     <ul class="links_list">
-        <li><a href="<?php echo $this->secureUrl('friends', 'list', $user['USER_ID'])?>">Amis</a></li>
-        <li><a href="<?php echo $this->secureUrl('events', 'list', $user['USER_ID'])?>">Évènements</a></li>
+        <li><a href="<?php echo $this->secureUrl('friends', 'list', $user['USER_ID'])?>">Amis<?php echo $this->helpers->getFriendNotif()?></a></li>
+        <li><a href="<?php echo $this->secureUrl('events', 'list', $user['USER_ID'])?>">Évènements<?php echo $this->helpers->getMessageNotif()?></a></li>
         <?php if($user['USER_ID'] == $this->getSession('id')):?>
+        <li><a href="<?php echo $this->url('calendar.php')?>">Calendrier</a></li>
         <li><a href="<?php echo $this->secureUrl('home', 'rss', $user['USER_ID'], sha1($user['SALT']))?>.xml">RSS privé</a></li>
         <?php endif?>
     </ul>

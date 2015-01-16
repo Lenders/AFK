@@ -61,14 +61,14 @@ class Notification implements Helper {
     }
 
     public function getFriendNotif(){
-        return $this->_notifHTML($this->friend->getFriendRequestCount($this->session->id), 'friend_notif');
+        return $this->_notifHTML($this->friend->getFriendRequestCount($this->session->id), 'friend');
     }
     
     public function getMessageNotif(){
-        return $this->_notifHTML($this->message->getUnreadMessagesCount($this->session->id), 'message_notif');
+        return $this->_notifHTML($this->message->getUnreadMessagesCount($this->session->id), 'message');
     }
     
     private function _notifHTML($count, $id){
-        return '<span class="notif" id="' . $id .'">' . ($count > 0 ? $count : '') . '</span>';
+        return '<span class="notif" data-notif="' . $id .'">' . ($count > 0 ? $count : '') . '</span>';
     }
 }
