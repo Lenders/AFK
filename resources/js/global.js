@@ -104,8 +104,10 @@ var AutoCompletion = function(input){
                         AutoCompletion.displayData($input, results);
                     }
                 }).fail(function(xhr){
-                    var win = window.open();
-                    win.document.write(xhr.responseText);
+                    if(xhr.statusCode == 500){
+                        var win = window.open();
+                        win.document.write(xhr.responseText);
+                    }
                 });
             }else{
                 for(var j in data){
