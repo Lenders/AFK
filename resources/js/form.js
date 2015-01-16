@@ -44,8 +44,10 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                 console.log('form : redirection ' + data.redirect);
             }
         }).fail(function(xhr){
-            var win = window.open();
-            win.document.write(xhr.responseText);
+            if(xhr.statusCode == 500){
+                var win = window.open();
+                win.document.write(xhr.responseText);
+            }
         });
         return false;
     });
@@ -89,7 +91,7 @@ var FormValidator = function(form, validateInputUrl, submitFormUrl){
                     handler(data);
                 });
             }).fail(function(xhr){
-                if(xhr.status == 500){
+                if(xhr.statusCode == 500){
                     var win = window.open();
                     win.document.write(xhr.responseText);
                 }
