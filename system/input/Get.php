@@ -37,7 +37,7 @@ class Get extends HTTPInput {
     }
     
     protected function sanitize($var) {
-        return trim(filter_var($var, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_LOW));
+        return trim(filter_var($var, FILTER_SANITIZE_STRING));
     }
 
 }
