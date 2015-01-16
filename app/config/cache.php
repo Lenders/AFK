@@ -27,5 +27,5 @@
 return array(
     'prefix' => 'cache_',
     'default_time' => 60,
-    'enable' => false,
+    'enable' => true,
 );

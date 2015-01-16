@@ -25,5 +25,5 @@
  */
 
 return array(
-    'enable' => true,
+    'enable' => false,
 );

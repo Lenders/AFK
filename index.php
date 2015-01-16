@@ -4,7 +4,7 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__ . DS);
 define('EXT', '.php');
 define('CONFIG_FILE', ROOT . 'app' . DS . 'config' . DS . 'config' . EXT);
-define('DEBUG', true);
+define('DEBUG', false);
 
 if(DEBUG){
     error_reporting(E_ALL);
