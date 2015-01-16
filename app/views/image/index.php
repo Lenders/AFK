@@ -7,7 +7,7 @@
         <?php else:?>
         <div id="image_grid">
         <?php foreach ($images as $image):?>
-            <a href="<?php echo $this->secureUrl('image', 'info', $image['file'])?>"><img class="avatar" src="<?php echo $this->secureUrl('image', 'get', $image['owner'], $image['file'])?>"/></a>
+            <a href="<?php echo $this->secureUrl('image', 'info', $image['file'])?>"><img class="avatar" src="<?php echo $this->secureUrl('image', 'get', $image['owner'], $image['file'])?>" alt="Image"/></a>
         <?php endforeach?>
         </div>
         <?php endif?>
