@@ -103,6 +103,9 @@ var Message = {};
         
         var $room = $('#discussion_room');
         
+        var scroll = $room.prop('scrollHeight') - $room.height();
+        var needScroll = $room.scrollTop() + 10 >= scroll;
+        
         messages.forEach(function(message){
             var $msg = $('<p>');
             $msg.addClass('message');
@@ -121,7 +124,8 @@ var Message = {};
             $msg.fadeIn(800);
         });
         
-        $room.scrollTop($room.prop('scrollHeight'));
+        if(needScroll)
+            $room.scrollTop($room.prop('scrollHeight') - $room.height());
     };
     
     Message.prepareSubmit = function(form, input){
@@ -149,10 +153,21 @@ var Message = {};
         });
     };
     
+    function resizeDiscussionRoom(){
+        var height = $(window).height() - 487;
+
+        if(height < 300)
+            height = 300;
+
+        $('#discussion_room').css('height', height);
+    }
+    
     $(document).ready(function(){
         setTimeout(Message.checkDiscussionList, 10000);
         Message.submitOnCtrlEnter('#message');
         setTimeout(Message.checkMessages, 3000);
         Message.prepareSubmit('#message_form', '#message');
+        $(window).resize(resizeDiscussionRoom);
+        resizeDiscussionRoom();
     });
 })();
