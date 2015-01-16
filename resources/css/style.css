@@ -668,6 +668,7 @@ footer div, footer ul{
     height: 100%;
     float: left;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 footer ul{
