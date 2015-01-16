@@ -11,4 +11,5 @@
     <?php foreach ($flux as $article):?>
     <?php echo $article->getArticle('html')?>
     <?php endforeach?>
+    <?php echo $this->js('pagination')?>
 </section>

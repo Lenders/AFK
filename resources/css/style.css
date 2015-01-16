@@ -723,3 +723,26 @@ footer ul{
     height: 35px;
     line-height: 27px;
 }
+
+#pagination{
+    text-align: center;
+}
+
+.pagi_button{
+    width: 25px;
+    height: 25px;
+    border: 1px solid #666;
+    display: inline-block;
+    text-decoration: none;
+    margin: 3px;
+    line-height: 25px;
+    background: #333;
+}
+
+.pagi_button:hover, .pagi_button.current{
+    background: #444;
+}
+
+.pagi_button.current{
+    font-weight: bold;
+}
