@@ -56,7 +56,7 @@ class ErrorsHandler{
     public function exceptionHandler(\Exception $ex){
         $this->output->clear(); //clear the output before display error
         
-        if(!DEBUG)
+        if(!DEBUG && !($ex instanceof HttpError))
             $ex = new HttpError ('Internal server error', 500);
         
         $bestClass = null;
