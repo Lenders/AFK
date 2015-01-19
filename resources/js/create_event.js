@@ -85,5 +85,18 @@
         });
 
         $('#create_event_form > table').append(_getNewRowButton());
+        
+        $('[data-name]').each(function(){
+            var $this = $(this);
+            
+            var auto = new AutoCompletion($this.find('input'));
+            auto.addHandler(
+                new AutoCompletion.Handler(
+                    'event_prop_' + $this.data('name'),
+                    function(value){
+                        return Config.getBaseUrl() + 'autocomplete/eventproperty/' + $this.data('name') + '/' + encodeURIComponent(value) + '.json';
+                    }
+            ));
+        });
     });
 })();

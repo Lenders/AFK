@@ -78,4 +78,11 @@ class Autocomplete extends \system\mvc\Controller {
         
         return json_encode($ret);
     }
+    
+    public function eventpropertyAction($prop = '', $term = ''){
+        if(empty($prop))
+            return '[]';
+        
+        return json_encode($this->model->queryEventProperty($prop, $term));
+    }
 }
