@@ -100,10 +100,4 @@ class Home extends \system\mvc\Controller {
             return $contents;
         },900);
     }
-    
-    public function parternsAction(){
-        $this->output->setTitle('Partenaires');
-        $this->output->addKeyword('partenaires');
-        return $this->output->render('home/parterns.html');
-    }
 }

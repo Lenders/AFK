@@ -50,8 +50,8 @@
                 <?php endif?>
             </ul>
             <ul>
-                <li><a href="<?php echo $this->helpers->url('home/parterns.html')?>"><strong>Partenaires :</strong></a></li>
-                <li><a href="http://afk.zz.mu/" target="_blank">AFK ZZ</a></li>
+                <li><a href="<?php echo $this->helpers->url('page/partners.html')?>"><strong>Partenaires :</strong></a></li>
+                <li><a href="http://afkportal.alwaysdata.net/" target="_blank">AFK Portal</a></li>
                 <li><a href="http://achievementsforkitties.com/" target="_blank">Achievements For Kitties</a></li>
                 <li><a href="http://webco.ovh/" target="_blank">WebVoiturage</a></li>
             </ul>

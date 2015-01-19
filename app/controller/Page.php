@@ -35,4 +35,10 @@ class Page extends \system\mvc\Controller {
     public function registersuccessAction(){
         return $this->output->render('page/register_success.php');
     }
+    
+    public function partnersAction(){
+        $this->output->setTitle('Partenaires');
+        $this->output->addKeyword('partenaires');
+        return $this->output->render('page/partners.html');
+    }
 }
