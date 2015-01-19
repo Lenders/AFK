@@ -56,7 +56,7 @@ class Stats extends \system\mvc\Model {
     
     public function getPagesCounts($max){
         $data = array();
-        $exclude = array('#^json/.*$#i', '#^admin.*$#i', '#^message/lastmessages/.*$#i');
+        $exclude = array('#^json/.*$#i', '#^admin.*$#i', '#^message/lastmessages/.*$#i', '#^message/discussionlist.*$#i');
         
         foreach($this->statistics->getAllHistory() as $page){
             if(isset($data[$page['path']]))
